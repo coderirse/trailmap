@@ -5,28 +5,27 @@
 const config = {
   /** Map settings */
   map: {
-    /** Default center (used as fallback if no data) */
-    center: { lat: 35.0, lng: 105.0 },
-    /** Default zoom level */
+    /** Default center */
+    center: { lat: 35.0, lng: 110.0 },
+    /** Default zoom */
     zoom: 5,
     /** Zoom constraints */
     minZoom: 3,
     maxZoom: 18,
-    /** Tile layer — CARTO Dark Matter (dark basemap for the glass theme) */
+    /** Tile — CARTO Dark Matter Noir (darkest available) */
     tileUrl: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
-    /** Attribution (required by OSM & CARTO) */
-    attribution:
-      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+    /** Attribution */
+    attribution: '',
   },
 
   /** UI settings */
   ui: {
-    /** Sidebar width on desktop (fraction of flex-basis) */
-    sidebarWidth: 0.3,
-    /** Marker size in px */
-    markerSize: 20,
-    /** Animation duration in seconds */
-    panDuration: 0.4,
+    /** Nav width in px */
+    navWidth: 300,
+    /** Marker size */
+    markerSize: 14,
+    /** Fly-to duration in seconds */
+    flyToDuration: 1.2,
   },
 
   /** App meta */

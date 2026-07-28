@@ -1,5 +1,5 @@
 // ==========================================================================
-// main.js — Application entry point
+// main.js — Bootstrap (Griffin editorial edition)
 // ==========================================================================
 
 // ---- Styles ----
@@ -28,14 +28,16 @@ import GlobeView from './components/GlobeView.js';
 import StatsPanel from './components/StatsPanel.js';
 import StyleSwitcher from './components/StyleSwitcher.js';
 
-// ==========================================================================
 function bootstrap() {
-  const sidebarEl = document.getElementById('sidebar');
-  const sidebarContent = document.getElementById('sidebar-content');
-  const mapContainer = document.getElementById('map-container');
+  // DOM refs for the new layout
+  const navList       = document.getElementById('nav-locations');
+  const navStats      = document.getElementById('nav-stats');
+  const detailPanel   = document.getElementById('detail-panel');
+  const sidebarContent= document.getElementById('sidebar-content');
+  const mapContainer  = document.getElementById('map-container');
+  const countEl       = document.getElementById('location-count');
 
-  // ---- Header stats ----
-  const countEl = document.getElementById('location-count');
+  // Header stat
   if (countEl) countEl.textContent = store.getAll().length;
 
   // ---- Map ----
@@ -43,10 +45,12 @@ function bootstrap() {
   mapComponent.init();
   const leafletMap = mapComponent.getMapInstance();
 
-  // ---- Sidebar ----
+  // ---- Sidebar (left nav + detail panel) ----
   const sidebar = new Sidebar({
     container: sidebarContent,
-    sidebar: sidebarEl,
+    navList,
+    navStats,
+    detailPanel,
   });
   sidebar.init();
 
@@ -54,72 +58,71 @@ function bootstrap() {
   const lightbox = new Lightbox();
   lightbox.init();
 
-  // ---- Route Lines (flowing dash animation) ----
+  // ---- Route Lines ----
   const routeLines = new RouteLines({ map: leafletMap });
   routeLines.init();
 
-  // ---- Tag Filter (glass chips at top) ----
+  // ---- Tag Filter ----
   const tagFilter = new TagFilter();
   tagFilter.init();
 
-  // ---- Stats Panel (top-right overlay) ----
+  // ---- Stats Panel (map overlay) ----
   const statsPanel = new StatsPanel();
   statsPanel.init();
 
-  // ---- Style Switcher (tile layer buttons) ----
+  // ---- Style Switcher ----
   const styleSwitcher = new StyleSwitcher({ map: leafletMap });
   styleSwitcher.init();
 
-  // ---- Globe Toggle (3D earth) ----
+  // ---- Globe Toggle ----
   const globeView = new GlobeView({ map: leafletMap, mapContainer });
   globeView.init();
 
-  // ---- Timeline (bottom scrubber) ----
+  // ---- Timeline ----
   const timeline = new Timeline();
   timeline.init();
 
-  // ---- Cross-component event wiring ----
-
-  // Timeline step → select marker + open sidebar
+  // ---- Timeline → map ----
   eventBus.on('timeline:step', (data) => {
-    if (data && data.id) {
-      mapComponent.selectById(data.id);
-    }
+    if (data && data.id) mapComponent.selectById(data.id);
   });
 
-  // Globe marker click → open sidebar (same as map marker click)
+  // ---- Globe → sidebar ----
   eventBus.on('globe:markerClick', (data) => {
-    if (data && data.location) {
-      sidebar.open(data.location);
-    }
+    if (data && data.location) sidebar.open(data.location);
+  });
+
+  // ---- Nav click / timeline → map pan ----
+  // (avoid loop: map emits map:markerClick → sidebar opens;
+  //  nav emits nav:locationSelect → map selects marker)
+  eventBus.on('nav:locationSelect', (data) => {
+    if (data && data.id) mapComponent.selectById(data.id);
   });
 
   // ---- URL hash routing ----
   const initialHash = getHashRoute();
   if (initialHash) {
-    const location = store.getById(initialHash);
-    if (location) {
-      setTimeout(() => mapComponent.selectById(initialHash), 400);
+    const loc = store.getById(initialHash);
+    if (loc) {
+      setTimeout(() => mapComponent.selectById(initialHash), 500);
     }
   }
 
   window.addEventListener('hashchange', () => {
     const hash = getHashRoute();
     if (hash) {
-      const location = store.getById(hash);
-      if (location) mapComponent.selectById(hash);
+      const loc = store.getById(hash);
+      if (loc) mapComponent.selectById(hash);
     } else {
       sidebar.close();
     }
   });
 
-  // ---- Dev tools ----
+  // ---- Dev ----
   if (import.meta.env.DEV) {
-    window.__app = {
-      mapComponent, sidebar, lightbox, timeline, routeLines,
-      tagFilter, globeView, statsPanel, styleSwitcher, store, eventBus,
-    };
-    console.log('🚀 MyMap ready — window.__app');
+    window.__app = { mapComponent, sidebar, lightbox, timeline, routeLines,
+      tagFilter, globeView, statsPanel, styleSwitcher, store, eventBus };
+    console.log('TRAIL MAP — Griffin edition');
   }
 }
 

@@ -1,9 +1,14 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-theme="dark">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>我的足迹地图</title>
+  <title>足迹地图</title>
+
+  <!-- Fonts: Serif for titles, Mono for data -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
 
   <!-- Leaflet CSS (CDN) -->
   <link
@@ -12,26 +17,48 @@
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
     crossorigin=""
   />
-
-  <!-- Leaflet JS (CDN) — loaded in main.js via importmap or inline -->
 </head>
 <body>
   <div id="app">
-    <!-- Map container (full screen) -->
+    <!-- ==========================================================
+         Left Navigation — editorial location list + stats
+         ========================================================== -->
+    <nav id="sidebar">
+      <div class="nav-header">
+        <div class="nav-title">足迹地图</div>
+        <div class="nav-subtitle">TRAIL MAP</div>
+      </div>
+
+      <div id="nav-locations" class="nav-locations">
+        <!-- Populated by Sidebar.js -->
+      </div>
+
+      <div class="nav-footer">
+        <div id="nav-stats" class="nav-stats">
+          <!-- Populated by Sidebar.js -->
+        </div>
+      </div>
+    </nav>
+
+    <!-- ==========================================================
+         Map area
+         ========================================================== -->
     <div id="map-container">
       <div id="map"></div>
-      <!-- Floating glass header -->
+
+      <!-- Floating header — minimal, no card -->
       <header class="map-header">
-        <h1 class="map-title">我的足迹地图</h1>
-        <p class="map-subtitle"><span id="location-count">0</span> 个足迹 · 点击地图上的标记查看经历</p>
+        <p class="map-subtitle"><span id="location-count">0</span> LOCATIONS · SELECT A MARKER</p>
       </header>
     </div>
 
-    <!-- Sidebar (right 30%) -->
-    <aside id="sidebar">
+    <!-- ==========================================================
+         Detail panel — slides in to the right of nav
+         ========================================================== -->
+    <aside id="detail-panel">
       <div id="sidebar-content">
         <div class="sidebar-placeholder">
-          <p>📍 点击地图上的标记查看经历</p>
+          <p>Select a location<br/>from the map or list</p>
         </div>
       </div>
     </aside>
@@ -42,7 +69,7 @@
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
     crossorigin=""></script>
 
-  <!-- Vite entry point -->
+  <!-- Vite entry -->
   <script type="module" src="/src/main.js"></script>
 </body>
 </html>

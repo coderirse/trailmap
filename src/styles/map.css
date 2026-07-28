@@ -1,11 +1,11 @@
 /* ==========================================================================
-   Map Container, Floating Header & Leaflet Overrides
+   Map — Dark desaturated canvas, minimal editorial markers
    ========================================================================== */
 
 #map-container {
   flex: 1;
   position: relative;
-  min-width: 0; /* allow flex shrink */
+  min-width: 0;
 }
 
 #map {
@@ -13,162 +13,159 @@
   height: 100%;
 }
 
-/* Leaflet container base */
+/* Leaflet container — pure black fallback */
 .leaflet-container {
-  background: var(--color-bg);
-  font-family: var(--font-family);
+  background: var(--color-bg) !important;
+  font-family: var(--font-sans);
   outline: none;
 }
 
-/* ---- Floating glass header ---- */
+/* === Desaturate tile layer to near-monochrome === */
+.leaflet-tile-pane {
+  filter: brightness(0.55) contrast(1.15) saturate(0.08) hue-rotate(180deg);
+  -webkit-filter: brightness(0.55) contrast(1.15) saturate(0.08) hue-rotate(180deg);
+}
+
+/* === Map header — clean typography, no card === */
 .map-header {
   position: absolute;
-  top: 20px;
-  left: 20px;
-  z-index: 800;
-  padding: 14px 22px;
-  background: var(--glass-bg);
-  -webkit-backdrop-filter: var(--glass-blur);
-  backdrop-filter: var(--glass-blur);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-lg);
-  pointer-events: none; /* let map interactions pass through */
+  top: var(--space-32);
+  left: var(--space-48);
+  z-index: 50;
+  pointer-events: none;
+  animation: fade-up-in 0.6s var(--ease-out) 0.2s both;
 }
 
 .map-title {
-  font-size: var(--font-size-xl);
-  font-weight: 700;
+  font-family: var(--font-serif);
+  font-size: var(--text-40);
+  font-weight: 400;
   letter-spacing: 0.02em;
-  background: linear-gradient(120deg, #e8eef7 30%, var(--color-primary) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--color-text);
+  line-height: 1.1;
 }
 
 .map-subtitle {
-  margin-top: 2px;
-  font-size: var(--font-size-xs);
-  color: var(--color-text-secondary);
+  margin-top: var(--space-8);
+  font-size: var(--text-13);
+  color: var(--color-text-muted);
   letter-spacing: 0.04em;
+  font-family: var(--font-sans);
 }
 
 #location-count {
-  color: var(--color-primary);
-  font-weight: 600;
+  font-family: var(--font-mono);
+  font-size: var(--text-13);
+  color: var(--color-accent);
 }
 
-/* ---- Custom DivIcon markers: glowing dot + pulse ring ---- */
+/* === Markers — Griffin nodes === */
 .custom-marker {
   position: relative;
-  width: var(--marker-size);
-  height: var(--marker-size);
-  border-radius: var(--radius-full);
-  background: var(--marker-color);
-  border: var(--marker-border-width) solid var(--marker-border-color);
+  width: 14px;
+  height: 14px;
+  border-radius: var(--radius-pill);
+  background: var(--color-accent);
+  border: none;
   box-shadow:
-    0 0 0 4px rgba(34, 211, 238, 0.18),
-    0 0 14px var(--marker-glow);
-  transition: transform var(--transition-fast), background var(--transition-fast),
-    box-shadow var(--transition-fast);
+    0 0 0 2px rgba(74, 222, 128, 0.25),
+    0 0 8px rgba(74, 222, 128, 0.18);
+  transition: transform 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out);
   cursor: pointer;
 }
 
-/* Pulse ripple */
+/* Pulse ring animation */
 .custom-marker::after {
   content: '';
   position: absolute;
-  inset: -7px;
-  border-radius: var(--radius-full);
-  border: 2px solid var(--marker-glow);
+  inset: -3px;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid rgba(74, 222, 128, 0.25);
   opacity: 0;
-  animation: marker-pulse 2.6s ease-out infinite;
+  animation: marker-pulse 2.4s ease-out infinite;
   pointer-events: none;
 }
 
 @keyframes marker-pulse {
-  0% {
-    transform: scale(0.6);
-    opacity: 0.8;
-  }
-  70% {
-    transform: scale(1.6);
-    opacity: 0;
-  }
-  100% {
-    transform: scale(1.6);
-    opacity: 0;
-  }
+  0%   { transform: scale(0.8); opacity: 0.55; }
+  70%  { transform: scale(1.6); opacity: 0; }
+  100% { transform: scale(1.6); opacity: 0; }
 }
 
 .custom-marker:hover {
   transform: scale(1.25);
+  box-shadow:
+    0 0 0 3px rgba(74, 222, 128, 0.35),
+    0 0 16px rgba(74, 222, 128, 0.25);
 }
 
-/* Active / selected marker — warm amber */
+/* Active marker — warm coral highlight */
 .custom-marker.active {
-  background: var(--marker-color-active);
+  background: var(--color-accent-coral);
   transform: scale(1.35);
   box-shadow:
-    0 0 0 5px rgba(251, 191, 36, 0.2),
-    0 0 20px var(--marker-glow-active);
+    0 0 0 3px rgba(251, 113, 133, 0.35),
+    0 0 18px rgba(251, 113, 133, 0.28);
 }
-
 .custom-marker.active::after {
-  border-color: var(--marker-glow-active);
+  border-color: rgba(251, 113, 133, 0.3);
 }
 
-/* ---- Leaflet control overrides (glass style) ---- */
-.leaflet-bar {
-  border: 1px solid var(--glass-border) !important;
-  border-radius: var(--radius-lg) !important;
-  box-shadow: var(--shadow-md) !important;
+/* Dimmed marker (when another is selected) */
+.custom-marker.dimmed {
+  opacity: 0.3;
+  transform: scale(0.85);
+}
+
+/* === Inactive marker (not selected, not hovered) === */
+/* Done via JS toggle on .dimmed class when another marker is active */
+
+/* === Zoom controls — hairline +/- === */
+.leaflet-control-zoom {
+  border: var(--border-subtle) !important;
+  border-radius: var(--radius-sm) !important;
+  box-shadow: none !important;
   overflow: hidden;
 }
-
-.leaflet-bar a {
-  background: var(--glass-bg-strong);
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
-  color: var(--color-text);
-  border-bottom: 1px solid var(--glass-border) !important;
-  transition: background var(--transition-fast), color var(--transition-fast);
-}
-
-.leaflet-bar a:last-child {
-  border-bottom: none !important;
-}
-
-.leaflet-bar a:hover {
-  background: rgba(34, 211, 238, 0.15);
-  color: var(--color-primary);
-}
-
-.leaflet-control-attribution {
-  background: var(--glass-bg) !important;
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
+.leaflet-control-zoom a {
+  width: 28px !important;
+  height: 28px !important;
+  line-height: 28px !important;
+  font-size: 14px !important;
+  font-family: var(--font-mono) !important;
+  font-weight: 300 !important;
+  background: var(--color-surface) !important;
   color: var(--color-text-muted) !important;
-  font-size: 10px !important;
-  padding: 2px 8px !important;
-  border-radius: var(--radius-md) 0 0 0;
+  border-bottom: var(--border-subtle) !important;
+  transition: color var(--dur-fast), background var(--dur-fast);
+}
+.leaflet-control-zoom a:last-child { border-bottom: none !important; }
+.leaflet-control-zoom a:hover {
+  background: var(--color-elevated) !important;
+  color: var(--color-text) !important;
 }
 
+/* === Attribution — compressed === */
+.leaflet-control-attribution {
+  background: transparent !important;
+  color: rgba(255,255,255,0.12) !important;
+  font-size: 9px !important;
+  font-family: var(--font-mono) !important;
+  padding: 2px 6px !important;
+  border: none !important;
+  box-shadow: none !important;
+}
 .leaflet-control-attribution a {
-  color: var(--color-text-secondary) !important;
+  color: rgba(255,255,255,0.18) !important;
 }
 
-/* ---- Responsive ---- */
+/* === Responsive === */
 @media (max-width: 768px) {
   .map-header {
-    top: 12px;
-    left: 12px;
-    right: 12px;
-    padding: 10px 16px;
-    border-radius: var(--radius-lg);
+    left: var(--space-20);
+    top: var(--space-20);
   }
-
   .map-title {
-    font-size: var(--font-size-lg);
+    font-size: 26px;
   }
 }

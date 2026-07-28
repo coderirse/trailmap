@@ -1,250 +1,198 @@
 /* ==========================================================================
-   Shared Controls — Tag filter, Stats panel, Style switcher, Globe toggle
-   All positioned as floating glass panels on the map.
+   Controls — Pills, stats, style buttons, globe (editorial minimal)
    ========================================================================== */
 
-/* ---- Tag filter bar ---- */
+/* === Tag filter — pill row at top of map === */
 #tag-filter {
   position: absolute;
-  top: 20px;
+  top: var(--space-24);
   left: 50%;
   transform: translateX(-50%);
-  z-index: 800;
+  z-index: 50;
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
-  padding: 8px 14px;
-  background: var(--glass-bg);
-  -webkit-backdrop-filter: var(--glass-blur);
-  backdrop-filter: var(--glass-blur);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-full);
-  box-shadow: var(--shadow-md);
+  gap: var(--space-8);
   opacity: 0;
   visibility: hidden;
-  transition: opacity var(--transition-base), visibility var(--transition-base),
-    transform var(--transition-base);
-  transform: translateX(-50%) translateY(-6px);
+  transition: opacity var(--dur-base) var(--ease-out), visibility var(--dur-base);
 }
 #tag-filter.visible {
   opacity: 1;
   visibility: visible;
-  transform: translateX(-50%) translateY(0);
 }
 
 .tag-chip {
-  font-size: var(--tag-font-size);
+  font-family: var(--font-mono);
+  font-size: var(--text-11);
   color: var(--color-text-muted);
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: transparent;
+  border: var(--border-visible);
   padding: 5px 14px;
-  border-radius: var(--radius-full);
+  border-radius: var(--radius-pill);
   cursor: pointer;
-  font-weight: 500;
-  letter-spacing: 0.03em;
-  transition: all var(--transition-fast);
-  white-space: nowrap;
+  letter-spacing: 0.05em;
+  transition: color var(--dur-fast), border-color var(--dur-fast);
 }
 .tag-chip:hover {
   color: var(--color-text);
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.2);
+  border-color: var(--border-hover);
 }
 .tag-chip.active {
-  color: var(--tag-color);
-  background: var(--tag-bg);
-  border-color: var(--tag-border);
+  color: var(--color-accent);
+  border-color: rgba(74, 222, 128, 0.35);
 }
 .tag-chip .count {
   margin-left: 4px;
-  opacity: 0.5;
-  font-size: 10px;
+  opacity: 0.4;
+  font-size: var(--text-10);
 }
 
-/* ---- Stats panel ---- */
+/* === Stats panel — top-right, numbers only === */
 #stats-panel {
   position: absolute;
   top: 92px;
-  right: 20px;
-  z-index: 800;
-  padding: 14px 18px;
-  background: var(--glass-bg);
-  -webkit-backdrop-filter: var(--glass-blur);
-  backdrop-filter: var(--glass-blur);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-md);
+  right: var(--space-32);
+  z-index: 50;
   display: flex;
-  gap: 20px;
+  gap: var(--space-32);
   opacity: 0;
   visibility: hidden;
-  transform: translateX(8px);
-  transition: opacity var(--transition-base), transform var(--transition-base),
-    visibility var(--transition-base);
+  transition: opacity var(--dur-base) var(--ease-out), visibility var(--dur-base);
 }
 #stats-panel.visible {
   opacity: 1;
   visibility: visible;
-  transform: translateX(0);
 }
 
 .stat-item {
-  text-align: center;
+  text-align: left;
 }
 .stat-value {
-  font-size: var(--font-size-xl);
-  font-weight: 700;
-  color: var(--color-primary);
-  letter-spacing: 0.02em;
+  font-family: var(--font-mono);
+  font-size: var(--text-24);
+  font-weight: 400;
+  color: var(--color-text);
   line-height: 1;
+  letter-spacing: -0.01em;
 }
 .stat-label {
-  margin-top: 2px;
-  font-size: 10px;
+  margin-top: var(--space-4);
+  font-family: var(--font-mono);
+  font-size: var(--text-10);
   color: var(--color-text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
 }
 
-/* ---- Style switcher ---- */
+/* === Style switcher — bottom-left column === */
 #style-switcher {
   position: absolute;
-  left: 20px;
-  bottom: 110px;
-  z-index: 800;
+  left: var(--space-32);
+  bottom: var(--space-40);
+  z-index: 50;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--space-4);
   opacity: 0;
   visibility: hidden;
-  transform: translateY(6px);
-  transition: opacity var(--transition-base), transform var(--transition-base),
-    visibility var(--transition-base);
+  transition: opacity var(--dur-base) var(--ease-out), visibility var(--dur-base);
 }
 #style-switcher.visible {
   opacity: 1;
   visibility: visible;
-  transform: translateY(0);
 }
 
 .style-btn {
-  width: 36px;
-  height: 36px;
-  border-radius: var(--radius-md);
-  background: var(--glass-bg-strong);
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
-  border: 1px solid var(--glass-border);
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-px);
+  background: transparent;
+  border: var(--border-subtle);
+  color: var(--color-text-muted);
+  font-size: 13px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color var(--dur-fast), border-color var(--dur-fast);
+}
+.style-btn:hover {
+  color: var(--color-text);
+  border-color: var(--border-hover);
+}
+.style-btn.active {
+  color: var(--color-accent);
+  border-color: rgba(74, 222, 128, 0.3);
+}
+
+/* === Globe toggle — bottom-left above style === */
+#globe-toggle {
+  position: absolute;
+  left: var(--space-32);
+  bottom: calc(var(--space-40) + 150px);
+  z-index: 50;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-px);
+  background: transparent;
+  border: var(--border-subtle);
   color: var(--color-text-muted);
   font-size: 14px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all var(--transition-fast);
-}
-.style-btn:hover {
-  color: var(--color-text);
-  border-color: rgba(255, 255, 255, 0.3);
-}
-.style-btn.active {
-  color: var(--color-primary);
-  border-color: rgba(34, 211, 238, 0.4);
-  background: rgba(34, 211, 238, 0.12);
-}
-
-/* ---- Globe toggle button ---- */
-#globe-toggle {
-  position: absolute;
-  left: 20px;
-  bottom: 76px;
-  z-index: 800;
-  width: 36px;
-  height: 36px;
-  border-radius: var(--radius-md);
-  background: var(--glass-bg-strong);
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
-  border: 1px solid var(--glass-border);
-  color: var(--color-text-muted);
-  font-size: 16px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all var(--transition-fast);
+  transition: color var(--dur-fast), border-color var(--dur-fast);
   opacity: 0;
   visibility: hidden;
-  transform: translateY(4px);
 }
 #globe-toggle.visible {
   opacity: 1;
   visibility: visible;
-  transform: translateY(0);
 }
 #globe-toggle:hover {
   color: var(--color-text);
-  border-color: rgba(255, 255, 255, 0.3);
+  border-color: var(--border-hover);
 }
 #globe-toggle.active {
-  color: var(--color-primary);
-  border-color: rgba(34, 211, 238, 0.4);
-  background: rgba(34, 211, 238, 0.12);
+  color: var(--color-accent);
+  border-color: rgba(74, 222, 128, 0.3);
 }
 
-/* ---- Globe container ---- */
+/* === Globe container === */
 #globe-container {
   position: absolute;
   inset: 0;
-  z-index: 500;
+  z-index: 20;
   display: none;
 }
 #globe-container.active {
   display: block;
 }
 
-/* Controls fade-in helper */
-.controls-visible #tag-filter,
-.controls-visible #stats-panel,
-.controls-visible #style-switcher,
-.controls-visible #globe-toggle {
-  opacity: 1;
-  visibility: visible;
-}
-
-.controls-visible #tag-filter { transform: translateX(-50%) translateY(0); }
-.controls-visible #stats-panel { transform: translateX(0); }
-.controls-visible #style-switcher { transform: translateY(0); }
-.controls-visible #globe-toggle { transform: translateY(0); }
-
-/* Responsive */
+/* === Responsive === */
 @media (max-width: 768px) {
   #tag-filter {
-    top: 70px;
-    left: 12px;
-    right: 12px;
+    top: 80px;
+    left: var(--space-12);
+    right: var(--space-12);
     transform: none;
-    border-radius: var(--radius-lg);
+    justify-content: center;
   }
-  .controls-visible #tag-filter { transform: none; }
-
   #stats-panel {
     top: auto;
-    bottom: 100px;
-    right: 12px;
-    gap: 14px;
-    padding: 10px 14px;
+    bottom: calc(45vh + 20px);
+    right: var(--space-16);
+    gap: var(--space-16);
   }
-  .stat-value { font-size: var(--font-size-lg); }
-
+  .stat-value { font-size: var(--text-20); }
   #style-switcher {
-    left: 12px;
-    bottom: 100px;
+    left: var(--space-16);
+    bottom: calc(45vh + 20px);
     flex-direction: row;
   }
-
   #globe-toggle {
-    left: 12px;
-    bottom: 68px;
+    left: var(--space-16);
+    bottom: calc(45vh + 60px);
   }
 }

@@ -78,8 +78,8 @@ class MapComponent extends BasePlugin {
     const className = isActive ? 'custom-marker active' : 'custom-marker';
     return L.divIcon({
       className,
-      iconSize: [20, 20],
-      iconAnchor: [10, 10],
+      iconSize: [14, 14],
+      iconAnchor: [7, 7],
       popupAnchor: [0, -10],
     });
   }
@@ -131,21 +131,24 @@ class MapComponent extends BasePlugin {
     // Deactivate previous
     this._deselectMarker();
 
+    // Dim all other markers
+    this._dimOthers(id);
+
     // Activate this one
     marker.setIcon(this._createIcon(true));
     this._activeMarkerId = id;
 
-    // Pan map with an offset so the marker isn't hidden behind the sidebar
+    // Smooth flyTo (Griffin-style: slow, editorial)
     const targetLatLng = marker.getLatLng();
-    // Offset the map center: shift left by ~15% of sidebar width so the point is visible
     const size = this._map.getSize();
-    const offsetX = -(size.x * 0.15);
+    const offsetX = -(size.x * 0.12);
     const panPoint = this._map.project(targetLatLng).add([offsetX, 0]);
     const adjustedLatLng = this._map.unproject(panPoint);
 
-    this._map.panTo(adjustedLatLng, {
+    this._map.flyTo(adjustedLatLng, this._map.getZoom(), {
       animate: true,
-      duration: 0.4,
+      duration: config.ui.flyToDuration,
+      easeLinearity: 0.25,
     });
 
     // Notify via EventBus
@@ -153,9 +156,28 @@ class MapComponent extends BasePlugin {
   }
 
   /**
+   * Dim all markers except the active one.
+   * @param {string} activeId
+   */
+  _dimOthers(activeId) {
+    this._markers.forEach((m, id) => {
+      const el = m.getElement();
+      if (el) {
+        el.classList.toggle('dimmed', id !== activeId);
+      }
+    });
+  }
+
+  /**
    * Deselect the currently active marker.
    */
   _deselectMarker() {
+    // Remove dimmed state from all
+    this._markers.forEach((m) => {
+      const el = m.getElement();
+      if (el) el.classList.remove('dimmed');
+    });
+
     if (this._activeMarkerId) {
       const prevMarker = this._markers.get(this._activeMarkerId);
       if (prevMarker) {

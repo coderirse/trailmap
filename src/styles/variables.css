@@ -1,133 +1,102 @@
 /* ==========================================================================
-   CSS Variables — Theme System
-   Default theme: "Glass Explorer" — deep navy + aurora cyan, glassmorphism.
-   All colors, spacing, typography, shadows, and radii are defined here.
+   Griffin Editorial — Dark Fintech Design System
+   Reference: griffin.com visual language
    ========================================================================== */
 
-/* ---- Dark Theme (default): Glass Explorer ---- */
-:root,
-[data-theme="dark"] {
-  /* Accent palette — aurora cyan */
-  --color-primary: #22d3ee;
-  --color-primary-hover: #67e8f9;
-  --color-primary-light: rgba(34, 211, 238, 0.14);
+:root {
+  /* === Core palette === */
+  --color-bg:           #050505;
+  --color-surface:      #0a0a0a;
+  --color-elevated:     #0f0f0f;
 
-  /* Neutral palette — deep navy */
-  --color-bg: #0b1120;
-  --color-surface: rgba(255, 255, 255, 0.06);
-  --color-border: rgba(255, 255, 255, 0.12);
-  --color-text: #e8eef7;
-  --color-text-secondary: #9fb0c3;
-  --color-text-muted: #64748b;
+  /* Text — editorial hierarchy */
+  --color-text:         rgba(255, 255, 255, 0.88);
+  --color-text-body:    rgba(255, 255, 255, 0.52);
+  --color-text-muted:   rgba(255, 255, 255, 0.25);
+  --color-text-disabled:rgba(255, 255, 255, 0.12);
 
-  /* Glass surfaces */
-  --glass-bg: rgba(13, 20, 36, 0.55);
-  --glass-bg-strong: rgba(13, 20, 36, 0.78);
-  --glass-border: rgba(255, 255, 255, 0.12);
-  --glass-blur: blur(20px) saturate(160%);
+  /* Accents — two-color system, no blue/purple */
+  --color-accent:       #4ade80;   /* green — active / travel */
+  --color-accent-warm:  #e7e5e4;   /* warm white — city / neutral */
+  --color-accent-amber: #d4a853;   /* muted amber — nature */
+  --color-accent-coral: #fb7185;   /* coral — accent highlight */
 
-  /* Marker */
-  --marker-color: #22d3ee;
-  --marker-color-active: #fbbf24;
-  --marker-glow: rgba(34, 211, 238, 0.55);
-  --marker-glow-active: rgba(251, 191, 36, 0.55);
-  --marker-size: 16px;
-  --marker-border-width: 2px;
-  --marker-border-color: rgba(255, 255, 255, 0.9);
+  /* Borders — hairline only */
+  --border-subtle:      1px solid rgba(255, 255, 255, 0.06);
+  --border-visible:     1px solid rgba(255, 255, 255, 0.10);
+  --border-hover:       1px solid rgba(255, 255, 255, 0.30);
 
-  /* Sidebar */
-  --sidebar-bg: var(--glass-bg);
-  --sidebar-width: 400px;
-  --sidebar-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
-  --sidebar-padding: 24px;
+  /* === Typography === */
+  --font-sans:  -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
+  --font-serif: "Noto Serif SC", "Songti SC", "SimSun", "Times New Roman", serif;
+  --font-mono:  "SF Mono", "JetBrains Mono", "Menlo", "Consolas", "Courier New", monospace;
 
-  /* Tags */
-  --tag-bg: rgba(34, 211, 238, 0.12);
-  --tag-color: #7de3f4;
-  --tag-border: rgba(34, 211, 238, 0.28);
-  --tag-radius: 9999px;
-  --tag-padding: 4px 12px;
-  --tag-font-size: 12px;
+  /* Sizes */
+  --text-10: 10px;
+  --text-11: 11px;
+  --text-13: 13px;
+  --text-15: 15px;
+  --text-20: 20px;
+  --text-24: 24px;
+  --text-32: 32px;
+  --text-40: 40px;
 
-  /* Typography */
-  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
-  --font-size-xs: 12px;
-  --font-size-sm: 14px;
-  --font-size-base: 16px;
-  --font-size-lg: 18px;
-  --font-size-xl: 22px;
-  --font-size-2xl: 28px;
+  /* === Spacing (4px grid) === */
+  --space-4:   4px;
+  --space-8:   8px;
+  --space-12:  12px;
+  --space-16:  16px;
+  --space-20:  20px;
+  --space-24:  24px;
+  --space-32:  32px;
+  --space-40:  40px;
+  --space-48:  48px;
+  --space-64:  64px;
 
-  /* Spacing */
-  --spacing-xs: 4px;
-  --spacing-sm: 8px;
-  --spacing-md: 16px;
-  --spacing-lg: 24px;
-  --spacing-xl: 32px;
+  /* === Radius — max 4px === */
+  --radius-none: 0px;
+  --radius-px:   2px;
+  --radius-sm:   4px;
+  --radius-pill: 9999px;
 
-  /* Radii */
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --radius-xl: 20px;
-  --radius-full: 9999px;
+  /* === Shadows — minimal, no heavy blur === */
+  --shadow-hairline: 0 1px 0 rgba(255, 255, 255, 0.04);
+  --shadow-card:     0 0 0 1px rgba(255, 255, 255, 0.06);
 
-  /* Shadows */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.35);
-  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.45);
+  /* === Transitions === */
+  --ease-out:   cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in:    cubic-bezier(0.4, 0, 1, 1);
+  --ease-spring:cubic-bezier(0.34, 1.56, 0.64, 1);
+  --dur-fast:   150ms;
+  --dur-base:   300ms;
+  --dur-slow:   600ms;
+  --dur-glacial:1200ms;
 
-  /* Transitions */
-  --transition-fast: 150ms ease;
-  --transition-base: 250ms ease;
-  --transition-slow: 400ms ease;
+  /* === Z-index === */
+  --z-map:      1;
+  --z-markers:  10;
+  --z-nav:      100;
+  --z-sidebar:  200;
+  --z-overlay:  500;
+  --z-lightbox: 999;
 
-  /* Z-index layers */
-  --z-sidebar: 1100;
-  --z-overlay: 2000;
-  --z-lightbox: 3000;
+  /* === Layout === */
+  --nav-width: 300px;
 }
 
-/* ---- Light Theme (optional fallback) ---- */
-[data-theme="light"] {
-  /* Primary palette */
-  --color-primary: #0891b2;
-  --color-primary-hover: #0e7490;
-  --color-primary-light: #cffafe;
+/* Dot grid texture — engineering blueprint feel */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 20px 20px;
+  animation: grid-fade-in 0.8s var(--ease-out) both;
+}
 
-  /* Neutral palette */
-  --color-bg: #f1f5f9;
-  --color-surface: rgba(255, 255, 255, 0.65);
-  --color-border: rgba(15, 23, 42, 0.1);
-  --color-text: #1e293b;
-  --color-text-secondary: #64748b;
-  --color-text-muted: #94a3b8;
-
-  /* Glass surfaces */
-  --glass-bg: rgba(255, 255, 255, 0.65);
-  --glass-bg-strong: rgba(255, 255, 255, 0.85);
-  --glass-border: rgba(255, 255, 255, 0.7);
-  --glass-blur: blur(20px) saturate(160%);
-
-  /* Marker */
-  --marker-color: #0891b2;
-  --marker-color-active: #f59e0b;
-  --marker-glow: rgba(8, 145, 178, 0.45);
-  --marker-glow-active: rgba(245, 158, 11, 0.5);
-  --marker-border-color: #ffffff;
-
-  /* Sidebar */
-  --sidebar-bg: var(--glass-bg);
-  --sidebar-shadow: 0 24px 60px rgba(15, 23, 42, 0.18);
-
-  /* Tags */
-  --tag-bg: #cffafe;
-  --tag-color: #0e7490;
-  --tag-border: rgba(8, 145, 178, 0.25);
-
-  /* Shadows */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+@keyframes grid-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
