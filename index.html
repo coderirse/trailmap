@@ -23,6 +23,9 @@
     <!-- ==========================================================
          Left Navigation — editorial location list + stats
          ========================================================== -->
+    <!-- Mobile backdrop (before sidebar so ~ selector works) -->
+    <div id="nav-backdrop" class="sidebar-backdrop"></div>
+
     <nav id="sidebar">
       <div class="nav-header">
         <div class="nav-title">足迹地图</div>
@@ -39,6 +42,11 @@
         </div>
       </div>
     </nav>
+
+    <!-- Mobile drawer handle (after sidebar so #sidebar.open ~ #nav-drawer-handle works) -->
+    <button id="nav-drawer-handle" aria-label="打开导航">
+      <span class="handle-bar"></span>
+    </button>
 
     <!-- ==========================================================
          Map area
@@ -57,9 +65,7 @@
          ========================================================== -->
     <aside id="detail-panel">
       <div id="sidebar-content">
-        <div class="sidebar-placeholder">
-          <p>Select a location<br/>from the map or list</p>
-        </div>
+        <!-- Populated by Sidebar.js when a location is selected -->
       </div>
     </aside>
   </div>

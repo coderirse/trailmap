@@ -72,13 +72,17 @@
   --dur-slow:   600ms;
   --dur-glacial:1200ms;
 
-  /* === Z-index === */
+  /* === Z-index ===
+     #map-container forms its own stacking context (z-index: 0), so Leaflet's
+     internal pane z-indexes (200–1000) never escape it. Overlays inside the
+     map must therefore sit above Leaflet's max (1000). */
   --z-map:      1;
   --z-markers:  10;
   --z-nav:      100;
   --z-sidebar:  200;
   --z-overlay:  500;
   --z-lightbox: 999;
+  --z-map-overlay: 1100;  /* inside #map-container only — above .leaflet-* panes/controls */
 
   /* === Layout === */
   --nav-width: 300px;

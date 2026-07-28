@@ -7,7 +7,7 @@
   bottom: var(--space-32);
   left: var(--space-48);
   right: var(--space-48);
-  z-index: 50;
+  z-index: var(--z-map-overlay);
   display: flex;
   align-items: center;
   gap: var(--space-16);

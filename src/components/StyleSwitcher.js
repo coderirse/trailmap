@@ -3,6 +3,7 @@
 // ==========================================================================
 
 import BasePlugin from '../plugins/BasePlugin.js';
+import { createElement } from '../utils/helpers.js';
 
 const TILES = [
   {
@@ -42,10 +43,12 @@ class StyleSwitcher extends BasePlugin {
     this._map = options.map;
     /** @type {HTMLElement|null} */
     this._el = null;
-    /** @type {string} */
-    this._current = 'voyager';
     /** @type {L.TileLayer|null} */
     this._activeLayer = null;
+    /** @type {string} key of the style applied on init */
+    this._default = 'voyager';
+    /** @type {string|null} currently active style (null until first switch) */
+    this._current = null;
   }
 
   init() {
@@ -54,7 +57,7 @@ class StyleSwitcher extends BasePlugin {
     this._el.classList.add('visible');
 
     // Replace default tile layer with current style
-    this._switchTo('voyager');
+    this._switchTo(this._default);
 
     return this;
   }

@@ -65,7 +65,10 @@ class GlobeView extends BasePlugin {
     this._toggleBtn.classList.add('active');
     this._toggleBtn.textContent = '🗺️';
     this._toggleBtn.title = '切换地图';
-    this._mapContainer.style.display = 'none';
+    // Hide only the Leaflet container — NOT #map-container, which also
+    // hosts the globe canvas and the pill/stat overlays.
+    const mapEl = this._map ? this._map.getContainer() : null;
+    if (mapEl) mapEl.style.visibility = 'hidden';
     this._globeEl.classList.add('active');
 
     // Build globe
@@ -75,7 +78,7 @@ class GlobeView extends BasePlugin {
       lng: loc.lng,
       name: loc.name,
       size: 0.25,
-      color: '#22d3ee',
+      color: '#4ade80',
     }));
 
     try {
@@ -109,7 +112,8 @@ class GlobeView extends BasePlugin {
     this._toggleBtn.classList.remove('active');
     this._toggleBtn.textContent = '🌍';
     this._toggleBtn.title = '3D 地球';
-    this._mapContainer.style.display = '';
+    const mapEl = this._map ? this._map.getContainer() : null;
+    if (mapEl) mapEl.style.visibility = '';
 
     if (this._globeEl) {
       this._globeEl.classList.remove('active');

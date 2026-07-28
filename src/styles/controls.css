@@ -8,7 +8,7 @@
   top: var(--space-24);
   left: 50%;
   transform: translateX(-50%);
-  z-index: 50;
+  z-index: var(--z-map-overlay);
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-8);
@@ -52,7 +52,7 @@
   position: absolute;
   top: 92px;
   right: var(--space-32);
-  z-index: 50;
+  z-index: var(--z-map-overlay);
   display: flex;
   gap: var(--space-32);
   opacity: 0;
@@ -89,7 +89,7 @@
   position: absolute;
   left: var(--space-32);
   bottom: var(--space-40);
-  z-index: 50;
+  z-index: var(--z-map-overlay);
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
@@ -130,7 +130,7 @@
   position: absolute;
   left: var(--space-32);
   bottom: calc(var(--space-40) + 150px);
-  z-index: 50;
+  z-index: var(--z-map-overlay);
   width: 32px;
   height: 32px;
   border-radius: var(--radius-px);
@@ -163,7 +163,7 @@
 #globe-container {
   position: absolute;
   inset: 0;
-  z-index: 20;
+  z-index: 1000; /* above Leaflet panes, below the pill/stat overlays */
   display: none;
 }
 #globe-container.active {

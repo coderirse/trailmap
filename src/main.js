@@ -118,6 +118,40 @@ function bootstrap() {
     }
   });
 
+  // ---- Mobile: drawer handle toggles nav ----
+  const drawerHandle = document.getElementById('nav-drawer-handle');
+  const navBackdrop = document.getElementById('nav-backdrop');
+  const sidebarNav = document.getElementById('sidebar');
+
+  function openMobileNav() {
+    sidebarNav.classList.add('open');
+    navBackdrop.classList.add('open');
+    drawerHandle.setAttribute('aria-label', '关闭导航');
+  }
+  function closeMobileNav() {
+    sidebarNav.classList.remove('open');
+    navBackdrop.classList.remove('open');
+    drawerHandle.setAttribute('aria-label', '打开导航');
+  }
+
+  drawerHandle.addEventListener('click', () => {
+    if (sidebarNav.classList.contains('open')) {
+      closeMobileNav();
+    } else {
+      openMobileNav();
+    }
+  });
+
+  navBackdrop.addEventListener('click', closeMobileNav);
+
+  // Selecting a location on mobile auto-closes the nav drawer
+  eventBus.on('nav:locationSelect', () => {
+    if (window.innerWidth <= 768) closeMobileNav();
+  });
+  eventBus.on('map:markerClick', () => {
+    if (window.innerWidth <= 768) closeMobileNav();
+  });
+
   // ---- Dev ----
   if (import.meta.env.DEV) {
     window.__app = { mapComponent, sidebar, lightbox, timeline, routeLines,

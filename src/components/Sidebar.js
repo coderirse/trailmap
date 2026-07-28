@@ -196,10 +196,9 @@ class Sidebar extends BasePlugin {
   close() {
     this._currentLocation = null;
     this.gallery.clear();
-    this.container.innerHTML = `
-      <div class="sidebar-placeholder">
-        <p>Select a location<br/>from the map or list</p>
-      </div>`;
+    // #detail-panel hosts only the fixed-position .location-detail;
+    // leaving static content here would leak into the flex layout.
+    this.container.innerHTML = '';
 
     this.detailPanel.classList.remove('open');
     this.navList.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));

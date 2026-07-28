@@ -12,8 +12,8 @@ const config = {
     /** Zoom constraints */
     minZoom: 3,
     maxZoom: 18,
-    /** Tile — CARTO Dark Matter Noir (darkest available) */
-    tileUrl: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
+    /** Tile — CARTO Voyager (light); dark-themed via invert filter in map.css */
+    tileUrl: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
     /** Attribution */
     attribution: '',
   },
@@ -40,7 +40,7 @@ const config = {
       id: 'east-china',
       name: '江南行',
       locations: ['beijing', 'shanghai', 'hangzhou'],
-      color: '#22d3ee',
+      color: '#4ade80',
     },
   ],
 };

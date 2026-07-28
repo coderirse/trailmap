@@ -6,6 +6,9 @@
   flex: 1;
   position: relative;
   min-width: 0;
+  /* Own stacking context: contains Leaflet's internal pane z-indexes (200–1000)
+     so siblings (nav, detail panel, lightbox) layer predictably above the map. */
+  z-index: 0;
 }
 
 #map {
@@ -20,10 +23,11 @@
   outline: none;
 }
 
-/* === Desaturate tile layer to near-monochrome === */
+/* === Dark-theme the (light) Voyager tiles: invert + hue-rotate back,
+       then crush saturation to near-monochrome === */
 .leaflet-tile-pane {
-  filter: brightness(0.55) contrast(1.15) saturate(0.08) hue-rotate(180deg);
-  -webkit-filter: brightness(0.55) contrast(1.15) saturate(0.08) hue-rotate(180deg);
+  filter: invert(1) hue-rotate(180deg) brightness(0.9) contrast(1.05) saturate(0.12);
+  -webkit-filter: invert(1) hue-rotate(180deg) brightness(0.9) contrast(1.05) saturate(0.12);
 }
 
 /* === Map header — clean typography, no card === */
@@ -31,7 +35,7 @@
   position: absolute;
   top: var(--space-32);
   left: var(--space-48);
-  z-index: 50;
+  z-index: var(--z-map-overlay);
   pointer-events: none;
   animation: fade-up-in 0.6s var(--ease-out) 0.2s both;
 }
