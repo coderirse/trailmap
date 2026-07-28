@@ -1,0 +1,165 @@
+/* ==========================================================================
+   Timeline Player — bottom scrubber bar with play/pause
+   ========================================================================== */
+
+#timeline {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+  z-index: var(--z-sidebar);
+  padding: 12px 18px 10px;
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition: opacity var(--transition-base), transform var(--transition-base),
+    visibility var(--transition-base);
+}
+
+#timeline.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* Play / Pause button */
+.timeline-play {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-full);
+  background: rgba(34, 211, 238, 0.15);
+  border: 1px solid rgba(34, 211, 238, 0.3);
+  color: var(--color-primary);
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background var(--transition-fast), border-color var(--transition-fast);
+  cursor: pointer;
+}
+.timeline-play:hover {
+  background: rgba(34, 211, 238, 0.25);
+  border-color: var(--color-primary);
+}
+.timeline-play.playing {
+  background: var(--color-primary);
+  color: #0b1120;
+}
+
+/* Scrubber track */
+.timeline-track {
+  flex: 1;
+  position: relative;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.timeline-rail {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-full);
+}
+
+.timeline-progress {
+  position: absolute;
+  left: 0;
+  height: 3px;
+  background: var(--color-primary);
+  border-radius: var(--radius-full);
+  box-shadow: 0 0 8px var(--marker-glow);
+  transition: width 0.3s linear;
+}
+
+/* Dots on the timeline */
+.timeline-dot {
+  position: absolute;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  margin-left: -5px;
+  margin-top: -5px;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.3);
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  transition: transform var(--transition-fast), background var(--transition-fast),
+    box-shadow var(--transition-fast);
+  z-index: 2;
+}
+.timeline-dot:hover {
+  transform: scale(1.6);
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+}
+.timeline-dot.visited {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 6px var(--marker-glow);
+}
+.timeline-dot.active {
+  background: var(--marker-color-active);
+  border-color: var(--marker-color-active);
+  box-shadow: 0 0 10px var(--marker-glow-active);
+  transform: scale(1.5);
+}
+
+/* Thumb */
+.timeline-thumb {
+  position: absolute;
+  top: 50%;
+  width: 16px;
+  height: 16px;
+  margin-left: -8px;
+  margin-top: -8px;
+  border-radius: var(--radius-full);
+  background: var(--color-primary);
+  border: 3px solid var(--color-bg);
+  box-shadow: 0 0 10px var(--marker-glow);
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* Date label */
+.timeline-label {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  flex-shrink: 0;
+  min-width: 60px;
+  text-align: right;
+  letter-spacing: 0.04em;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  #timeline {
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    padding: 8px 12px 6px;
+    gap: 8px;
+  }
+  .timeline-label {
+    display: none;
+  }
+  .timeline-play {
+    width: 28px;
+    height: 28px;
+    font-size: 13px;
+  }
+}

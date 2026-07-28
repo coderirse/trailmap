@@ -28,6 +28,10 @@ class MapComponent extends BasePlugin {
     this._initMap();
     this._addMarkers();
     this._fitAllMarkers();
+
+    // Listen for tag filter changes
+    this.listen('tagfilter:change', this._onTagFilterChange);
+
     return this;
   }
 
@@ -179,6 +183,30 @@ class MapComponent extends BasePlugin {
    */
   getMapInstance() {
     return this._map;
+  }
+
+  /**
+   * Handle tag filter change — show/hide markers + refit bounds.
+   * @param {{ tags: string[], locations: Array }} data
+   */
+  _onTagFilterChange(data) {
+    const filteredIds = new Set((data.locations || []).map(l => l.id));
+    let visibleBounds = [];
+
+    this._markers.forEach((marker, id) => {
+      if (filteredIds.has(id)) {
+        marker.addTo(this._map);
+        visibleBounds.push(marker.getLatLng());
+      } else {
+        this._map.removeLayer(marker);
+      }
+    });
+
+    // Refit to visible markers
+    if (visibleBounds.length > 0) {
+      const bounds = L.latLngBounds(visibleBounds);
+      this._map.fitBounds(bounds, { paddingTopLeft: [40, 40], paddingBottomRight: [40, 40] });
+    }
   }
 
   destroy() {

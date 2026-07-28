@@ -34,6 +34,16 @@ const config = {
     title: '我的足迹地图',
     version: '1.0.0',
   },
+
+  /** Route groups — each entry draws a line connecting the listed location ids */
+  routes: [
+    {
+      id: 'east-china',
+      name: '江南行',
+      locations: ['beijing', 'shanghai', 'hangzhou'],
+      color: '#22d3ee',
+    },
+  ],
 };
 
 export default config;

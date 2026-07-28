@@ -1,0 +1,21 @@
+/* ==========================================================================
+   Route Lines — animated flowing dashes between connected locations
+   ========================================================================== */
+
+/* The route line itself is rendered by Leaflet as a polyline.
+   We apply a dash pattern + animation via inline style / class. */
+
+.route-line {
+  pointer-events: none;
+}
+
+.route-line-animated {
+  /* Animated dash offset creates a flowing effect */
+  animation: route-dash-flow 1.2s linear infinite;
+}
+
+@keyframes route-dash-flow {
+  to {
+    stroke-dashoffset: -24;
+  }
+}

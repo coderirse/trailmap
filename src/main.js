@@ -1,8 +1,5 @@
 // ==========================================================================
 // main.js — Application entry point
-//
-// Initializes all components, wires up the EventBus, and handles
-// URL hash routing for restoring state on page load.
 // ==========================================================================
 
 // ---- Styles ----
@@ -11,6 +8,9 @@ import './styles/base.css';
 import './styles/map.css';
 import './styles/sidebar.css';
 import './styles/lightbox.css';
+import './styles/timeline.css';
+import './styles/controls.css';
+import './styles/routes.css';
 
 // ---- Modules ----
 import eventBus from './utils/EventBus.js';
@@ -21,76 +21,108 @@ import { getHashRoute } from './utils/helpers.js';
 import MapComponent from './components/Map.js';
 import Sidebar from './components/Sidebar.js';
 import Lightbox from './components/Lightbox.js';
+import Timeline from './components/Timeline.js';
+import RouteLines from './components/RouteLines.js';
+import TagFilter from './components/TagFilter.js';
+import GlobeView from './components/GlobeView.js';
+import StatsPanel from './components/StatsPanel.js';
+import StyleSwitcher from './components/StyleSwitcher.js';
 
 // ==========================================================================
-// Application Bootstrap
-// ==========================================================================
-
 function bootstrap() {
-  // Get DOM references
   const sidebarEl = document.getElementById('sidebar');
   const sidebarContent = document.getElementById('sidebar-content');
+  const mapContainer = document.getElementById('map-container');
 
-  // ---- Fill header stats ----
+  // ---- Header stats ----
   const countEl = document.getElementById('location-count');
   if (countEl) countEl.textContent = store.getAll().length;
 
-  // ---- Initialize Map ----
-  const mapComponent = new MapComponent({
-    containerId: 'map',
-  });
+  // ---- Map ----
+  const mapComponent = new MapComponent({ containerId: 'map' });
   mapComponent.init();
+  const leafletMap = mapComponent.getMapInstance();
 
-  // ---- Initialize Sidebar ----
+  // ---- Sidebar ----
   const sidebar = new Sidebar({
     container: sidebarContent,
     sidebar: sidebarEl,
   });
   sidebar.init();
 
-  // ---- Initialize Lightbox ----
+  // ---- Lightbox ----
   const lightbox = new Lightbox();
   lightbox.init();
 
-  // ---- URL hash routing — restore state on load ----
+  // ---- Route Lines (flowing dash animation) ----
+  const routeLines = new RouteLines({ map: leafletMap });
+  routeLines.init();
+
+  // ---- Tag Filter (glass chips at top) ----
+  const tagFilter = new TagFilter();
+  tagFilter.init();
+
+  // ---- Stats Panel (top-right overlay) ----
+  const statsPanel = new StatsPanel();
+  statsPanel.init();
+
+  // ---- Style Switcher (tile layer buttons) ----
+  const styleSwitcher = new StyleSwitcher({ map: leafletMap });
+  styleSwitcher.init();
+
+  // ---- Globe Toggle (3D earth) ----
+  const globeView = new GlobeView({ map: leafletMap, mapContainer });
+  globeView.init();
+
+  // ---- Timeline (bottom scrubber) ----
+  const timeline = new Timeline();
+  timeline.init();
+
+  // ---- Cross-component event wiring ----
+
+  // Timeline step → select marker + open sidebar
+  eventBus.on('timeline:step', (data) => {
+    if (data && data.id) {
+      mapComponent.selectById(data.id);
+    }
+  });
+
+  // Globe marker click → open sidebar (same as map marker click)
+  eventBus.on('globe:markerClick', (data) => {
+    if (data && data.location) {
+      sidebar.open(data.location);
+    }
+  });
+
+  // ---- URL hash routing ----
   const initialHash = getHashRoute();
   if (initialHash) {
     const location = store.getById(initialHash);
     if (location) {
-      // Small delay to let the map finish initializing
-      setTimeout(() => {
-        mapComponent.selectById(initialHash);
-      }, 300);
+      setTimeout(() => mapComponent.selectById(initialHash), 400);
     }
   }
 
-  // Listen for hash changes (browser back/forward)
   window.addEventListener('hashchange', () => {
     const hash = getHashRoute();
     if (hash) {
       const location = store.getById(hash);
-      if (location) {
-        mapComponent.selectById(hash);
-      }
+      if (location) mapComponent.selectById(hash);
     } else {
-      // Hash cleared — close sidebar
       sidebar.close();
     }
   });
 
-  // ---- Debug: expose key APIs to window for development ----
+  // ---- Dev tools ----
   if (import.meta.env.DEV) {
     window.__app = {
-      mapComponent,
-      sidebar,
-      store,
-      eventBus,
+      mapComponent, sidebar, lightbox, timeline, routeLines,
+      tagFilter, globeView, statsPanel, styleSwitcher, store, eventBus,
     };
-    console.log('🚀 MyMap ready. Try window.__app in the console.');
+    console.log('🚀 MyMap ready — window.__app');
   }
 }
 
-// Run when DOM is ready
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', bootstrap);
 } else {
