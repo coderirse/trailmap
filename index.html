@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>我的足迹地图</title>
+
+  <!-- Leaflet CSS (CDN) -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+  />
+
+  <!-- Leaflet JS (CDN) — loaded in main.js via importmap or inline -->
+</head>
+<body>
+  <div id="app">
+    <!-- Map container (left 70%) -->
+    <div id="map-container">
+      <div id="map"></div>
+    </div>
+
+    <!-- Sidebar (right 30%) -->
+    <aside id="sidebar">
+      <div id="sidebar-content">
+        <div class="sidebar-placeholder">
+          <p>📍 点击地图上的标记查看经历</p>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""></script>
+
+  <!-- Vite entry point -->
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
