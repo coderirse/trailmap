@@ -2,3 +2,25 @@ node_modules/
 dist/
 .DS_Store
 *.log
+
+# 隐私 & 本地配置
+.env
+.env.*
+*.local
+config.local.*
+secrets.*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+Thumbs.db
+desktop.ini
+
+# 备份文件
+*.bak
+*.backup
+*~
