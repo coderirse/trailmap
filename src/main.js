@@ -31,6 +31,10 @@ function bootstrap() {
   const sidebarEl = document.getElementById('sidebar');
   const sidebarContent = document.getElementById('sidebar-content');
 
+  // ---- Fill header stats ----
+  const countEl = document.getElementById('location-count');
+  if (countEl) countEl.textContent = store.getAll().length;
+
   // ---- Initialize Map ----
   const mapComponent = new MapComponent({
     containerId: 'map',

@@ -12,11 +12,11 @@ const config = {
     /** Zoom constraints */
     minZoom: 3,
     maxZoom: 18,
-    /** Tile layer */
-    tileUrl: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-    /** Attribution (required by OSM) */
+    /** Tile layer — CARTO Dark Matter (dark basemap for the glass theme) */
+    tileUrl: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
+    /** Attribution (required by OSM & CARTO) */
     attribution:
-      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
   },
 
   /** UI settings */

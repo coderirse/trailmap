@@ -1,43 +1,52 @@
 /* ==========================================================================
    CSS Variables — Theme System
+   Default theme: "Glass Explorer" — deep navy + aurora cyan, glassmorphism.
    All colors, spacing, typography, shadows, and radii are defined here.
-   Supports light and dark themes via [data-theme] attribute on <html>.
    ========================================================================== */
 
-/* ---- Light Theme (default) ---- */
+/* ---- Dark Theme (default): Glass Explorer ---- */
 :root,
-[data-theme="light"] {
-  /* Primary palette */
-  --color-primary: #2563eb;
-  --color-primary-hover: #1d4ed8;
-  --color-primary-light: #dbeafe;
+[data-theme="dark"] {
+  /* Accent palette — aurora cyan */
+  --color-primary: #22d3ee;
+  --color-primary-hover: #67e8f9;
+  --color-primary-light: rgba(34, 211, 238, 0.14);
 
-  /* Neutral palette */
-  --color-bg: #ffffff;
-  --color-surface: #f8fafc;
-  --color-border: #e2e8f0;
-  --color-text: #1e293b;
-  --color-text-secondary: #64748b;
-  --color-text-muted: #94a3b8;
+  /* Neutral palette — deep navy */
+  --color-bg: #0b1120;
+  --color-surface: rgba(255, 255, 255, 0.06);
+  --color-border: rgba(255, 255, 255, 0.12);
+  --color-text: #e8eef7;
+  --color-text-secondary: #9fb0c3;
+  --color-text-muted: #64748b;
+
+  /* Glass surfaces */
+  --glass-bg: rgba(13, 20, 36, 0.55);
+  --glass-bg-strong: rgba(13, 20, 36, 0.78);
+  --glass-border: rgba(255, 255, 255, 0.12);
+  --glass-blur: blur(20px) saturate(160%);
 
   /* Marker */
-  --marker-color: #2563eb;
-  --marker-color-active: #dc2626;
-  --marker-size: 20px;
-  --marker-border-width: 3px;
-  --marker-border-color: #ffffff;
+  --marker-color: #22d3ee;
+  --marker-color-active: #fbbf24;
+  --marker-glow: rgba(34, 211, 238, 0.55);
+  --marker-glow-active: rgba(251, 191, 36, 0.55);
+  --marker-size: 16px;
+  --marker-border-width: 2px;
+  --marker-border-color: rgba(255, 255, 255, 0.9);
 
   /* Sidebar */
-  --sidebar-bg: #ffffff;
-  --sidebar-width: 30%;
-  --sidebar-shadow: -4px 0 24px rgba(0, 0, 0, 0.08);
+  --sidebar-bg: var(--glass-bg);
+  --sidebar-width: 400px;
+  --sidebar-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
   --sidebar-padding: 24px;
 
   /* Tags */
-  --tag-bg: #eff6ff;
-  --tag-color: #2563eb;
-  --tag-radius: 12px;
-  --tag-padding: 4px 10px;
+  --tag-bg: rgba(34, 211, 238, 0.12);
+  --tag-color: #7de3f4;
+  --tag-border: rgba(34, 211, 238, 0.28);
+  --tag-radius: 9999px;
+  --tag-padding: 4px 12px;
   --tag-font-size: 12px;
 
   /* Typography */
@@ -61,12 +70,13 @@
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-lg: 12px;
+  --radius-xl: 20px;
   --radius-full: 9999px;
 
   /* Shadows */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.45);
 
   /* Transitions */
   --transition-fast: 150ms ease;
@@ -74,35 +84,50 @@
   --transition-slow: 400ms ease;
 
   /* Z-index layers */
-  --z-sidebar: 1000;
+  --z-sidebar: 1100;
   --z-overlay: 2000;
   --z-lightbox: 3000;
 }
 
-/* ---- Dark Theme (placeholder — ready for expansion) ---- */
-[data-theme="dark"] {
-  --color-primary: #3b82f6;
-  --color-primary-hover: #60a5fa;
-  --color-primary-light: #1e3a5f;
+/* ---- Light Theme (optional fallback) ---- */
+[data-theme="light"] {
+  /* Primary palette */
+  --color-primary: #0891b2;
+  --color-primary-hover: #0e7490;
+  --color-primary-light: #cffafe;
 
-  --color-bg: #0f172a;
-  --color-surface: #1e293b;
-  --color-border: #334155;
-  --color-text: #f1f5f9;
-  --color-text-secondary: #94a3b8;
-  --color-text-muted: #64748b;
+  /* Neutral palette */
+  --color-bg: #f1f5f9;
+  --color-surface: rgba(255, 255, 255, 0.65);
+  --color-border: rgba(15, 23, 42, 0.1);
+  --color-text: #1e293b;
+  --color-text-secondary: #64748b;
+  --color-text-muted: #94a3b8;
 
-  --marker-color: #3b82f6;
-  --marker-color-active: #f87171;
-  --marker-border-color: #1e293b;
+  /* Glass surfaces */
+  --glass-bg: rgba(255, 255, 255, 0.65);
+  --glass-bg-strong: rgba(255, 255, 255, 0.85);
+  --glass-border: rgba(255, 255, 255, 0.7);
+  --glass-blur: blur(20px) saturate(160%);
 
-  --sidebar-bg: #1e293b;
-  --sidebar-shadow: -4px 0 24px rgba(0, 0, 0, 0.3);
+  /* Marker */
+  --marker-color: #0891b2;
+  --marker-color-active: #f59e0b;
+  --marker-glow: rgba(8, 145, 178, 0.45);
+  --marker-glow-active: rgba(245, 158, 11, 0.5);
+  --marker-border-color: #ffffff;
 
-  --tag-bg: #1e3a5f;
-  --tag-color: #60a5fa;
+  /* Sidebar */
+  --sidebar-bg: var(--glass-bg);
+  --sidebar-shadow: 0 24px 60px rgba(15, 23, 42, 0.18);
 
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+  /* Tags */
+  --tag-bg: #cffafe;
+  --tag-color: #0e7490;
+  --tag-border: rgba(8, 145, 178, 0.25);
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }

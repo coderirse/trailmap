@@ -40,6 +40,11 @@ a:hover {
   text-decoration: underline;
 }
 
+::selection {
+  background: rgba(34, 211, 238, 0.3);
+  color: var(--color-text);
+}
+
 img {
   max-width: 100%;
   display: block;

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -17,9 +17,14 @@
 </head>
 <body>
   <div id="app">
-    <!-- Map container (left 70%) -->
+    <!-- Map container (full screen) -->
     <div id="map-container">
       <div id="map"></div>
+      <!-- Floating glass header -->
+      <header class="map-header">
+        <h1 class="map-title">我的足迹地图</h1>
+        <p class="map-subtitle"><span id="location-count">0</span> 个足迹 · 点击地图上的标记查看经历</p>
+      </header>
     </div>
 
     <!-- Sidebar (right 30%) -->

@@ -42,8 +42,11 @@ class MapComponent extends BasePlugin {
       zoom,
       minZoom,
       maxZoom,
-      zoomControl: true,
+      zoomControl: false,
     });
+
+    // Zoom control at bottom-left so it doesn't collide with the header card
+    L.control.zoom({ position: 'bottomleft' }).addTo(this._map);
 
     L.tileLayer(tileUrl, {
       attribution,

@@ -1,18 +1,51 @@
 /* ==========================================================================
-   Sidebar — Location Detail Panel
+   Sidebar — Floating Glass Detail Panel
+   Hidden by default; slides in with .open (all screen sizes).
    ========================================================================== */
 
 #sidebar {
-  flex: 3; /* roughly 30% */
-  min-width: 320px;
-  max-width: 480px;
-  height: 100vh;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  bottom: 20px;
+  width: var(--sidebar-width);
+  max-width: calc(100vw - 40px);
   overflow-y: auto;
   background: var(--sidebar-bg);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl);
   box-shadow: var(--sidebar-shadow);
   z-index: var(--z-sidebar);
-  transition: transform var(--transition-base);
-  position: relative;
+
+  /* hidden state */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(24px);
+  transition: opacity var(--transition-base), transform var(--transition-base),
+    visibility var(--transition-base);
+}
+
+#sidebar.open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+}
+
+/* Thin custom scrollbar */
+#sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+#sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+#sidebar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-full);
+}
+#sidebar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.28);
 }
 
 /* ---- Placeholder (no location selected) ---- */
@@ -27,12 +60,12 @@
 
 .sidebar-placeholder p {
   color: var(--color-text-muted);
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-base);
 }
 
 /* ---- Location detail card ---- */
 .location-detail {
-  height: 100%;
+  min-height: 100%;
   display: flex;
   flex-direction: column;
 }
@@ -55,26 +88,34 @@
   justify-content: center;
   font-size: var(--font-size-xl);
   color: var(--color-text-secondary);
-  transition: background var(--transition-fast);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid transparent;
+  transition: background var(--transition-fast), color var(--transition-fast),
+    border-color var(--transition-fast);
 }
 .location-header .close-btn:hover {
-  background: var(--color-surface);
+  background: rgba(255, 255, 255, 0.14);
+  border-color: var(--glass-border);
+  color: var(--color-text);
 }
 
 .location-name {
   font-size: var(--font-size-2xl);
   font-weight: 700;
+  letter-spacing: 0.02em;
   color: var(--color-text);
   margin-bottom: var(--spacing-xs);
+  padding-right: 40px; /* room for close button */
 }
 
 .location-date {
   font-size: var(--font-size-sm);
-  color: var(--color-text-secondary);
+  color: var(--color-primary);
+  letter-spacing: 0.06em;
   margin-bottom: var(--spacing-sm);
 }
 
-/* Tags */
+/* Tags — glass chips */
 .tag-list {
   display: flex;
   flex-wrap: wrap;
@@ -86,22 +127,23 @@
   font-size: var(--tag-font-size);
   color: var(--tag-color);
   background: var(--tag-bg);
+  border: 1px solid var(--tag-border);
   padding: var(--tag-padding);
   border-radius: var(--tag-radius);
   font-weight: 500;
+  letter-spacing: 0.03em;
 }
 
 /* Description */
 .location-body {
   padding: var(--spacing-md) var(--sidebar-padding);
   flex: 1;
-  overflow-y: auto;
 }
 
 .location-description {
   font-size: var(--font-size-base);
-  line-height: 1.8;
-  color: var(--color-text);
+  line-height: 1.9;
+  color: var(--color-text-secondary);
   white-space: pre-line; /* preserve line breaks from JSON */
 }
 
@@ -112,11 +154,11 @@
 }
 
 .location-photos h3 {
-  font-size: var(--font-size-sm);
-  color: var(--color-text-secondary);
-  margin-bottom: var(--spacing-sm);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  margin: var(--spacing-sm) 0;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.12em;
 }
 
 /* ---- Photo Grid ---- */
@@ -127,17 +169,20 @@
 }
 
 .photo-item {
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-lg);
   overflow: hidden;
-  cursor: pointer;
+  cursor: zoom-in;
   aspect-ratio: 4 / 3;
   background: var(--color-surface);
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  border: 1px solid var(--glass-border);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast),
+    border-color var(--transition-fast);
 }
 
 .photo-item:hover {
-  transform: scale(1.03);
-  box-shadow: var(--shadow-md);
+  transform: translateY(-2px) scale(1.02);
+  border-color: rgba(34, 211, 238, 0.4);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 0 12px rgba(34, 211, 238, 0.15);
 }
 
 .photo-item img {
@@ -151,34 +196,23 @@
   font-size: var(--font-size-xs);
   color: var(--color-text-muted);
   text-align: center;
-  padding: var(--spacing-xs) var(--spacing-xs);
+  padding: var(--spacing-xs);
 }
 
-/* ---- Responsive: sidebar as overlay on mobile ---- */
+/* ---- Responsive: sidebar as bottom-anchored overlay on mobile ---- */
 @media (max-width: 768px) {
   #sidebar {
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 85vw;
-    max-width: 400px;
-    transform: translateX(100%);
+    top: auto;
+    right: 12px;
+    left: 12px;
+    bottom: 12px;
+    width: auto;
+    max-width: none;
+    max-height: 62vh;
+    transform: translateY(24px);
   }
 
   #sidebar.open {
-    transform: translateX(0);
-  }
-
-  /* Backdrop for mobile sidebar */
-  .sidebar-backdrop {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.4);
-    z-index: calc(var(--z-sidebar) - 1);
-  }
-
-  .sidebar-backdrop.open {
-    display: block;
+    transform: translateY(0);
   }
 }
