@@ -1,17 +1,20 @@
 /* ==========================================================================
-   Routes — 1px dashed flowing lines between locations
+   Routes — Griffin warm dashed line, subtle flowing connection
    ========================================================================== */
 
 .route-line {
   pointer-events: none;
+  stroke: rgba(212, 168, 83, 0.25);
+  stroke-dasharray: 6 6;
+  stroke-width: 1;
 }
 
 .route-line-animated {
-  animation: route-dash-flow 2s linear infinite;
+  animation: route-dash-flow 3s linear infinite;
 }
 
 @keyframes route-dash-flow {
   to {
-    stroke-dashoffset: -16;
+    stroke-dashoffset: -12;
   }
 }

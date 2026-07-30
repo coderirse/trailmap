@@ -1,18 +1,18 @@
 /* ==========================================================================
-   Lightbox — Minimal fine-border viewer
+   Lightbox — Griffin minimal: warm dark overlay
    ========================================================================== */
 
 .lightbox-overlay {
   position: fixed;
   inset: 0;
   z-index: var(--z-lightbox);
-  background: rgba(5, 5, 5, 0.92);
+  background: rgba(12, 12, 11, 0.94);
   display: flex;
   align-items: center;
   justify-content: center;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.25s var(--ease-out), visibility 0.25s;
+  transition: opacity 0.3s var(--ease-out), visibility 0.3s;
   user-select: none;
   -webkit-user-select: none;
 }
@@ -22,16 +22,16 @@
   visibility: visible;
 }
 
-/* Close — 16px × 16px hairline cross */
+/* Close — Griffin pill */
 .lightbox-close {
   position: absolute;
-  top: var(--space-20);
-  right: var(--space-20);
+  top: var(--space-24);
+  right: var(--space-24);
   width: 36px;
   height: 36px;
-  border-radius: var(--radius-px);
+  border-radius: var(--radius-pill);
   background: transparent;
-  border: var(--border-subtle);
+  border: 1px solid rgba(249, 245, 239, 0.10);
   color: var(--color-text-muted);
   font-size: 18px;
   font-weight: 300;
@@ -47,16 +47,16 @@
   border-color: var(--border-hover);
 }
 
-/* Nav arrows — hairline circles */
+/* Nav arrows — Griffin pill */
 .lightbox-nav {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 40px;
-  height: 40px;
+  width: 42px;
+  height: 42px;
   border-radius: var(--radius-pill);
   background: transparent;
-  border: var(--border-subtle);
+  border: 1px solid rgba(249, 245, 239, 0.10);
   color: var(--color-text-muted);
   font-size: 22px;
   font-weight: 200;
@@ -72,8 +72,8 @@
   border-color: var(--border-hover);
 }
 
-.lightbox-prev { left: var(--space-20); }
-.lightbox-next { right: var(--space-20); }
+.lightbox-prev { left: var(--space-24); }
+.lightbox-next { right: var(--space-24); }
 
 /* Image */
 .lightbox-img-container {
@@ -88,27 +88,25 @@
   max-width: 82vw;
   max-height: 78vh;
   object-fit: contain;
-  border-radius: var(--radius-px);
-  transition: opacity 0.15s ease;
+  transition: opacity 0.2s ease;
 }
 
-/* Info bar */
+/* Info bar — Griffin pill */
 .lightbox-info {
   position: absolute;
-  bottom: var(--space-24);
+  bottom: var(--space-32);
   left: 50%;
   transform: translateX(-50%);
   display: flex;
   align-items: center;
-  gap: var(--space-16);
+  gap: var(--space-20);
   color: var(--color-text-body);
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: var(--text-11);
-  background: var(--color-surface);
-  border: var(--border-subtle);
-  padding: 6px 16px;
+  padding: 8px 20px;
   border-radius: var(--radius-pill);
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .lightbox-caption {
@@ -121,8 +119,8 @@
 }
 
 @media (max-width: 768px) {
-  .lightbox-close { top: 12px; right: 12px; width: 30px; height: 30px; font-size: 15px; }
-  .lightbox-nav { width: 32px; height: 32px; font-size: 18px; }
+  .lightbox-close { top: 12px; right: 12px; width: 32px; height: 32px; font-size: 16px; }
+  .lightbox-nav { width: 36px; height: 36px; font-size: 18px; }
   .lightbox-prev { left: 10px; }
   .lightbox-next { right: 10px; }
   .lightbox-img { max-width: 94vw; max-height: 68vh; }

@@ -1,13 +1,11 @@
 /* ==========================================================================
-   Map — Dark desaturated canvas, minimal editorial markers
+   Map — Griffin dark canvas, warm monochrome markers
    ========================================================================== */
 
 #map-container {
   flex: 1;
   position: relative;
   min-width: 0;
-  /* Own stacking context: contains Leaflet's internal pane z-indexes (200–1000)
-     so siblings (nav, detail panel, lightbox) layer predictably above the map. */
   z-index: 0;
 }
 
@@ -16,160 +14,158 @@
   height: 100%;
 }
 
-/* Leaflet container — pure black fallback */
+/* Leaflet container — Griffin dark */
 .leaflet-container {
   background: var(--color-bg) !important;
   font-family: var(--font-sans);
   outline: none;
 }
 
-/* === Dark-theme the (light) Voyager tiles: invert + hue-rotate back,
-       then crush saturation to near-monochrome === */
+/* === Dark-theme tile filter — Griffin near-monochrome === */
 .leaflet-tile-pane {
-  filter: invert(1) hue-rotate(180deg) brightness(0.9) contrast(1.05) saturate(0.12);
-  -webkit-filter: invert(1) hue-rotate(180deg) brightness(0.9) contrast(1.05) saturate(0.12);
+  filter: invert(1) hue-rotate(180deg) brightness(0.85) contrast(1.02) saturate(0.08);
+  -webkit-filter: invert(1) hue-rotate(180deg) brightness(0.85) contrast(1.02) saturate(0.08);
 }
 
-/* === Map header — clean typography, no card === */
+/* === Map header — Griffin typography === */
 .map-header {
   position: absolute;
-  top: var(--space-32);
+  top: var(--space-40);
   left: var(--space-48);
   z-index: var(--z-map-overlay);
   pointer-events: none;
-  animation: fade-up-in 0.6s var(--ease-out) 0.2s both;
+  animation: fade-up-in 0.8s var(--ease-out) 0.3s both;
 }
 
 .map-title {
-  font-family: var(--font-serif);
-  font-size: var(--text-40);
-  font-weight: 400;
-  letter-spacing: 0.02em;
+  font-family: var(--font-sans);
+  font-size: var(--text-72);
+  font-weight: 300;
+  letter-spacing: -0.02em;
   color: var(--color-text);
-  line-height: 1.1;
+  line-height: 1.05;
 }
 
 .map-subtitle {
-  margin-top: var(--space-8);
-  font-size: var(--text-13);
+  margin-top: var(--space-12);
+  font-size: var(--text-12);
   color: var(--color-text-muted);
-  letter-spacing: 0.04em;
+  letter-spacing: 0.10em;
   font-family: var(--font-sans);
+  text-transform: uppercase;
 }
 
 #location-count {
   font-family: var(--font-mono);
-  font-size: var(--text-13);
-  color: var(--color-accent);
+  font-size: var(--text-12);
+  color: var(--color-accent-warm);
 }
 
-/* === Markers — Griffin nodes === */
+/* === Markers — Griffin warm nodes === */
 .custom-marker {
   position: relative;
-  width: 14px;
-  height: 14px;
+  width: 12px;
+  height: 12px;
   border-radius: var(--radius-pill);
   background: var(--color-accent);
   border: none;
   box-shadow:
-    0 0 0 2px rgba(74, 222, 128, 0.25),
-    0 0 8px rgba(74, 222, 128, 0.18);
-  transition: transform 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out);
+    0 0 0 2px rgba(230, 225, 217, 0.20),
+    0 0 6px rgba(230, 225, 217, 0.10);
+  transition: transform 0.35s var(--ease-out), box-shadow 0.35s var(--ease-out), background 0.35s var(--ease-out);
   cursor: pointer;
 }
 
-/* Pulse ring animation */
+/* Pulse ring — warm */
 .custom-marker::after {
   content: '';
   position: absolute;
-  inset: -3px;
+  inset: -4px;
   border-radius: var(--radius-pill);
-  border: 1.5px solid rgba(74, 222, 128, 0.25);
+  border: 1.5px solid rgba(230, 225, 217, 0.18);
   opacity: 0;
-  animation: marker-pulse 2.4s ease-out infinite;
+  animation: marker-pulse 3s ease-out infinite;
   pointer-events: none;
 }
 
 @keyframes marker-pulse {
-  0%   { transform: scale(0.8); opacity: 0.55; }
-  70%  { transform: scale(1.6); opacity: 0; }
-  100% { transform: scale(1.6); opacity: 0; }
+  0%   { transform: scale(0.7); opacity: 0.50; }
+  70%  { transform: scale(1.8); opacity: 0; }
+  100% { transform: scale(1.8); opacity: 0; }
 }
 
 .custom-marker:hover {
-  transform: scale(1.25);
+  transform: scale(1.30);
   box-shadow:
-    0 0 0 3px rgba(74, 222, 128, 0.35),
-    0 0 16px rgba(74, 222, 128, 0.25);
+    0 0 0 3px rgba(230, 225, 217, 0.30),
+    0 0 12px rgba(230, 225, 217, 0.18);
 }
 
-/* Active marker — warm coral highlight */
+/* Active marker — warm terracotta */
 .custom-marker.active {
-  background: var(--color-accent-coral);
-  transform: scale(1.35);
+  background: var(--color-accent-amber);
+  transform: scale(1.40);
   box-shadow:
-    0 0 0 3px rgba(251, 113, 133, 0.35),
-    0 0 18px rgba(251, 113, 133, 0.28);
+    0 0 0 3px rgba(194, 133, 106, 0.30),
+    0 0 14px rgba(194, 133, 106, 0.22);
 }
 .custom-marker.active::after {
-  border-color: rgba(251, 113, 133, 0.3);
+  border-color: rgba(194, 133, 106, 0.22);
+  animation-duration: 2s;
 }
 
-/* Dimmed marker (when another is selected) */
+/* Dimmed marker */
 .custom-marker.dimmed {
-  opacity: 0.3;
-  transform: scale(0.85);
+  opacity: 0.25;
+  transform: scale(0.80);
 }
 
-/* === Inactive marker (not selected, not hovered) === */
-/* Done via JS toggle on .dimmed class when another marker is active */
-
-/* === Zoom controls — hairline +/- === */
+/* === Zoom controls — Griffin pill === */
 .leaflet-control-zoom {
   border: var(--border-subtle) !important;
-  border-radius: var(--radius-sm) !important;
+  border-radius: var(--radius-pill) !important;
   box-shadow: none !important;
   overflow: hidden;
 }
 .leaflet-control-zoom a {
-  width: 28px !important;
-  height: 28px !important;
-  line-height: 28px !important;
-  font-size: 14px !important;
-  font-family: var(--font-mono) !important;
+  width: 30px !important;
+  height: 30px !important;
+  line-height: 30px !important;
+  font-size: 16px !important;
+  font-family: var(--font-sans) !important;
   font-weight: 300 !important;
-  background: var(--color-surface) !important;
+  background: var(--color-bg) !important;
   color: var(--color-text-muted) !important;
   border-bottom: var(--border-subtle) !important;
   transition: color var(--dur-fast), background var(--dur-fast);
 }
 .leaflet-control-zoom a:last-child { border-bottom: none !important; }
 .leaflet-control-zoom a:hover {
-  background: var(--color-elevated) !important;
+  background: var(--color-surface) !important;
   color: var(--color-text) !important;
 }
 
-/* === Attribution — compressed === */
+/* === Attribution — minimal === */
 .leaflet-control-attribution {
   background: transparent !important;
-  color: rgba(255,255,255,0.12) !important;
+  color: rgba(249,245,239,0.10) !important;
   font-size: 9px !important;
-  font-family: var(--font-mono) !important;
+  font-family: var(--font-sans) !important;
   padding: 2px 6px !important;
   border: none !important;
   box-shadow: none !important;
 }
 .leaflet-control-attribution a {
-  color: rgba(255,255,255,0.18) !important;
+  color: rgba(249,245,239,0.16) !important;
 }
 
 /* === Responsive === */
 @media (max-width: 768px) {
   .map-header {
     left: var(--space-20);
-    top: var(--space-20);
+    top: var(--space-24);
   }
   .map-title {
-    font-size: 26px;
+    font-size: 42px;
   }
 }

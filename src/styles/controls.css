@@ -1,17 +1,17 @@
 /* ==========================================================================
-   Controls — Pills, stats, style buttons, globe (editorial minimal)
+   Controls — Griffin pill style: tag chips, stats, map layers, globe
    ========================================================================== */
 
-/* === Tag filter — pill row at top of map === */
+/* === Tag filter — Griffin pill row, all-caps === */
 #tag-filter {
   position: absolute;
-  top: var(--space-24);
+  top: var(--space-32);
   left: 50%;
   transform: translateX(-50%);
   z-index: var(--z-map-overlay);
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-8);
+  gap: var(--space-6);
   opacity: 0;
   visibility: hidden;
   transition: opacity var(--dur-base) var(--ease-out), visibility var(--dur-base);
@@ -22,39 +22,41 @@
 }
 
 .tag-chip {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: var(--text-11);
   color: var(--color-text-muted);
   background: transparent;
-  border: var(--border-visible);
-  padding: 5px 14px;
+  border: 1px solid rgba(249, 245, 239, 0.12);
+  padding: 6px 16px;
   border-radius: var(--radius-pill);
   cursor: pointer;
-  letter-spacing: 0.05em;
-  transition: color var(--dur-fast), border-color var(--dur-fast);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: color var(--dur-fast), border-color var(--dur-fast), background var(--dur-fast);
 }
 .tag-chip:hover {
   color: var(--color-text);
   border-color: var(--border-hover);
 }
 .tag-chip.active {
-  color: var(--color-accent);
-  border-color: rgba(74, 222, 128, 0.35);
+  color: var(--color-btn-text);
+  background: var(--color-btn-fill);
+  border-color: var(--color-btn-fill);
 }
 .tag-chip .count {
   margin-left: 4px;
-  opacity: 0.4;
+  opacity: 0.5;
   font-size: var(--text-10);
 }
 
-/* === Stats panel — top-right, numbers only === */
+/* === Stats panel — top-right, Griffin large numbers === */
 #stats-panel {
   position: absolute;
-  top: 92px;
-  right: var(--space-32);
+  top: var(--space-120);
+  right: var(--space-48);
   z-index: var(--z-map-overlay);
   display: flex;
-  gap: var(--space-32);
+  gap: var(--space-40);
   opacity: 0;
   visibility: hidden;
   transition: opacity var(--dur-base) var(--ease-out), visibility var(--dur-base);
@@ -68,26 +70,26 @@
   text-align: left;
 }
 .stat-value {
-  font-family: var(--font-mono);
-  font-size: var(--text-24);
-  font-weight: 400;
+  font-family: var(--font-sans);
+  font-size: var(--text-40);
+  font-weight: 300;
   color: var(--color-text);
   line-height: 1;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.03em;
 }
 .stat-label {
-  margin-top: var(--space-4);
-  font-family: var(--font-mono);
+  margin-top: var(--space-6);
+  font-family: var(--font-sans);
   font-size: var(--text-10);
   color: var(--color-text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
 }
 
-/* === Style switcher — bottom-left column === */
+/* === Style switcher — bottom-left, Griffin minimal === */
 #style-switcher {
   position: absolute;
-  left: var(--space-32);
+  left: var(--space-48);
   bottom: var(--space-40);
   z-index: var(--z-map-overlay);
   display: flex;
@@ -103,41 +105,44 @@
 }
 
 .style-btn {
-  width: 32px;
-  height: 32px;
-  border-radius: var(--radius-px);
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-pill);
   background: transparent;
-  border: var(--border-subtle);
+  border: 1px solid rgba(249, 245, 239, 0.08);
   color: var(--color-text-muted);
-  font-size: 13px;
+  font-size: 12px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: color var(--dur-fast), border-color var(--dur-fast);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 .style-btn:hover {
   color: var(--color-text);
   border-color: var(--border-hover);
 }
 .style-btn.active {
-  color: var(--color-accent);
-  border-color: rgba(74, 222, 128, 0.3);
+  color: var(--color-btn-text);
+  background: var(--color-btn-fill);
+  border-color: var(--color-btn-fill);
 }
 
-/* === Globe toggle — bottom-left above style === */
+/* === Globe toggle — Griffin pill === */
 #globe-toggle {
   position: absolute;
-  left: var(--space-32);
-  bottom: calc(var(--space-40) + 150px);
+  left: var(--space-48);
+  bottom: calc(var(--space-40) + 170px);
   z-index: var(--z-map-overlay);
-  width: 32px;
-  height: 32px;
-  border-radius: var(--radius-px);
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-pill);
   background: transparent;
-  border: var(--border-subtle);
+  border: 1px solid rgba(249, 245, 239, 0.08);
   color: var(--color-text-muted);
-  font-size: 14px;
+  font-size: 16px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -155,15 +160,16 @@
   border-color: var(--border-hover);
 }
 #globe-toggle.active {
-  color: var(--color-accent);
-  border-color: rgba(74, 222, 128, 0.3);
+  color: var(--color-btn-text);
+  background: var(--color-btn-fill);
+  border-color: var(--color-btn-fill);
 }
 
 /* === Globe container === */
 #globe-container {
   position: absolute;
   inset: 0;
-  z-index: 1000; /* above Leaflet panes, below the pill/stat overlays */
+  z-index: 1000;
   display: none;
 }
 #globe-container.active {
@@ -183,9 +189,9 @@
     top: auto;
     bottom: calc(45vh + 20px);
     right: var(--space-16);
-    gap: var(--space-16);
+    gap: var(--space-24);
   }
-  .stat-value { font-size: var(--text-20); }
+  .stat-value { font-size: var(--text-24); }
   #style-switcher {
     left: var(--space-16);
     bottom: calc(45vh + 20px);

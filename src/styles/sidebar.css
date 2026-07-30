@@ -1,21 +1,20 @@
 /* ==========================================================================
-   Sidebar — Left vertical navigation (Griffin-style)
-   300px fixed, hairline right border, editorial typography
+   Sidebar — Griffin minimal: no cards, no panels, content on dark canvas
    ========================================================================== */
 
-/* === Backdrop for nav on mobile === */
+/* === Backdrop === */
 .sidebar-backdrop {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(12, 12, 11, 0.75);
   z-index: calc(var(--z-nav) - 1);
 }
 .sidebar-backdrop.open {
   display: block;
 }
 
-/* === Left navigation panel === */
+/* === Left navigation === */
 #sidebar {
   position: relative;
   z-index: var(--z-nav);
@@ -25,107 +24,103 @@
   height: 100vh;
   overflow-y: auto;
   overflow-x: hidden;
-  background: var(--color-bg);
-  border-right: var(--border-subtle);
+  background: transparent;
 
   display: flex;
   flex-direction: column;
 
-  /* Default visible — this is the nav, not a detail panel */
   opacity: 1;
   visibility: visible;
   transform: none;
   transition: none;
 }
 
-/* === Nav header — TRAIL MAP title === */
+/* === Nav header — Griffin large title === */
 .nav-header {
-  padding: var(--space-32) var(--space-24) var(--space-16);
+  padding: var(--space-40) var(--space-32) var(--space-24);
   flex-shrink: 0;
 }
 
 .nav-title {
-  font-family: var(--font-serif);
-  font-size: var(--text-24);
-  font-weight: 400;
-  letter-spacing: 0.02em;
+  font-family: var(--font-sans);
+  font-size: var(--text-32);
+  font-weight: 300;
+  letter-spacing: -0.01em;
   color: var(--color-text);
-  line-height: 1.15;
+  line-height: 1.1;
 }
 
 .nav-subtitle {
   margin-top: var(--space-8);
-  font-size: var(--text-13);
+  font-size: var(--text-11);
   color: var(--color-text-muted);
-  letter-spacing: 0.04em;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
 }
 
-/* === Location list === */
+/* === Location list — Griffin minimal nav items === */
 .nav-locations {
   flex: 1;
   overflow-y: auto;
-  padding: 0 var(--space-24) var(--space-16);
+  padding: 0 var(--space-32) var(--space-24);
 }
 
 .nav-item {
   display: flex;
   align-items: center;
-  padding: var(--space-12) 0;
-  padding-left: var(--space-12);
+  padding: var(--space-16) 0;
   cursor: pointer;
-  border-left: 2px solid transparent;
-  transition: border-color var(--dur-base) var(--ease-out),
-              opacity var(--dur-base);
+  border-bottom: 1px solid rgba(249, 245, 239, 0.04);
+  transition: opacity var(--dur-base);
   opacity: 0;
-  animation: nav-item-in 0.4s var(--ease-out) forwards;
+  animation: nav-item-in 0.5s var(--ease-out) forwards;
 }
 
-.nav-item:nth-child(1) { animation-delay: 0.05s; }
-.nav-item:nth-child(2) { animation-delay: 0.10s; }
-.nav-item:nth-child(3) { animation-delay: 0.15s; }
-.nav-item:nth-child(4) { animation-delay: 0.20s; }
-.nav-item:nth-child(5) { animation-delay: 0.25s; }
+.nav-item:nth-child(1) { animation-delay: 0.06s; }
+.nav-item:nth-child(2) { animation-delay: 0.12s; }
+.nav-item:nth-child(3) { animation-delay: 0.18s; }
+.nav-item:nth-child(4) { animation-delay: 0.24s; }
+.nav-item:nth-child(5) { animation-delay: 0.30s; }
 
 @keyframes nav-item-in {
-  from { opacity: 0; transform: translateX(-8px); }
-  to   { opacity: 1; transform: translateX(0); }
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-.nav-item:hover {
-  border-left-color: rgba(255,255,255,0.15);
+.nav-item:hover .nav-item-name {
+  color: var(--color-text);
 }
 
-.nav-item.active {
-  border-left-color: var(--color-accent);
+.nav-item.active .nav-item-name {
+  color: var(--color-accent-warm);
 }
 
 .nav-item-index {
   font-family: var(--font-mono);
-  font-size: var(--text-11);
+  font-size: var(--text-10);
   color: var(--color-text-disabled);
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  width: 32px;
+  letter-spacing: 0.10em;
+  width: 28px;
   flex-shrink: 0;
 }
 
 .nav-item.active .nav-item-index {
-  color: var(--color-accent);
+  color: var(--color-accent-warm);
 }
 
 .nav-item-dot {
-  width: 5px;
-  height: 5px;
+  width: 4px;
+  height: 4px;
   border-radius: var(--radius-pill);
   background: var(--color-text-disabled);
-  margin-right: var(--space-12);
+  margin-right: var(--space-16);
   flex-shrink: 0;
-  transition: background var(--dur-base), box-shadow var(--dur-base);
+  transition: background var(--dur-base);
 }
 
 .nav-item.active .nav-item-dot {
-  background: var(--color-accent);
-  box-shadow: 0 0 4px rgba(74, 222, 128, 0.4);
+  background: var(--color-accent-warm);
 }
 
 .nav-item-content {
@@ -134,50 +129,47 @@
 }
 
 .nav-item-name {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: var(--text-20);
   font-weight: 400;
-  color: var(--color-text);
-  line-height: 1.2;
-  letter-spacing: 0.02em;
-}
-
-.nav-item:not(.active) .nav-item-name {
   color: var(--color-text-body);
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  transition: color var(--dur-fast);
 }
 
 .nav-item-tag {
-  font-size: var(--text-11);
-  color: var(--color-text-muted);
+  font-size: var(--text-10);
+  color: var(--color-text-disabled);
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   margin-top: var(--space-4);
 }
 
 .nav-item.active .nav-item-tag {
-  color: var(--color-accent);
+  color: var(--color-text-muted);
 }
 
-/* === Nav footer — stats === */
+/* === Nav footer — Griffin stat numbers === */
 .nav-footer {
   flex-shrink: 0;
-  padding: var(--space-24);
-  border-top: var(--border-subtle);
+  padding: var(--space-32);
+  border-top: 1px solid rgba(249, 245, 239, 0.06);
 }
 
 .nav-stats {
   display: flex;
   flex-direction: column;
-  gap: var(--space-16);
+  gap: var(--space-20);
 }
 
 .nav-stat-value {
-  font-family: var(--font-mono);
-  font-size: var(--text-32);
-  font-weight: 400;
+  font-family: var(--font-sans);
+  font-size: var(--text-40);
+  font-weight: 300;
   color: var(--color-text);
   line-height: 1;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
 }
 
 .nav-stat-label {
@@ -185,13 +177,10 @@
   color: var(--color-text-muted);
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  margin-top: var(--space-4);
+  margin-top: var(--space-6);
 }
 
-/* === Location detail panel (fixed, slides in right of nav) ===
-   #detail-panel / #sidebar-content are plain structural hosts — they must
-   stay empty in flow so they never take up width in the #app flex row.
-   The visible panel is .location-detail, position: fixed at left: nav-width. */
+/* === Location detail panel — Griffin style: floats on dark canvas === */
 .location-detail {
   position: fixed;
   left: var(--nav-width);
@@ -199,16 +188,15 @@
   bottom: 0;
   width: 380px;
   max-width: calc(100vw - var(--nav-width));
-  background: var(--color-surface);
-  border-right: var(--border-subtle);
+  background: var(--color-bg);
   z-index: calc(var(--z-sidebar) - 10);
   overflow-y: auto;
   opacity: 0;
   visibility: hidden;
-  transform: translateX(-12px);
-  transition: opacity var(--dur-base) var(--ease-out),
-              transform var(--dur-base) var(--ease-out),
-              visibility var(--dur-base);
+  transform: translateX(-16px);
+  transition: opacity 0.35s var(--ease-out),
+              transform 0.35s var(--ease-out),
+              visibility 0.35s;
 }
 
 #sidebar.open ~ .location-detail,
@@ -220,25 +208,25 @@
 
 /* Detail header */
 .location-header {
-  padding: var(--space-32) var(--space-24) var(--space-16);
-  border-bottom: var(--border-subtle);
+  padding: var(--space-40) var(--space-32) var(--space-24);
+  border-bottom: 1px solid rgba(249, 245, 239, 0.06);
   position: relative;
 }
 
 .location-header .close-btn {
   position: absolute;
-  top: var(--space-20);
-  right: var(--space-20);
-  width: 20px;
-  height: 20px;
+  top: var(--space-32);
+  right: var(--space-32);
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 300;
   color: var(--color-text-muted);
   border: var(--border-subtle);
-  border-radius: var(--radius-px);
+  border-radius: var(--radius-pill);
   transition: color var(--dur-fast), border-color var(--dur-fast);
   line-height: 1;
 }
@@ -248,68 +236,68 @@
 }
 
 .location-name {
-  font-family: var(--font-serif);
-  font-size: var(--text-24);
-  font-weight: 400;
-  letter-spacing: 0.02em;
+  font-family: var(--font-sans);
+  font-size: var(--text-32);
+  font-weight: 300;
+  letter-spacing: -0.02em;
   color: var(--color-text);
-  margin-bottom: var(--space-8);
-  padding-right: 30px;
+  margin-bottom: var(--space-12);
+  padding-right: 40px;
 }
 
 .location-date {
   font-family: var(--font-mono);
   font-size: var(--text-11);
-  color: var(--color-accent);
+  color: var(--color-accent-warm);
   letter-spacing: 0.08em;
-  margin-bottom: var(--space-8);
+  margin-bottom: var(--space-12);
   text-transform: uppercase;
 }
 
-/* Tags */
+/* Tags — Griffin pill style */
 .tag-list {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-4);
+  gap: var(--space-6);
 }
 
 .tag {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: var(--text-10);
   color: var(--color-text-muted);
   border: var(--border-subtle);
-  padding: 3px 10px;
+  padding: 4px 12px;
   border-radius: var(--radius-pill);
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
   font-weight: 400;
+  text-transform: uppercase;
 }
 
 /* Description */
 .location-body {
-  padding: var(--space-20) var(--space-24);
+  padding: var(--space-24) var(--space-32);
 }
 
 .location-description {
-  font-size: var(--text-13);
-  line-height: 1.75;
+  font-size: var(--text-15);
+  line-height: 1.8;
   color: var(--color-text-body);
   white-space: pre-line;
 }
 
 /* Photos */
 .location-photos {
-  padding: 0 var(--space-24) var(--space-32);
-  border-top: var(--border-subtle);
-  padding-top: var(--space-16);
+  padding: 0 var(--space-32) var(--space-40);
+  padding-top: var(--space-24);
 }
 
 .location-photos h3 {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: var(--text-10);
   color: var(--color-text-muted);
-  margin: var(--space-8) 0 var(--space-12);
+  margin: var(--space-8) 0 var(--space-16);
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
 }
 
 /* Photo grid */
@@ -320,38 +308,33 @@
 }
 
 .photo-item {
-  border-radius: var(--radius-px);
   overflow: hidden;
   cursor: zoom-in;
   aspect-ratio: 4 / 3;
-  background: var(--color-elevated);
-  border: var(--border-subtle);
-  transition: border-color var(--dur-fast);
-}
-.photo-item:hover {
-  border-color: var(--border-hover);
+  background: var(--color-surface);
+  transition: opacity var(--dur-fast);
 }
 .photo-item img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: brightness(0.85);
-  transition: filter var(--dur-fast);
+  opacity: 0.78;
+  transition: opacity var(--dur-fast);
 }
 .photo-item:hover img {
-  filter: brightness(1);
+  opacity: 1;
 }
 
 .photo-caption {
   font-size: var(--text-10);
-  color: var(--color-text-muted);
+  color: var(--color-text-disabled);
   text-align: center;
-  padding: var(--space-4);
-  font-family: var(--font-mono);
+  padding: var(--space-6);
+  font-family: var(--font-sans);
   letter-spacing: 0.04em;
 }
 
-/* === Mobile drawer handle — thin pull-tab at screen bottom === */
+/* === Mobile === */
 #nav-drawer-handle {
   display: none;
 }
@@ -359,7 +342,6 @@
   display: none;
 }
 
-/* === Responsive: nav becomes bottom drawer on mobile === */
 @media (max-width: 768px) {
   #nav-drawer-handle {
     display: flex;
@@ -406,7 +388,7 @@
     min-width: 100%;
     height: auto;
     max-height: 45vh;
-    border-right: none;
+    background: var(--color-bg);
     border-top: var(--border-subtle);
     transform: translateY(100%);
     transition: transform 0.35s var(--ease-out);
@@ -416,7 +398,6 @@
   #sidebar.open {
     transform: translateY(0);
   }
-  /* When drawer is open, slide the handle up with it */
   #sidebar.open ~ #nav-drawer-handle {
     bottom: 45vh;
   }

@@ -3,12 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>足迹地图</title>
-
-  <!-- Fonts: Serif for titles, Mono for data -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+  <title>足迹地图 — Trail Map</title>
 
   <!-- Leaflet CSS (CDN) -->
   <link
@@ -21,15 +16,15 @@
 <body>
   <div id="app">
     <!-- ==========================================================
-         Left Navigation — editorial location list + stats
+         Left Navigation — Griffin minimal location list + stats
          ========================================================== -->
-    <!-- Mobile backdrop (before sidebar so ~ selector works) -->
+    <!-- Mobile backdrop -->
     <div id="nav-backdrop" class="sidebar-backdrop"></div>
 
     <nav id="sidebar">
       <div class="nav-header">
         <div class="nav-title">足迹地图</div>
-        <div class="nav-subtitle">TRAIL MAP</div>
+        <div class="nav-subtitle">Trail Map</div>
       </div>
 
       <div id="nav-locations" class="nav-locations">
@@ -43,7 +38,7 @@
       </div>
     </nav>
 
-    <!-- Mobile drawer handle (after sidebar so #sidebar.open ~ #nav-drawer-handle works) -->
+    <!-- Mobile drawer handle -->
     <button id="nav-drawer-handle" aria-label="打开导航">
       <span class="handle-bar"></span>
     </button>
@@ -54,9 +49,10 @@
     <div id="map-container">
       <div id="map"></div>
 
-      <!-- Floating header — minimal, no card -->
+      <!-- Floating header — Griffin 72px light title -->
       <header class="map-header">
-        <p class="map-subtitle"><span id="location-count">0</span> LOCATIONS · SELECT A MARKER</p>
+        <h1 class="map-title">足迹地图</h1>
+        <p class="map-subtitle"><span id="location-count">0</span> locations · select a marker</p>
       </header>
     </div>
 
@@ -65,7 +61,7 @@
          ========================================================== -->
     <aside id="detail-panel">
       <div id="sidebar-content">
-        <!-- Populated by Sidebar.js when a location is selected -->
+        <!-- Populated by Sidebar.js -->
       </div>
     </aside>
   </div>

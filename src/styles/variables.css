@@ -1,45 +1,54 @@
 /* ==========================================================================
-   Griffin Editorial — Dark Fintech Design System
+   Griffin Bank Style — Dark Minimal Design System
    Reference: griffin.com visual language
    ========================================================================== */
 
 :root {
-  /* === Core palette === */
-  --color-bg:           #050505;
-  --color-surface:      #0a0a0a;
-  --color-elevated:     #0f0f0f;
+  /* === Core palette — Griffin exact === */
+  --color-bg:           #0C0C0B;   /* Griffin page bg */
+  --color-surface:      #111110;   /* slightly lifted, near-invisible */
+  --color-elevated:     #161615;
 
-  /* Text — editorial hierarchy */
-  --color-text:         rgba(255, 255, 255, 0.88);
-  --color-text-body:    rgba(255, 255, 255, 0.52);
-  --color-text-muted:   rgba(255, 255, 255, 0.25);
-  --color-text-disabled:rgba(255, 255, 255, 0.12);
+  /* Text — Griffin warm-white hierarchy */
+  --color-text:         #F9F5EF;   /* Griffin primary text */
+  --color-text-body:    #959089;   /* Griffin secondary text */
+  --color-text-muted:   #6B6760;   /* Griffin tertiary */
+  --color-text-disabled:#3D3A36;
 
-  /* Accents — two-color system, no blue/purple */
-  --color-accent:       #4ade80;   /* green — active / travel */
-  --color-accent-warm:  #e7e5e4;   /* warm white — city / neutral */
-  --color-accent-amber: #d4a853;   /* muted amber — nature */
-  --color-accent-coral: #fb7185;   /* coral — accent highlight */
+  /* Button — Griffin fill */
+  --color-btn-fill:     #E6E1D9;   /* Griffin solid button background */
+  --color-btn-text:     #0C0C0B;   /* Griffin solid button text */
 
-  /* Borders — hairline only */
-  --border-subtle:      1px solid rgba(255, 255, 255, 0.06);
-  --border-visible:     1px solid rgba(255, 255, 255, 0.10);
-  --border-hover:       1px solid rgba(255, 255, 255, 0.30);
+  /* Accents — warm travel palette, spare use only */
+  --color-accent:       #E6E1D9;   /* warm white — default active/travel */
+  --color-accent-warm:  #D4A853;   /* muted gold — nature / highlight */
+  --color-accent-amber: #C2856A;   /* warm terracotta — selected marker */
+  --color-accent-coral: #E39E7C;   /* lighter coral — hover states */
 
-  /* === Typography === */
-  --font-sans:  -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
-  --font-serif: "Noto Serif SC", "Songti SC", "SimSun", "Times New Roman", serif;
+  /* Grid — Griffin subtle grid lines */
+  --color-grid:         #363533;
+
+  /* Borders — hairline only, warm-toned */
+  --border-subtle:      1px solid rgba(249, 245, 239, 0.06);
+  --border-visible:     1px solid rgba(249, 245, 239, 0.12);
+  --border-hover:       1px solid rgba(249, 245, 239, 0.25);
+
+  /* === Typography — system sans-serif only (Griffin uses Sohne, we use system stack) === */
+  --font-sans:  "Sohne", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC", "Noto Sans SC", "Microsoft YaHei", sans-serif;
   --font-mono:  "SF Mono", "JetBrains Mono", "Menlo", "Consolas", "Courier New", monospace;
 
-  /* Sizes */
+  /* Sizes — Griffin editorial scale */
   --text-10: 10px;
   --text-11: 11px;
+  --text-12: 12px;   /* Griffin button size */
   --text-13: 13px;
   --text-15: 15px;
+  --text-16: 16px;   /* Griffin body */
   --text-20: 20px;
   --text-24: 24px;
   --text-32: 32px;
   --text-40: 40px;
+  --text-72: 72px;   /* Griffin H1 */
 
   /* === Spacing (4px grid) === */
   --space-4:   4px;
@@ -52,16 +61,16 @@
   --space-40:  40px;
   --space-48:  48px;
   --space-64:  64px;
+  --space-80:  80px;
+  --space-120: 120px;
 
-  /* === Radius — max 4px === */
+  /* === Radius — buttons pill, content zero === */
   --radius-none: 0px;
   --radius-px:   2px;
   --radius-sm:   4px;
   --radius-pill: 9999px;
 
-  /* === Shadows — minimal, no heavy blur === */
-  --shadow-hairline: 0 1px 0 rgba(255, 255, 255, 0.04);
-  --shadow-card:     0 0 0 1px rgba(255, 255, 255, 0.06);
+  /* === Shadows — none (Griffin uses zero shadows) === */
 
   /* === Transitions === */
   --ease-out:   cubic-bezier(0.16, 1, 0.3, 1);
@@ -72,31 +81,28 @@
   --dur-slow:   600ms;
   --dur-glacial:1200ms;
 
-  /* === Z-index ===
-     #map-container forms its own stacking context (z-index: 0), so Leaflet's
-     internal pane z-indexes (200–1000) never escape it. Overlays inside the
-     map must therefore sit above Leaflet's max (1000). */
+  /* === Z-index === */
   --z-map:      1;
   --z-markers:  10;
   --z-nav:      100;
   --z-sidebar:  200;
   --z-overlay:  500;
   --z-lightbox: 999;
-  --z-map-overlay: 1100;  /* inside #map-container only — above .leaflet-* panes/controls */
+  --z-map-overlay: 1100;
 
   /* === Layout === */
   --nav-width: 300px;
 }
 
-/* Dot grid texture — engineering blueprint feel */
+/* Grid texture — Griffin-style subtle grid lines */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  background-image: radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px);
-  background-size: 20px 20px;
+  background-image: radial-gradient(circle, rgba(249, 245, 239, 0.03) 1px, transparent 1px);
+  background-size: 24px 24px;
   animation: grid-fade-in 0.8s var(--ease-out) both;
 }
 

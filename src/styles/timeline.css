@@ -1,16 +1,16 @@
 /* ==========================================================================
-   Timeline — Editorial: thin rail with dot markers
+   Timeline — Griffin: warm rail with minimal dots
    ========================================================================== */
 
 #timeline {
   position: absolute;
-  bottom: var(--space-32);
+  bottom: var(--space-40);
   left: var(--space-48);
   right: var(--space-48);
   z-index: var(--z-map-overlay);
   display: flex;
   align-items: center;
-  gap: var(--space-16);
+  gap: var(--space-20);
   opacity: 0;
   visibility: hidden;
   transition: opacity var(--dur-base) var(--ease-out), visibility var(--dur-base);
@@ -20,13 +20,13 @@
   visibility: visible;
 }
 
-/* Play button — pill */
+/* Play button — Griffin pill */
 .timeline-play {
-  width: 34px;
-  height: 34px;
+  width: 36px;
+  height: 36px;
   border-radius: var(--radius-pill);
   background: transparent;
-  border: var(--border-visible);
+  border: 1px solid rgba(249, 245, 239, 0.12);
   color: var(--color-text-muted);
   font-size: 12px;
   display: flex;
@@ -34,22 +34,23 @@
   justify-content: center;
   flex-shrink: 0;
   cursor: pointer;
-  transition: color var(--dur-fast), border-color var(--dur-fast);
+  transition: color var(--dur-fast), border-color var(--dur-fast), background var(--dur-fast);
 }
 .timeline-play:hover {
   color: var(--color-text);
   border-color: var(--border-hover);
 }
 .timeline-play.playing {
-  color: var(--color-accent);
-  border-color: rgba(74, 222, 128, 0.35);
+  color: var(--color-btn-text);
+  background: var(--color-btn-fill);
+  border-color: var(--color-btn-fill);
 }
 
 /* Track */
 .timeline-track {
   flex: 1;
   position: relative;
-  height: 24px;
+  height: 28px;
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -60,45 +61,45 @@
   left: 0;
   right: 0;
   height: 1px;
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(249, 245, 239, 0.06);
 }
 
 .timeline-progress {
   position: absolute;
   left: 0;
   height: 1px;
-  background: var(--color-accent);
-  transition: width 0.3s linear;
+  background: var(--color-accent-warm);
+  transition: width 0.4s var(--ease-out);
 }
 
 /* Dots */
 .timeline-dot {
   position: absolute;
   top: 50%;
-  width: 7px;
-  height: 7px;
-  margin-left: -3.5px;
-  margin-top: -3.5px;
+  width: 6px;
+  height: 6px;
+  margin-left: -3px;
+  margin-top: -3px;
   border-radius: var(--radius-pill);
-  background: rgba(255,255,255,0.15);
+  background: rgba(249, 245, 239, 0.15);
   border: none;
   cursor: pointer;
   transition: transform var(--dur-fast), background var(--dur-fast);
   z-index: 2;
 }
 .timeline-dot:hover {
-  transform: scale(1.8);
+  transform: scale(2);
   background: var(--color-text-muted);
 }
 .timeline-dot.visited {
-  background: var(--color-accent);
-  opacity: 0.5;
+  background: var(--color-accent-warm);
+  opacity: 0.45;
 }
 .timeline-dot.active {
-  background: var(--color-accent);
+  background: var(--color-accent-warm);
   opacity: 1;
-  transform: scale(1.6);
-  box-shadow: 0 0 6px rgba(74, 222, 128, 0.35);
+  transform: scale(1.8);
+  box-shadow: 0 0 8px rgba(212, 168, 83, 0.25);
 }
 
 /* Thumb */
@@ -110,7 +111,7 @@
   margin-left: -6px;
   margin-top: -6px;
   border-radius: var(--radius-pill);
-  background: var(--color-accent);
+  background: var(--color-accent-warm);
   border: 2px solid var(--color-bg);
   z-index: 3;
   pointer-events: none;
@@ -118,14 +119,15 @@
 
 /* Date label */
 .timeline-label {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: var(--text-11);
   color: var(--color-text-muted);
   white-space: nowrap;
   flex-shrink: 0;
   min-width: 56px;
   text-align: right;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 @media (max-width: 768px) {
@@ -136,5 +138,5 @@
     gap: var(--space-8);
   }
   .timeline-label { display: none; }
-  .timeline-play { width: 28px; height: 28px; }
+  .timeline-play { width: 32px; height: 32px; }
 }
