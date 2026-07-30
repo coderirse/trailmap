@@ -58,9 +58,10 @@ class MapComponent extends BasePlugin {
     }).addTo(this._map);
 
     // Invalidate size on window resize
-    window.addEventListener('resize', () => {
-      this._map.invalidateSize();
-    });
+    this._resizeHandler = () => {
+      if (this._map) this._map.invalidateSize();
+    };
+    window.addEventListener('resize', this._resizeHandler);
 
     // On mobile, clicking empty map area closes sidebar
     this._map.on('click', () => {
@@ -139,9 +140,11 @@ class MapComponent extends BasePlugin {
     this._activeMarkerId = id;
 
     // Smooth flyTo (Griffin-style: slow, editorial)
+    // Offset target to the right of center so the detail panel doesn't cover it.
     const targetLatLng = marker.getLatLng();
     const size = this._map.getSize();
-    const offsetX = -(size.x * 0.12);
+    const navWidth = window.innerWidth > 768 ? config.ui.navWidth : 0;
+    const offsetX = -(navWidth / 2 + size.x * 0.02);
     const panPoint = this._map.project(targetLatLng).add([offsetX, 0]);
     const adjustedLatLng = this._map.unproject(panPoint);
 
@@ -213,30 +216,32 @@ class MapComponent extends BasePlugin {
    */
   _onTagFilterChange(data) {
     const filteredIds = new Set((data.locations || []).map(l => l.id));
-    let visibleBounds = [];
 
     this._markers.forEach((marker, id) => {
       if (filteredIds.has(id)) {
-        marker.addTo(this._map);
-        visibleBounds.push(marker.getLatLng());
+        if (!this._map.hasLayer(marker)) marker.addTo(this._map);
       } else {
-        this._map.removeLayer(marker);
+        if (this._map.hasLayer(marker)) this._map.removeLayer(marker);
       }
     });
 
-    // Refit to visible markers
-    if (visibleBounds.length > 0) {
-      const bounds = L.latLngBounds(visibleBounds);
-      this._map.fitBounds(bounds, { paddingTopLeft: [40, 40], paddingBottomRight: [40, 40] });
+    // If the active marker was filtered out, clear its active state
+    if (this._activeMarkerId && !filteredIds.has(this._activeMarkerId)) {
+      this._activeMarkerId = null;
     }
   }
 
   destroy() {
+    if (this._resizeHandler) {
+      window.removeEventListener('resize', this._resizeHandler);
+      this._resizeHandler = null;
+    }
     if (this._map) {
       this._map.remove();
       this._map = null;
     }
     this._markers.clear();
+    this._activeMarkerId = null;
     super.destroy();
   }
 }

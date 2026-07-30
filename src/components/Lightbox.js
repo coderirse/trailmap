@@ -104,13 +104,23 @@ class Lightbox extends BasePlugin {
   _updateImage() {
     if (!this._img) return;
     const photo = this._photos[this._currentIndex];
-    // Add a subtle fade effect
-    this._img.style.opacity = '0';
-    setTimeout(() => {
+
+    // Preload the next image before swapping to avoid the broken-image flash.
+    const preload = new Image();
+    preload.onload = () => {
+      if (this._photos[this._currentIndex] !== photo) return;
       this._img.src = photo.src;
       this._img.alt = photo.caption || '';
       this._img.style.opacity = '1';
-    }, 80);
+    };
+    preload.onerror = () => {
+      this._img.alt = photo.caption || '图片加载失败';
+      this._img.style.opacity = '1';
+    };
+
+    // Fade out, then trigger the preload.
+    this._img.style.opacity = '0';
+    preload.src = photo.src;
 
     // Update caption and counter
     this._captionEl.textContent = photo.caption || '';

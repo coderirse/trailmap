@@ -25,6 +25,11 @@ body {
   position: relative;
 }
 
+/* Allow scrollable regions (nav drawer, detail panel) to scroll on mobile */
+@media (max-width: 768px) {
+  body.nav-open { overflow: hidden; }
+}
+
 #app {
   display: flex;
   width: 100vw;
@@ -52,7 +57,7 @@ button {
 ul, ol         { list-style: none; }
 
 ::selection {
-  background: rgba(212, 168, 83, 0.25);
+  background: var(--selection-bg);
   color: var(--color-text);
 }
 

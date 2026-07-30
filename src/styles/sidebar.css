@@ -7,7 +7,8 @@
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(12, 12, 11, 0.75);
+  background: var(--color-bg);
+  opacity: 0.75;
   z-index: calc(var(--z-nav) - 1);
 }
 .sidebar-backdrop.open {
@@ -42,10 +43,10 @@
 }
 
 .nav-title {
-  font-family: var(--font-sans);
+  font-family: var(--font-serif);
   font-size: var(--text-32);
-  font-weight: 300;
-  letter-spacing: -0.01em;
+  font-weight: 400;
+  letter-spacing: 0.02em;
   color: var(--color-text);
   line-height: 1.1;
 }
@@ -70,17 +71,12 @@
   align-items: center;
   padding: var(--space-16) 0;
   cursor: pointer;
-  border-bottom: 1px solid rgba(249, 245, 239, 0.04);
+  border-bottom: 1px solid var(--border-subtle-color);
   transition: opacity var(--dur-base);
   opacity: 0;
   animation: nav-item-in 0.5s var(--ease-out) forwards;
+  animation-delay: calc(var(--index, 0) * 60ms);
 }
-
-.nav-item:nth-child(1) { animation-delay: 0.06s; }
-.nav-item:nth-child(2) { animation-delay: 0.12s; }
-.nav-item:nth-child(3) { animation-delay: 0.18s; }
-.nav-item:nth-child(4) { animation-delay: 0.24s; }
-.nav-item:nth-child(5) { animation-delay: 0.30s; }
 
 @keyframes nav-item-in {
   from { opacity: 0; transform: translateY(6px); }
@@ -154,7 +150,7 @@
 .nav-footer {
   flex-shrink: 0;
   padding: var(--space-32);
-  border-top: 1px solid rgba(249, 245, 239, 0.06);
+  border-top: var(--border-subtle);
 }
 
 .nav-stats {
@@ -209,7 +205,7 @@
 /* Detail header */
 .location-header {
   padding: var(--space-40) var(--space-32) var(--space-24);
-  border-bottom: 1px solid rgba(249, 245, 239, 0.06);
+  border-bottom: var(--border-subtle);
   position: relative;
 }
 
@@ -236,10 +232,10 @@
 }
 
 .location-name {
-  font-family: var(--font-sans);
+  font-family: var(--font-serif);
   font-size: var(--text-32);
-  font-weight: 300;
-  letter-spacing: -0.02em;
+  font-weight: 400;
+  letter-spacing: 0.02em;
   color: var(--color-text);
   margin-bottom: var(--space-12);
   padding-right: 40px;
@@ -313,6 +309,7 @@
   aspect-ratio: 4 / 3;
   background: var(--color-surface);
   transition: opacity var(--dur-fast);
+  position: relative;
 }
 .photo-item img {
   width: 100%;
@@ -323,6 +320,37 @@
 }
 .photo-item:hover img {
   opacity: 1;
+}
+
+/* Skeleton pulse while loading */
+.photo-item.loading::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--color-elevated);
+  opacity: 0.4;
+  animation: photo-skeleton 1.4s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes photo-skeleton {
+  0%, 100% { opacity: 0.25; }
+  50% { opacity: 0.55; }
+}
+
+/* Error state */
+.photo-item.error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.photo-item.error img {
+  display: none;
+}
+.photo-item.error::before {
+  content: '图片加载失败';
+  font-size: var(--text-11);
+  color: var(--color-text-muted);
+  letter-spacing: 0.04em;
 }
 
 .photo-caption {

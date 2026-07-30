@@ -39,6 +39,9 @@ class Sidebar extends BasePlugin {
     // Listen for timeline steps
     this.listen('timeline:step', this._onMarkerClick);
 
+    // Close detail panel when map blank area is clicked
+    this.listen('sidebar:close', this.close);
+
     // Build nav
     this._buildNav();
     this._buildStats();
@@ -58,6 +61,7 @@ class Sidebar extends BasePlugin {
       const item = createElement('div', {
         className: 'nav-item',
         'data-id': loc.id,
+        style: `--index: ${i}`,
         onClick: () => this._onNavClick(loc.id),
       });
 

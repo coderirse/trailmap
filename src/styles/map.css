@@ -23,8 +23,8 @@
 
 /* === Dark-theme tile filter — Griffin near-monochrome === */
 .leaflet-tile-pane {
-  filter: invert(1) hue-rotate(180deg) brightness(0.85) contrast(1.02) saturate(0.08);
-  -webkit-filter: invert(1) hue-rotate(180deg) brightness(0.85) contrast(1.02) saturate(0.08);
+  filter: invert(1) hue-rotate(180deg) brightness(0.9) contrast(1.05) saturate(0.12);
+  -webkit-filter: invert(1) hue-rotate(180deg) brightness(0.9) contrast(1.05) saturate(0.12);
 }
 
 /* === Map header — Griffin typography === */
@@ -38,10 +38,10 @@
 }
 
 .map-title {
-  font-family: var(--font-sans);
+  font-family: var(--font-serif);
   font-size: var(--text-72);
-  font-weight: 300;
-  letter-spacing: -0.02em;
+  font-weight: 400;
+  letter-spacing: 0.02em;
   color: var(--color-text);
   line-height: 1.05;
 }
@@ -70,8 +70,8 @@
   background: var(--color-accent);
   border: none;
   box-shadow:
-    0 0 0 2px rgba(230, 225, 217, 0.20),
-    0 0 6px rgba(230, 225, 217, 0.10);
+    0 0 0 2px var(--marker-glow),
+    0 0 6px var(--marker-glow-soft);
   transition: transform 0.35s var(--ease-out), box-shadow 0.35s var(--ease-out), background 0.35s var(--ease-out);
   cursor: pointer;
 }
@@ -82,7 +82,7 @@
   position: absolute;
   inset: -4px;
   border-radius: var(--radius-pill);
-  border: 1.5px solid rgba(230, 225, 217, 0.18);
+  border: 1.5px solid var(--marker-glow);
   opacity: 0;
   animation: marker-pulse 3s ease-out infinite;
   pointer-events: none;
@@ -97,8 +97,8 @@
 .custom-marker:hover {
   transform: scale(1.30);
   box-shadow:
-    0 0 0 3px rgba(230, 225, 217, 0.30),
-    0 0 12px rgba(230, 225, 217, 0.18);
+    0 0 0 3px var(--marker-glow-strong),
+    0 0 12px var(--marker-glow);
 }
 
 /* Active marker — warm terracotta */
@@ -106,11 +106,11 @@
   background: var(--color-accent-amber);
   transform: scale(1.40);
   box-shadow:
-    0 0 0 3px rgba(194, 133, 106, 0.30),
-    0 0 14px rgba(194, 133, 106, 0.22);
+    0 0 0 3px var(--marker-active-glow),
+    0 0 14px var(--marker-active-glow-strong);
 }
 .custom-marker.active::after {
-  border-color: rgba(194, 133, 106, 0.22);
+  border-color: var(--marker-active-ring);
   animation-duration: 2s;
 }
 
@@ -148,7 +148,7 @@
 /* === Attribution — minimal === */
 .leaflet-control-attribution {
   background: transparent !important;
-  color: rgba(249,245,239,0.10) !important;
+  color: var(--border-visible-color) !important;
   font-size: 9px !important;
   font-family: var(--font-sans) !important;
   padding: 2px 6px !important;
@@ -156,7 +156,7 @@
   box-shadow: none !important;
 }
 .leaflet-control-attribution a {
-  color: rgba(249,245,239,0.16) !important;
+  color: var(--border-hover-color) !important;
 }
 
 /* === Responsive === */

@@ -26,17 +26,18 @@
   font-size: var(--text-11);
   color: var(--color-text-muted);
   background: transparent;
-  border: 1px solid rgba(249, 245, 239, 0.12);
+  border: var(--border-visible);
   padding: 6px 16px;
   border-radius: var(--radius-pill);
   cursor: pointer;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   transition: color var(--dur-fast), border-color var(--dur-fast), background var(--dur-fast);
+  white-space: nowrap;
 }
 .tag-chip:hover {
   color: var(--color-text);
-  border-color: var(--border-hover);
+  border-color: var(--border-hover-color);
 }
 .tag-chip.active {
   color: var(--color-btn-text);
@@ -109,25 +110,30 @@
   height: 36px;
   border-radius: var(--radius-pill);
   background: transparent;
-  border: 1px solid rgba(249, 245, 239, 0.08);
+  border: var(--border-subtle);
   color: var(--color-text-muted);
   font-size: 12px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: color var(--dur-fast), border-color var(--dur-fast);
+  transition: color var(--dur-fast), border-color var(--dur-fast), background var(--dur-fast);
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 .style-btn:hover {
   color: var(--color-text);
-  border-color: var(--border-hover);
+  border-color: var(--border-hover-color);
 }
 .style-btn.active {
   color: var(--color-btn-text);
   background: var(--color-btn-fill);
   border-color: var(--color-btn-fill);
+}
+.style-btn svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
 }
 
 /* === Globe toggle — Griffin pill === */
@@ -140,14 +146,14 @@
   height: 36px;
   border-radius: var(--radius-pill);
   background: transparent;
-  border: 1px solid rgba(249, 245, 239, 0.08);
+  border: var(--border-subtle);
   color: var(--color-text-muted);
   font-size: 16px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: color var(--dur-fast), border-color var(--dur-fast);
+  transition: color var(--dur-fast), border-color var(--dur-fast), background var(--dur-fast);
   opacity: 0;
   visibility: hidden;
 }
@@ -157,12 +163,17 @@
 }
 #globe-toggle:hover {
   color: var(--color-text);
-  border-color: var(--border-hover);
+  border-color: var(--border-hover-color);
 }
 #globe-toggle.active {
   color: var(--color-btn-text);
   background: var(--color-btn-fill);
   border-color: var(--color-btn-fill);
+}
+#globe-toggle svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
 }
 
 /* === Globe container === */
@@ -178,27 +189,42 @@
 
 /* === Responsive === */
 @media (max-width: 768px) {
+  /* Tag filter stays centered near the top, but wraps gracefully */
   #tag-filter {
-    top: 80px;
-    left: var(--space-12);
-    right: var(--space-12);
+    top: 76px;
+    left: var(--space-16);
+    right: var(--space-16);
     transform: none;
     justify-content: center;
+    gap: var(--space-4);
   }
+  .tag-chip {
+    padding: 5px 12px;
+    font-size: var(--text-10);
+  }
+
+  /* Stats are already shown in the nav drawer; hide the floating duplicate */
   #stats-panel {
-    top: auto;
-    bottom: calc(45vh + 20px);
-    right: var(--space-16);
-    gap: var(--space-24);
+    display: none;
   }
-  .stat-value { font-size: var(--text-24); }
+
+  /* Map tools cluster: style switcher + globe toggle above the timeline */
   #style-switcher {
     left: var(--space-16);
-    bottom: calc(45vh + 20px);
+    bottom: 76px;
     flex-direction: row;
+    gap: var(--space-6);
   }
   #globe-toggle {
-    left: var(--space-16);
-    bottom: calc(45vh + 60px);
+    left: calc(var(--space-16) + 170px);
+    bottom: 76px;
+  }
+
+  /* When the mobile drawer is open, slide tools up with the drawer */
+  body.nav-open #style-switcher {
+    bottom: calc(45vh + 76px);
+  }
+  body.nav-open #globe-toggle {
+    bottom: calc(45vh + 76px);
   }
 }

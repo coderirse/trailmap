@@ -4,7 +4,8 @@
 
 .route-line {
   pointer-events: none;
-  stroke: rgba(212, 168, 83, 0.25);
+  stroke: var(--color-accent-warm);
+  stroke-opacity: 0.25;
   stroke-dasharray: 6 6;
   stroke-width: 1;
 }

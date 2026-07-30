@@ -39,7 +39,7 @@ class PhotoGallery extends BasePlugin {
 
     this._photos.forEach((photo, index) => {
       const item = createElement('div', {
-        className: 'photo-item',
+        className: 'photo-item loading',
         onClick: () => this._onPhotoClick(index),
       });
 
@@ -47,6 +47,12 @@ class PhotoGallery extends BasePlugin {
         src: photo.src,
         alt: photo.caption || '',
         loading: 'lazy',
+      });
+      img.addEventListener('load', () => item.classList.remove('loading'));
+      img.addEventListener('error', () => {
+        item.classList.remove('loading');
+        item.classList.add('error');
+        img.alt = photo.caption || '图片加载失败';
       });
       item.appendChild(img);
 

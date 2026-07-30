@@ -104,7 +104,7 @@ function bootstrap() {
   if (initialHash) {
     const loc = store.getById(initialHash);
     if (loc) {
-      setTimeout(() => mapComponent.selectById(initialHash), 500);
+      leafletMap.whenReady(() => mapComponent.selectById(initialHash));
     }
   }
 
@@ -124,11 +124,13 @@ function bootstrap() {
   const sidebarNav = document.getElementById('sidebar');
 
   function openMobileNav() {
+    document.body.classList.add('nav-open');
     sidebarNav.classList.add('open');
     navBackdrop.classList.add('open');
     drawerHandle.setAttribute('aria-label', '关闭导航');
   }
   function closeMobileNav() {
+    document.body.classList.remove('nav-open');
     sidebarNav.classList.remove('open');
     navBackdrop.classList.remove('open');
     drawerHandle.setAttribute('aria-label', '打开导航');

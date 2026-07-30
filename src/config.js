@@ -14,8 +14,8 @@ const config = {
     maxZoom: 18,
     /** Tile — CARTO Voyager (light); dark-themed via invert filter in map.css */
     tileUrl: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
-    /** Attribution */
-    attribution: '',
+    /** Attribution — CARTO Voyager requires OSM + CARTO credits */
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
   },
 
   /** UI settings */
@@ -40,7 +40,7 @@ const config = {
       id: 'east-china',
       name: '江南行',
       locations: ['beijing', 'shanghai', 'hangzhou'],
-      color: '#4ade80',
+      color: '#D4A853',
     },
   ],
 };

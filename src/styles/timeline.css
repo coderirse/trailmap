@@ -26,7 +26,7 @@
   height: 36px;
   border-radius: var(--radius-pill);
   background: transparent;
-  border: 1px solid rgba(249, 245, 239, 0.12);
+  border: var(--border-visible);
   color: var(--color-text-muted);
   font-size: 12px;
   display: flex;
@@ -38,7 +38,7 @@
 }
 .timeline-play:hover {
   color: var(--color-text);
-  border-color: var(--border-hover);
+  border-color: var(--border-hover-color);
 }
 .timeline-play.playing {
   color: var(--color-btn-text);
@@ -61,7 +61,7 @@
   left: 0;
   right: 0;
   height: 1px;
-  background: rgba(249, 245, 239, 0.06);
+  background: var(--border-subtle-color);
 }
 
 .timeline-progress {
@@ -81,7 +81,7 @@
   margin-left: -3px;
   margin-top: -3px;
   border-radius: var(--radius-pill);
-  background: rgba(249, 245, 239, 0.15);
+  background: var(--border-visible-color);
   border: none;
   cursor: pointer;
   transition: transform var(--dur-fast), background var(--dur-fast);
@@ -134,9 +134,14 @@
   #timeline {
     left: var(--space-16);
     right: var(--space-16);
-    bottom: calc(45vh + 20px);
+    bottom: 20px;
     gap: var(--space-8);
   }
   .timeline-label { display: none; }
   .timeline-play { width: 32px; height: 32px; }
+
+  /* Keep timeline above the mobile drawer when open */
+  body.nav-open #timeline {
+    bottom: calc(45vh + 20px);
+  }
 }

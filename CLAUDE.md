@@ -27,16 +27,16 @@ Reference: griffin.com visual language. **All visual changes must respect these 
 
 | Token | Value | Usage |
 |---|---|---|
-| `--color-bg` | `#050505` | Main background |
-| `--color-surface` | `#0a0a0a` | Elevated panels |
-| `--color-elevated` | `#0f0f0f` | Hover states |
-| `--color-text` | `rgba(255,255,255,0.88)` | Headlines |
-| `--color-text-body` | `rgba(255,255,255,0.52)` | Body copy |
-| `--color-text-muted` | `rgba(255,255,255,0.25)` | Labels, disabled |
-| `--color-accent` | `#4ade80` | Active / travel (green only) |
-| `--color-accent-coral` | `#fb7185` | Active marker highlight |
-| `--color-accent-amber` | `#d4a853` | Nature tag |
-| `--color-accent-warm` | `#e7e5e4` | City tag |
+| `--color-bg` | `#0C0C0B` | Main background |
+| `--color-surface` | `#111110` | Elevated panels |
+| `--color-elevated` | `#161615` | Hover states |
+| `--color-text` | `#F9F5EF` | Headlines |
+| `--color-text-body` | `#959089` | Body copy |
+| `--color-text-muted` | `#6B6760` | Labels, disabled |
+| `--color-accent` | `#E6E1D9` | Default marker |
+| `--color-accent-warm` | `#D4A853` | Highlights, numbers, route lines |
+| `--color-accent-amber` | `#C2856A` | Active marker highlight |
+| `--color-accent-coral` | `#E39E7C` | Hover states |
 
 ### Typography
 
@@ -52,9 +52,9 @@ Reference: griffin.com visual language. **All visual changes must respect these 
 - **No glassmorphism** — zero `backdrop-filter: blur()`
 - **No heavy shadows** — only `box-shadow: 0 0 0 1px rgba(...)` hairline borders
 - **No gradients** on backgrounds or text (except the map title gradient is allowed)
-- **No blue or purple** accents — green `#4ade80` and warm white `#e7e5e4` only
+- **No blue or purple** accents — warm palette only (`#E6E1D9`, `#D4A853`, `#C2856A`, `#E39E7C`)
 - **Max border-radius: 4px** — except `--radius-pill: 9999px` for filter chips and playback buttons
-- **Borders only as `1px solid rgba(255,255,255,0.06)`**
+- **Borders only as `1px solid rgba(249,245,239,0.06)`**
 - **Map tiles must stay dark & desaturated** — tiles are CARTO Voyager (light) dark-themed via CSS `filter: invert(1) hue-rotate(180deg) brightness(0.9) contrast(1.05) saturate(0.12)` on `.leaflet-tile-pane`. Do NOT use an already-dark tile set (Dark Matter + brightness filter = unreadable black map)
 - **Dot grid texture** — `body::before` with `radial-gradient` at 20px spacing, opacity 0.04
 
@@ -226,7 +226,7 @@ public/
 - Noto Serif SC + JetBrains Mono loaded from Google Fonts CDN
 - All panels: hairline borders only, no glassmorphism, no heavy shadows
 - Map tiles: CARTO Voyager (light) + invert/hue-rotate CSS filter → dark near-monochrome
-- Markers: 14px green `#4ade80` circles with 2.4s pulse animation; active turns coral `#fb7185`
+- Markers: 12px warm white `#E6E1D9` circles with 3s pulse animation; active turns terracotta `#C2856A`
 
 ### Features
 - Left nav: numbered location list with stagger animation, stats footer (city count / KM / tags)

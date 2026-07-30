@@ -8,28 +8,28 @@ import { createElement } from '../utils/helpers.js';
 const TILES = [
   {
     key: 'voyager',
-    label: '🗺',
+    icon: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8 2 5 5 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-4-3-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>',
     title: '探索',
     url: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
-    attribution: '&copy; <a href="https://carto.com/">CARTO</a>',
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
   },
   {
     key: 'dark',
-    label: '🌙',
+    icon: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 18a8 8 0 110-16 8 8 0 010 16z"/></svg>',
     title: '暗色',
     url: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
     attribution: '&copy; <a href="https://carto.com/">CARTO</a>',
   },
   {
     key: 'osm',
-    label: '🗺️',
+    icon: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8 2 5 5 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-4-3-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>',
     title: '标准',
     url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>',
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   },
   {
     key: 'satellite',
-    label: '🛰',
+    icon: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l-9 4v12l9 4 9-4V6l-9-4zm0 2.18l6.9 3.06L12 10.3 5.1 7.24 12 4.18zM5 8.78l6 2.67v8.67l-6-2.67V8.78zm8 11.34V11.45l6-2.67v8.67l-6 2.67z"/></svg>',
     title: '卫星',
     url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
     attribution: '&copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
@@ -56,10 +56,32 @@ class StyleSwitcher extends BasePlugin {
     this._buildUI();
     this._el.classList.add('visible');
 
-    // Replace default tile layer with current style
-    this._switchTo(this._default);
+    // Adopt the tile layer that Map.js already created instead of removing + re-adding it.
+    const existingTileLayer = this._findTileLayer();
+    if (existingTileLayer) {
+      this._activeLayer = existingTileLayer;
+      this._current = this._default;
+      this._syncButtons();
+    } else {
+      this._switchTo(this._default);
+    }
 
     return this;
+  }
+
+  _findTileLayer() {
+    let found = null;
+    this._map.eachLayer((layer) => {
+      if (layer instanceof L.TileLayer) found = layer;
+    });
+    return found;
+  }
+
+  _syncButtons() {
+    if (!this._el) return;
+    this._el.querySelectorAll('.style-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.style === this._current);
+    });
   }
 
   _buildUI() {
@@ -71,7 +93,8 @@ class StyleSwitcher extends BasePlugin {
         'data-style': tile.key,
         title: tile.title,
         onClick: () => this._switchTo(tile.key),
-      }, tile.label);
+      });
+      btn.innerHTML = tile.icon;
       this._el.appendChild(btn);
     });
 
@@ -97,10 +120,7 @@ class StyleSwitcher extends BasePlugin {
 
     this._current = key;
 
-    // Update button states
-    this._el.querySelectorAll('.style-btn').forEach(btn => {
-      btn.classList.toggle('active', btn.dataset.style === key);
-    });
+    this._syncButtons();
 
     this.notify('style:change', { style: key });
   }
