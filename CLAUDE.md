@@ -50,12 +50,13 @@ Reference: griffin.com visual language. **All visual changes must respect these 
 ### Hard Rules
 
 - **No glassmorphism** — zero `backdrop-filter: blur()`
-- **No heavy shadows** — only `box-shadow: 0 0 0 1px rgba(...)` hairline borders
+- **No heavy shadows** — only hairline borders (`box-shadow: 0 0 0 1px rgba(...)`) plus the small marker glows in `map.css`
 - **No gradients** on backgrounds or text (except the map title gradient is allowed)
 - **No blue or purple** accents — warm palette only (`#E6E1D9`, `#D4A853`, `#C2856A`, `#E39E7C`)
 - **Max border-radius: 4px** — except `--radius-pill: 9999px` for filter chips and playback buttons
 - **Borders only as `1px solid rgba(249,245,239,0.06)`**
-- **Map tiles must stay dark & desaturated** — tiles are CARTO Voyager (light) dark-themed via CSS `filter: invert(1) hue-rotate(180deg) brightness(0.9) contrast(1.05) saturate(0.12)` on `.leaflet-tile-pane`. Do NOT use an already-dark tile set (Dark Matter + brightness filter = unreadable black map)
+- **Dual theme** — `:root` is the dark theme; `:root[data-theme='light']` overrides the tokens with a warm paper palette (see `variables.css`). The toggle lives in `.nav-header` (`ThemeSwitcher.js`) and persists via localStorage key `trailmap-theme`. In light theme the voyager filter MUST be disabled (`filter: none`).
+- **Default map tiles must stay dark & desaturated** — CARTO Voyager (light) is dark-themed via the CSS filter on the `.tile-style-voyager` layer class ONLY (`invert(1) hue-rotate(180deg) brightness(0.9) contrast(1.05) saturate(0.12)`). Other presets (dark / osm / satellite) must remain UNFILTERED or their colors become inverted and unreadable. Do not widen the filter back to `.leaflet-tile-pane`.
 - **Dot grid texture** — `body::before` with `radial-gradient` at 20px spacing, opacity 0.04
 
 ---
@@ -65,45 +66,41 @@ Reference: griffin.com visual language. **All visual changes must respect these 
 ### Layout Structure
 
 ```
-┌──────────────────────────────────────────────────────┐
-│ #sidebar (nav)   │ #map-container                    │
-│                  │                                   │
-│ .nav-header      │   .map-header (floating title)    │
-│   "足迹地图"     │                                   │
-│                  │   #tag-filter (top-center)        │
-│ #nav-locations   │   #stats-panel (top-right)        │
-│   01 BEIJING     │                                   │
-│   02 SHANGHAI    │   #map (Leaflet)                  │
-│   03 HANGZHOU    │     - markers                     │
-│                  │     - route lines                 │
-│ .nav-footer      │                                   │
-│   03 城市        │   #style-switcher (bottom-left)   │
-│   2191 KM        │   #globe-toggle (bottom-left)     │
-│   06 标签        │   #timeline (bottom)              │
-│                  │                                   │
-│   (fixed 300px)  │   (flex: 1, full height)          │
-├──────────────────┤                                   │
-│ #detail-panel    │ ← slides open to right of nav     │
-│   (380px, shows │   when location is selected       │
-│    location     │                                    │
-│    detail)      │                                    │
-└──────────────────────────────────────────────────────┘
++------------------+----------------------------------------------+
+| #sidebar (nav)   | #map-container                                |
+| .nav-header      |   #tag-filter (top-center)                    |
+|   "足迹地图"      |   #stats-panel (top-right)                    |
+|   [theme toggle] |                                              |
+| #nav-locations   |   #map (Leaflet)                              |
+|   01 BEIJING     |     - markers                                |
+|   02 SHANGHAI    |     - route lines                             |
+|   03 HANGZHOU    |   #style-switcher (bottom-left)               |
+| .nav-footer      |   #globe-toggle (bottom-left)                 |
+|   03 城市        |   #timeline (bottom)                          |
+|   2191 KM        |                                              |
+|   06 标签        |                                              |
+| (fixed 300px)    | (flex: 1, full height)                        |
++------------------+----------------------------------------------+
+| #detail-panel    | slides open to right of nav (380px,           |
+|                  | shows location detail when selected)          |
++------------------+----------------------------------------------+
 ```
 
 ### Component Tree
 
 ```
 main.js
- ├─ MapComponent        ← Leaflet map + markers (DivIcon, flyTo, dimming)
- ├─ Sidebar             ← Left nav list + stats footer + detail panel
- │   └─ PhotoGallery    ← 2-column photo grid (emits gallery:photoClick)
- ├─ Lightbox            ← Full-screen photo viewer (← → Esc)
- ├─ Timeline            ← Bottom scrubber bar with play/pause
- ├─ RouteLines          ← Animated dashed lines between locations
- ├─ TagFilter           ← Pill filter chips (top-center of map)
- ├─ StatsPanel          ← Floating stats overlay (top-right of map)
- ├─ StyleSwitcher       ← Tile layer switcher (bottom-left of map)
- └─ GlobeView           ← 3D globe toggle (Globe.GL, bottom-left of map)
+ ├── MapComponent        → Leaflet map + markers (DivIcon, flyTo, dimming)
+ ├── Sidebar             → Left nav list + stats footer + detail panel
+ │    └── PhotoGallery   → 2-column photo grid (emits gallery:photoClick)
+ ├── Lightbox            → Full-screen photo viewer (←/→/Esc)
+ ├── Timeline            → Bottom scrubber bar with play/pause
+ ├── RouteLines          → Animated dashed lines between locations
+ ├── TagFilter           → Pill filter chips (top-center of map)
+ ├── StatsPanel          → Floating stats overlay (top-right of map)
+ ├── StyleSwitcher       → 4 tile layer presets (voyager/dark/osm/satellite)
+ ├── ThemeSwitcher       → Dark/light theme toggle (nav header, persisted)
+ └── GlobeView           → 3D globe toggle (Globe.GL, bottom-left of map)
 ```
 
 ---
@@ -116,8 +113,8 @@ All components communicate via `EventBus` (`src/utils/EventBus.js`). Never call 
 |---|---|---|
 | `map:markerClick` | `{ id, location }` | Map → Sidebar |
 | `nav:locationSelect` | `{ id, location }` | Sidebar nav click → main.js → Map |
-| `sidebar:open` | `{ id }` | Sidebar → (notify open) |
-| `sidebar:close` | — | Sidebar → (notify close) |
+| `sidebar:close` | — | Map blank-click → Sidebar (request close) |
+| `sidebar:closed` | — | Sidebar → (notify closed) |
 | `gallery:photoClick` | `{ photos, index }` | PhotoGallery → Lightbox |
 | `lightbox:open` | `{ index }` | Lightbox → (notify open) |
 | `lightbox:close` | — | Lightbox → (notify close) |
@@ -126,29 +123,31 @@ All components communicate via `EventBus` (`src/utils/EventBus.js`). Never call 
 | `globe:markerClick` | `{ id, location }` | GlobeView → main.js → Sidebar |
 | `style:change` | `{ style }` | StyleSwitcher → (notify change) |
 
-**Critical event flow for location selection:**
-```
-Nav click  →  Sidebar emits "nav:locationSelect"  →  main.js calls map.selectById()
-           →  Map emits "map:markerClick"          →  Sidebar opens detail panel
+**Critical flow for location selection:**
 
-Map click  →  Map emits "map:markerClick"          →  Sidebar opens detail panel
+```
+Nav click   → Sidebar emits "nav:locationSelect" → main.js calls map.selectById()
+            → Map emits "map:markerClick"        → Sidebar opens detail panel
+
+Map click   → Map emits "map:markerClick"        → Sidebar opens detail panel
 ```
 
 There is an intentional asymmetry: nav→map uses `nav:locationSelect`, and map→sidebar uses `map:markerClick`, to prevent infinite event loops.
+
+**Never re-emit `sidebar:close` from `Sidebar.close()`** — Sidebar subscribes to that event, so re-emitting causes infinite recursion. `close()` only emits `sidebar:closed` after closing.
+
+**Hash routing guard**: `Sidebar.open()` writes the URL hash itself, which fires `hashchange`. main.js skips re-selection when the sidebar already shows that location (`sidebar.getCurrentLocation()?.id !== hash`).
 
 ---
 
 ## Data Flow
 
 ```
-locations.json  →  DataStore (src/utils/DataStore.js)
+locations.json   → DataStore (src/utils/DataStore.js)
                        ├── getAll()
                        ├── getById(id)
-                       ├── getByTag(tag)
-                       ├── getByDateRange(start, end)
                        └── getTagStats()
-                          ↓
-                    main.js / all components
+                          → main.js / all components
 ```
 
 - **All data from `src/data/locations.json`** — add a location = edit JSON + add photos
@@ -160,25 +159,26 @@ locations.json  →  DataStore (src/utils/DataStore.js)
 
 ```
 src/
-├── main.js                    # Bootstrap: init all 9 components, wire events + hash routing
-├── config.js                  # Map defaults, tile URL, route groups, marker config
+├── main.js                    # Bootstrap: init all 10 components, wire events + hash routing
+├── config.js                  # Map defaults, tile URL, route groups, UI settings
 ├── data/
-│   └── locations.json         # ★ All location data — your only edit target
+│   └── locations.json         # ⭐ All location data — your only edit target
 ├── components/
 │   ├── Map.js                 # Leaflet map, DivIcon markers, flyTo, marker dimming, tag filter response
 │   ├── Sidebar.js             # Left nav list + stats footer + detail panel (hosts PhotoGallery)
-│   ├── PhotoGallery.js        # 2-column photo grid, lazy loading, click→Lightbox
+│   ├── PhotoGallery.js        # 2-column photo grid, lazy loading, click → lightbox
 │   ├── Lightbox.js            # Full-screen viewer, keyboard/click nav, caption bar
 │   ├── Timeline.js            # Bottom scrubber, play/pause auto-advance (1.8s per step)
 │   ├── RouteLines.js          # Dashed polyline flow animation between route locations
 │   ├── TagFilter.js           # Pill filter chips, emits filtered location list
 │   ├── GlobeView.js           # Globe.GL 3D earth toggle (CDN lazy-loaded)
 │   ├── StatsPanel.js          # Floating summary (city count / distance / tags)
-│   └── StyleSwitcher.js       # 4 tile layer presets (voyager, dark, osm, satellite)
+│   ├── StyleSwitcher.js       # 4 tile layer presets (voyager, dark, osm, satellite)
+│   └── ThemeSwitcher.js       # Dark/light theme toggle (nav header, persisted)
 ├── styles/
-│   ├── variables.css          # ★ Design tokens — colors, fonts, spacing, radii, shadows
+│   ├── variables.css          # ⭐ Design tokens — colors, fonts, spacing, radii, shadows
 │   ├── base.css               # Reset, dot grid texture (body::before), scrollbar, .mono utility
-│   ├── map.css                # Map container, desaturation filter, markers + pulse, zoom controls
+│   ├── map.css                # Map container, voyager tile filter, markers + pulse, zoom controls
 │   ├── sidebar.css            # Left nav (300px), nav items with stagger animation, detail panel, mobile drawer
 │   ├── lightbox.css           # Minimal overlay, hairline controls, info bar
 │   ├── timeline.css           # Play button, scrubber rail with dots, thumb, date label
@@ -187,15 +187,15 @@ src/
 ├── utils/
 │   ├── EventBus.js            # on/off/emit singleton (pub/sub)
 │   ├── DataStore.js           # Data access abstraction (singleton)
-│   ├── helpers.js             # $, $$, createElement, escapeHtml, getHashRoute, setHashRoute
-│   └── geo.js                 # haversineDistance, computeBoundingBox, computeCenter
+│   ├── helpers.js             # createElement, escapeHtml, getHashRoute, setHashRoute
+│   └── geo.js                 # haversineDistance
 └── plugins/
     └── BasePlugin.js          # Plugin base class: init/destroy/listen/notify lifecycle
 
 public/
 └── photos/
     └── beijing/
-        └── 01.jpg             # Real photo (5.7MB, user's own)
+        └── 01.jpg             # Real photo, compressed to 1920px / ~416KB
 ```
 
 ---
@@ -209,11 +209,14 @@ public/
 5. **Custom markers** → `Map.js` `_createIcon()` returns `L.divIcon`, styles in `map.css` `.custom-marker`
 6. **Add a route line** → edit `config.js` `routes[]` array with `{ id, name, locations: [...], color }`
 7. **Routing** → URL hash `/#/<id>` reads on load, updates on select, supports browser back/forward
-8. **Map overlay z-index** → `#map-container` is its own stacking context (`z-index: 0`), so Leaflet's internal panes (z 200–1000) are contained. Any overlay placed inside `#map-container` (tag filter, stats, timeline, style switcher, globe toggle) MUST use `z-index: var(--z-map-overlay)` (1100) — anything lower renders *under* the tile pane and is invisible. Overlays outside the map (nav, detail panel, lightbox) use the normal `--z-*` scale and always paint above the whole map container.
+8. **Map overlay z-index** → `#map-container` is its own stacking context (`z-index: 0`), so Leaflet's internal panes (z 200–700) are contained. Any overlay placed inside `#map-container` (tag filter, stats, timeline, style switcher, globe toggle) MUST use `z-index: var(--z-map-overlay)` (1100) — anything lower renders *under* the tile pane and is invisible. Overlays outside the map (nav, detail panel, lightbox) use the normal `--z-*` scale and always paint above the whole map container.
+9. **Tile layer class names** → each StyleSwitcher preset carries its own `className` (`tile-style-voyager`, `tile-style-dark`, ...). The dark filter lives on `.tile-style-voyager` only; never put it back on `.leaflet-tile-pane`.
+10. **Event safety** → `sidebar:close` is a request event emitted by Map; `Sidebar.close()` emits `sidebar:closed`. Do not reintroduce the old self-subscribe loop.
+11. **Dual theme tokens** → all theme colors live in `variables.css` (`:root` dark + `:root[data-theme='light']`). Component CSS must only use `var(--*)`; never hardcode colors. Add new theme-aware tokens to both blocks.
 
 ---
 
-## Current State (as of 2026-07-29)
+## Current State (as of 2026-08-02)
 
 ### Data
 - 3 locations: 北京 (real photo), 上海, 杭州 (picsum.photos placeholders)
@@ -221,22 +224,23 @@ public/
 - 6 unique tags: 旅行, 城市, 历史文化, 现代都市, 自然, 山水
 
 ### Design
-- Griffin editorial dark theme active (single theme, no light/dark toggle)
+- Dual theme: Griffin dark (default) + warm-paper light, toggled in the nav header and persisted via localStorage
 - Dot grid texture on body background
 - Noto Serif SC + JetBrains Mono loaded from Google Fonts CDN
 - All panels: hairline borders only, no glassmorphism, no heavy shadows
-- Map tiles: CARTO Voyager (light) + invert/hue-rotate CSS filter → dark near-monochrome
+- Map tiles: CARTO Voyager (light) + invert/hue-rotate CSS filter → dark near-monochrome (voyager preset only; light theme disables the filter for natural colors)
 - Markers: 12px warm white `#E6E1D9` circles with 3s pulse animation; active turns terracotta `#C2856A`
 
 ### Features
 - Left nav: numbered location list with stagger animation, stats footer (city count / KM / tags)
 - Detail panel: slides in to right of nav when location selected
-- Lightbox: full-featured (prev/next arrows, keyboard ← → Esc, backdrop click, caption + counter)
+- Lightbox: full-featured (prev/next arrows, keyboard ←/→/Esc, backdrop click, caption + counter)
 - Timeline player: bottom scrubber, play/pause auto-advance at 1.8s intervals
 - Route lines: dashed flowing animation connecting locations in route groups
-- Tag filter: pill chips at top-center of map
+- Tag filter: pill chips at top-center of map (filtering the active marker closes the detail panel)
 - 3D globe: Globe.GL toggle (lazy-loads from CDN on first click)
 - Stats overlay: floating number cards at top-right of map
-- Map style switcher: 4 tile presets (voyager/dark/osm/satellite) at bottom-left
-- URL hash routing: shareable links, back/forward support
+- Map style switcher: 4 tile presets (voyager/dark/osm/satellite), each rendered without the voyager filter
+- Theme toggle: dark/light switch (sun/moon icon in nav header), persisted via localStorage
+- URL hash routing: shareable links, back/forward support, duplicate-hash guard
 - Mobile responsive: nav becomes bottom drawer, detail panel overlays full width

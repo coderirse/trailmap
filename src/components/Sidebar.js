@@ -36,9 +36,6 @@ class Sidebar extends BasePlugin {
     // Listen for map marker clicks
     this.listen('map:markerClick', this._onMarkerClick);
 
-    // Listen for timeline steps
-    this.listen('timeline:step', this._onMarkerClick);
-
     // Close detail panel when map blank area is clicked
     this.listen('sidebar:close', this.close);
 
@@ -207,7 +204,7 @@ class Sidebar extends BasePlugin {
     this.detailPanel.classList.remove('open');
     this.navList.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
     setHashRoute(null);
-    this.notify('sidebar:close');
+    this.notify('sidebar:closed');
   }
 
   _onMarkerClick(data) {

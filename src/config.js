@@ -22,8 +22,6 @@ const config = {
   ui: {
     /** Nav width in px */
     navWidth: 300,
-    /** Marker size */
-    markerSize: 14,
     /** Fly-to duration in seconds */
     flyToDuration: 1.2,
   },

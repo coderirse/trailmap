@@ -3,26 +3,6 @@
 // ==========================================================================
 
 /**
- * Safely query a DOM element.
- * @param {string} selector
- * @param {Element|Document} [context=document]
- * @returns {Element|null}
- */
-export function $(selector, context = document) {
-  return context.querySelector(selector);
-}
-
-/**
- * Safely query all matching DOM elements.
- * @param {string} selector
- * @param {Element|Document} [context=document]
- * @returns {Element[]}
- */
-export function $$(selector, context = document) {
-  return Array.from(context.querySelectorAll(selector));
-}
-
-/**
  * Create an HTML element with attributes and children.
  * @param {string} tag
  * @param {Object<string, string>} [attrs]
@@ -59,20 +39,6 @@ export function escapeHtml(str) {
   const div = document.createElement('div');
   div.appendChild(document.createTextNode(str));
   return div.innerHTML;
-}
-
-/**
- * Debounce a function call.
- * @param {Function} fn
- * @param {number} delay ms
- * @returns {Function}
- */
-export function debounce(fn, delay = 300) {
-  let timer;
-  return function (...args) {
-    clearTimeout(timer);
-    timer = setTimeout(() => fn.apply(this, args), delay);
-  };
 }
 
 /**

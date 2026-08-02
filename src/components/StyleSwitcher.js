@@ -12,6 +12,7 @@ const TILES = [
     title: '探索',
     url: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
+    className: 'tile-style-voyager',
   },
   {
     key: 'dark',
@@ -19,6 +20,7 @@ const TILES = [
     title: '暗色',
     url: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
     attribution: '&copy; <a href="https://carto.com/">CARTO</a>',
+    className: 'tile-style-dark',
   },
   {
     key: 'osm',
@@ -26,6 +28,7 @@ const TILES = [
     title: '标准',
     url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    className: 'tile-style-osm',
   },
   {
     key: 'satellite',
@@ -33,6 +36,7 @@ const TILES = [
     title: '卫星',
     url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
     attribution: '&copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
+    className: 'tile-style-satellite',
   },
 ];
 
@@ -116,6 +120,7 @@ class StyleSwitcher extends BasePlugin {
     this._activeLayer = L.tileLayer(tile.url, {
       attribution: tile.attribution,
       maxZoom: 18,
+      className: tile.className,
     }).addTo(this._map);
 
     this._current = key;

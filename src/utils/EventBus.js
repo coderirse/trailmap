@@ -10,7 +10,8 @@
 // Event naming convention: <source>:<action>
 //   map:markerClick    — user clicked a map marker
 //   sidebar:open       — sidebar opened with location data
-//   sidebar:close      — sidebar closed / cleared
+//   sidebar:close      — request to close the sidebar (Map blank click)
+//   sidebar:closed     — sidebar finished closing
 //   gallery:photoClick — user clicked a photo in the gallery
 // ==========================================================================
 

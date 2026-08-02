@@ -40,6 +40,7 @@
 .nav-header {
   padding: var(--space-40) var(--space-32) var(--space-24);
   flex-shrink: 0;
+  position: relative;
 }
 
 .nav-title {
@@ -57,6 +58,39 @@
   color: var(--color-text-muted);
   letter-spacing: 0.10em;
   text-transform: uppercase;
+}
+
+/* === Theme toggle — nav header, sun/moon === */
+.theme-toggle {
+  position: absolute;
+  top: var(--space-40);
+  right: var(--space-32);
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  border: var(--border-visible);
+  color: var(--color-text-muted);
+  transition:
+    color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    background var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+.theme-toggle:hover {
+  color: var(--color-text);
+  border-color: var(--border-hover-color);
+  transform: rotate(12deg);
+}
+.theme-toggle:active {
+  transform: scale(0.92);
+}
+.theme-toggle svg {
+  width: 15px;
+  height: 15px;
 }
 
 /* === Location list — Griffin minimal nav items === */

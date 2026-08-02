@@ -64,8 +64,8 @@ ul, ol         { list-style: none; }
 /* Scrollbar — Griffin minimal */
 ::-webkit-scrollbar            { width: 3px; }
 ::-webkit-scrollbar-track      { background: transparent; }
-::-webkit-scrollbar-thumb      { background: rgba(249,245,239,0.06); }
-::-webkit-scrollbar-thumb:hover{ background: rgba(249,245,239,0.14); }
+::-webkit-scrollbar-thumb      { background: var(--scrollbar-thumb); }
+::-webkit-scrollbar-thumb:hover{ background: var(--scrollbar-thumb-hover); }
 
 /* Utility */
 .sr-only {

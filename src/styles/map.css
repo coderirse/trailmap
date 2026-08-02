@@ -22,43 +22,15 @@
 }
 
 /* === Dark-theme tile filter — Griffin near-monochrome === */
-.leaflet-tile-pane {
+.tile-style-voyager {
   filter: invert(1) hue-rotate(180deg) brightness(0.9) contrast(1.05) saturate(0.12);
   -webkit-filter: invert(1) hue-rotate(180deg) brightness(0.9) contrast(1.05) saturate(0.12);
 }
 
-/* === Map header — Griffin typography === */
-.map-header {
-  position: absolute;
-  top: var(--space-40);
-  left: var(--space-48);
-  z-index: var(--z-map-overlay);
-  pointer-events: none;
-  animation: fade-up-in 0.8s var(--ease-out) 0.3s both;
-}
-
-.map-title {
-  font-family: var(--font-serif);
-  font-size: var(--text-72);
-  font-weight: 400;
-  letter-spacing: 0.02em;
-  color: var(--color-text);
-  line-height: 1.05;
-}
-
-.map-subtitle {
-  margin-top: var(--space-12);
-  font-size: var(--text-12);
-  color: var(--color-text-muted);
-  letter-spacing: 0.10em;
-  font-family: var(--font-sans);
-  text-transform: uppercase;
-}
-
-#location-count {
-  font-family: var(--font-mono);
-  font-size: var(--text-12);
-  color: var(--color-accent-warm);
+/* Light theme: voyager tiles render in their natural light colors */
+:root[data-theme='light'] .tile-style-voyager {
+  filter: none;
+  -webkit-filter: none;
 }
 
 /* === Markers — Griffin warm nodes === */
@@ -157,15 +129,4 @@
 }
 .leaflet-control-attribution a {
   color: var(--border-hover-color) !important;
-}
-
-/* === Responsive === */
-@media (max-width: 768px) {
-  .map-header {
-    left: var(--space-20);
-    top: var(--space-24);
-  }
-  .map-title {
-    font-size: 42px;
-  }
 }

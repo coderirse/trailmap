@@ -109,6 +109,54 @@
 
   /* === Layout === */
   --nav-width: 300px;
+
+  /* Scrollbars */
+  --scrollbar-thumb:       rgba(249, 245, 239, 0.06);
+  --scrollbar-thumb-hover: rgba(249, 245, 239, 0.14);
+
+  color-scheme: dark;
+}
+
+/* === Light theme (白昼风格) — warm paper Griffin variant === */
+:root[data-theme='light'] {
+  color-scheme: light;
+
+  --color-bg:           #F5F2EC;
+  --color-surface:      #FCFAF6;
+  --color-elevated:     #EFECE4;
+
+  --color-text:         #1E1C18;
+  --color-text-body:    #57534C;
+  --color-text-muted:   #8B857A;
+  --color-text-disabled:#BFB9AD;
+
+  --color-btn-fill:     #1E1C18;
+  --color-btn-text:     #F5F2EC;
+
+  --color-accent:       #2A2823;
+  --color-accent-warm:  #A87E2F;
+  --color-accent-amber: #B4693F;
+  --color-accent-coral: #C97E5C;
+
+  --marker-glow:              rgba(42, 40, 35, 0.18);
+  --marker-glow-strong:       rgba(42, 40, 35, 0.30);
+  --marker-glow-soft:         rgba(42, 40, 35, 0.10);
+  --marker-active-glow:       rgba(180, 105, 63, 0.35);
+  --marker-active-glow-strong:rgba(180, 105, 63, 0.25);
+  --marker-active-ring:       rgba(180, 105, 63, 0.25);
+
+  --overlay-bg: rgba(245, 242, 236, 0.94);
+  --grid-dot-color: rgba(30, 28, 24, 0.045);
+  --selection-bg: rgba(168, 126, 47, 0.18);
+
+  --color-grid:         #DDD8CE;
+
+  --border-subtle-color: rgba(30, 28, 24, 0.08);
+  --border-visible-color:rgba(30, 28, 24, 0.14);
+  --border-hover-color:  rgba(30, 28, 24, 0.30);
+
+  --scrollbar-thumb:       rgba(30, 28, 24, 0.10);
+  --scrollbar-thumb-hover: rgba(30, 28, 24, 0.20);
 }
 
 /* Grid texture — Griffin-style subtle grid lines */

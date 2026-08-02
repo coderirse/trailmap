@@ -55,6 +55,7 @@ class MapComponent extends BasePlugin {
     L.tileLayer(tileUrl, {
       attribution,
       maxZoom,
+      className: 'tile-style-voyager',
     }).addTo(this._map);
 
     // Invalidate size on window resize
@@ -129,8 +130,9 @@ class MapComponent extends BasePlugin {
     const location = store.getById(id);
     if (!marker || !location) return;
 
-    // Deactivate previous
-    this._deselectMarker();
+    // Reset previous active marker without emitting events (the new
+    // selection below will open/replace the sidebar content anyway)
+    this._resetMarkerVisuals();
 
     // Dim all other markers
     this._dimOthers(id);
@@ -172,10 +174,10 @@ class MapComponent extends BasePlugin {
   }
 
   /**
-   * Deselect the currently active marker.
+   * Reset all marker visuals (dimmed state + active icon) without emitting
+   * events. Used internally when switching the active marker.
    */
-  _deselectMarker() {
-    // Remove dimmed state from all
+  _resetMarkerVisuals() {
     this._markers.forEach((m) => {
       const el = m.getElement();
       if (el) el.classList.remove('dimmed');
@@ -183,12 +185,19 @@ class MapComponent extends BasePlugin {
 
     if (this._activeMarkerId) {
       const prevMarker = this._markers.get(this._activeMarkerId);
-      if (prevMarker) {
-        prevMarker.setIcon(this._createIcon(false));
-      }
+      if (prevMarker) prevMarker.setIcon(this._createIcon(false));
       this._activeMarkerId = null;
-      this.notify('sidebar:close');
     }
+  }
+
+  /**
+   * Deselect the currently active marker (blank map click) and ask the
+   * sidebar to close.
+   */
+  _deselectMarker() {
+    const hadActive = this._activeMarkerId !== null;
+    this._resetMarkerVisuals();
+    if (hadActive) this.notify('sidebar:close');
   }
 
   /**
@@ -211,7 +220,7 @@ class MapComponent extends BasePlugin {
   }
 
   /**
-   * Handle tag filter change — show/hide markers + refit bounds.
+   * Handle tag filter change — show/hide markers.
    * @param {{ tags: string[], locations: Array }} data
    */
   _onTagFilterChange(data) {
@@ -225,9 +234,11 @@ class MapComponent extends BasePlugin {
       }
     });
 
-    // If the active marker was filtered out, clear its active state
+    // If the active marker was filtered out, clear its active state and
+    // close the detail panel so the UI state stays in sync
     if (this._activeMarkerId && !filteredIds.has(this._activeMarkerId)) {
-      this._activeMarkerId = null;
+      this._resetMarkerVisuals();
+      this.notify('sidebar:close');
     }
   }
 

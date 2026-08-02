@@ -32,29 +32,6 @@ class DataStore {
   }
 
   /**
-   * Get locations by tag (partial match supported via includes).
-   * @param {string} tag
-   * @returns {Array}
-   */
-  getByTag(tag) {
-    return this._locations.filter((loc) =>
-      loc.tags && loc.tags.some((t) => t.includes(tag))
-    );
-  }
-
-  /**
-   * Get locations within a date range.
-   * @param {string} start - ISO date string like "2024-01"
-   * @param {string} end   - ISO date string like "2024-12"
-   * @returns {Array}
-   */
-  getByDateRange(start, end) {
-    return this._locations.filter((loc) => {
-      return loc.date >= start && loc.date <= end;
-    });
-  }
-
-  /**
    * Get all unique tags across locations, with counts.
    * @returns {Array<{tag: string, count: number}>}
    */

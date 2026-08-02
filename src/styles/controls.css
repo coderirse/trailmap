@@ -53,7 +53,7 @@
 /* === Stats panel — top-right, Griffin large numbers === */
 #stats-panel {
   position: absolute;
-  top: var(--space-120);
+  top: var(--space-48);
   right: var(--space-48);
   z-index: var(--z-map-overlay);
   display: flex;

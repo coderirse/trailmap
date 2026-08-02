@@ -20,6 +20,7 @@ import { getHashRoute } from './utils/helpers.js';
 // ---- Components ----
 import MapComponent from './components/Map.js';
 import Sidebar from './components/Sidebar.js';
+import ThemeSwitcher from './components/ThemeSwitcher.js';
 import Lightbox from './components/Lightbox.js';
 import Timeline from './components/Timeline.js';
 import RouteLines from './components/RouteLines.js';
@@ -35,10 +36,6 @@ function bootstrap() {
   const detailPanel   = document.getElementById('detail-panel');
   const sidebarContent= document.getElementById('sidebar-content');
   const mapContainer  = document.getElementById('map-container');
-  const countEl       = document.getElementById('location-count');
-
-  // Header stat
-  if (countEl) countEl.textContent = store.getAll().length;
 
   // ---- Map ----
   const mapComponent = new MapComponent({ containerId: 'map' });
@@ -53,6 +50,10 @@ function bootstrap() {
     detailPanel,
   });
   sidebar.init();
+
+  // ---- Theme toggle (dark / light) ----
+  const themeSwitcher = new ThemeSwitcher();
+  themeSwitcher.init();
 
   // ---- Lightbox ----
   const lightbox = new Lightbox();
@@ -112,7 +113,11 @@ function bootstrap() {
     const hash = getHashRoute();
     if (hash) {
       const loc = store.getById(hash);
-      if (loc) mapComponent.selectById(hash);
+      // Guard: Sidebar.open() writes the hash itself, which fires this
+      // handler again. Skip when we are already showing that location.
+      if (loc && sidebar.getCurrentLocation()?.id !== hash) {
+        mapComponent.selectById(hash);
+      }
     } else {
       sidebar.close();
     }
@@ -157,7 +162,7 @@ function bootstrap() {
   // ---- Dev ----
   if (import.meta.env.DEV) {
     window.__app = { mapComponent, sidebar, lightbox, timeline, routeLines,
-      tagFilter, globeView, statsPanel, styleSwitcher, store, eventBus };
+      tagFilter, globeView, statsPanel, styleSwitcher, themeSwitcher, store, eventBus };
     console.log('TRAIL MAP — Griffin edition');
   }
 }

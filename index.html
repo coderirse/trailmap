@@ -1,8 +1,19 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    // Apply saved theme before first paint to avoid a flash
+    (function () {
+      try {
+        var saved = localStorage.getItem('trailmap-theme');
+        if (saved === 'light' || saved === 'dark') {
+          document.documentElement.dataset.theme = saved;
+        }
+      } catch (e) {}
+    })();
+  </script>
   <title>足迹地图 — Trail Map</title>
 
   <!-- Google Fonts — Noto Serif SC + JetBrains Mono -->
@@ -33,6 +44,7 @@
       <div class="nav-header">
         <div class="nav-title">足迹地图</div>
         <div class="nav-subtitle">Trail Map</div>
+        <!-- Theme toggle appended by ThemeSwitcher.js -->
       </div>
 
       <div id="nav-locations" class="nav-locations">
@@ -56,12 +68,6 @@
          ========================================================== -->
     <div id="map-container">
       <div id="map"></div>
-
-      <!-- Floating header — Griffin 72px light title -->
-      <header class="map-header">
-        <h1 class="map-title">足迹地图</h1>
-        <p class="map-subtitle"><span id="location-count">0</span> locations · select a marker</p>
-      </header>
     </div>
 
     <!-- ==========================================================

@@ -37,16 +37,6 @@ class StatsPanel extends BasePlugin {
       );
     }
 
-    // Furthest point from center
-    const avgLat = locations.reduce((s, l) => s + l.lat, 0) / locations.length;
-    const avgLng = locations.reduce((s, l) => s + l.lng, 0) / locations.length;
-    let maxDist = 0;
-    let furthestName = '';
-    locations.forEach(l => {
-      const d = haversineDistance(avgLat, avgLng, l.lat, l.lng);
-      if (d > maxDist) { maxDist = d; furthestName = l.name; }
-    });
-
     // Unique tags
     const tags = new Set();
     locations.forEach(l => l.tags && l.tags.forEach(t => tags.add(t)));
@@ -54,8 +44,6 @@ class StatsPanel extends BasePlugin {
     return {
       cityCount,
       totalDist: Math.round(totalDist),
-      furthestName,
-      furthestDist: Math.round(maxDist),
       tagCount: tags.size,
     };
   }

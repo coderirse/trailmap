@@ -95,7 +95,6 @@ class Lightbox extends BasePlugin {
     }
 
     this._updateImage();
-    this._updateButtons();
   }
 
   /**
@@ -114,6 +113,8 @@ class Lightbox extends BasePlugin {
       this._img.style.opacity = '1';
     };
     preload.onerror = () => {
+      if (this._photos[this._currentIndex] !== photo) return;
+      this._img.src = photo.src;
       this._img.alt = photo.caption || '图片加载失败';
       this._img.style.opacity = '1';
     };
@@ -129,10 +130,6 @@ class Lightbox extends BasePlugin {
     // Position: hide prev/next if only one photo
     this._prevBtn.style.visibility = this._photos.length > 1 ? 'visible' : 'hidden';
     this._nextBtn.style.visibility = this._photos.length > 1 ? 'visible' : 'hidden';
-  }
-
-  _updateButtons() {
-    if (!this._prevBtn || !this._nextBtn) return;
   }
 
   /**
