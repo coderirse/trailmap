@@ -122,7 +122,11 @@
 .timeline-label {
   font-family: var(--font-sans);
   font-size: var(--text-11);
-  color: var(--color-text-muted);
+  color: var(--color-text-body);
+  background: var(--color-surface);
+  border: var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 4px 10px;
   white-space: nowrap;
   flex-shrink: 0;
   min-width: 56px;

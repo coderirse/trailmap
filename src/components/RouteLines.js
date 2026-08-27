@@ -38,8 +38,8 @@ class RouteLines extends BasePlugin {
       // Draw a curved (great-circle style) or straight polyline
       const polyline = L.polyline(points, {
         color: route.color || '#22d3ee',
-        weight: 1.5,
-        opacity: 0.5,
+        weight: 2,
+        opacity: 0.85,
         dashArray: '8 6',
         dashOffset: '0',
         className: 'route-line route-line-animated',

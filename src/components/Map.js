@@ -81,9 +81,9 @@ class MapComponent extends BasePlugin {
     const className = isActive ? 'custom-marker active' : 'custom-marker';
     return L.divIcon({
       className,
-      iconSize: [14, 14],
-      iconAnchor: [7, 7],
-      popupAnchor: [0, -10],
+      iconSize: [20, 20],
+      iconAnchor: [10, 10],
+      popupAnchor: [0, -12],
     });
   }
 

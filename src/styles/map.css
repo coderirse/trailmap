@@ -35,17 +35,20 @@
   -webkit-filter: none;
 }
 
-/* === Markers — Griffin warm nodes === */
+/* === Markers — Griffin warm nodes ===
+   16px core + dark edge ring so markers stay readable on busy imagery
+   (satellite / OSM), not just on the flat dark preset. */
 .custom-marker {
   position: relative;
-  width: 12px;
-  height: 12px;
+  width: 16px;
+  height: 16px;
   border-radius: var(--radius-pill);
   background: var(--color-accent);
   border: none;
   box-shadow:
-    0 0 0 2px var(--marker-glow),
-    0 0 6px var(--marker-glow-soft);
+    0 0 0 2px var(--marker-edge),
+    0 0 0 4px var(--marker-glow),
+    0 0 10px 2px var(--marker-glow-soft);
   transition: transform 0.35s var(--ease-out), box-shadow 0.35s var(--ease-out), background 0.35s var(--ease-out);
   cursor: pointer;
 }
@@ -54,7 +57,7 @@
 .custom-marker::after {
   content: '';
   position: absolute;
-  inset: -4px;
+  inset: -6px;
   border-radius: var(--radius-pill);
   border: 1.5px solid var(--marker-glow);
   opacity: 0;
@@ -69,10 +72,11 @@
 }
 
 .custom-marker:hover {
-  transform: scale(1.30);
+  transform: scale(1.25);
   box-shadow:
-    0 0 0 3px var(--marker-glow-strong),
-    0 0 12px var(--marker-glow);
+    0 0 0 2px var(--marker-edge),
+    0 0 0 5px var(--marker-glow-strong),
+    0 0 14px 2px var(--marker-glow);
 }
 
 /* Active marker — warm terracotta */
@@ -80,8 +84,9 @@
   background: var(--color-accent-amber);
   transform: scale(1.40);
   box-shadow:
-    0 0 0 3px var(--marker-active-glow),
-    0 0 14px var(--marker-active-glow-strong);
+    0 0 0 2px var(--marker-edge),
+    0 0 0 5px var(--marker-active-glow-strong),
+    0 0 16px 3px var(--marker-active-glow);
 }
 .custom-marker.active::after {
   border-color: var(--marker-active-ring);
@@ -90,8 +95,8 @@
 
 /* Dimmed marker */
 .custom-marker.dimmed {
-  opacity: 0.25;
-  transform: scale(0.80);
+  opacity: 0.35;
+  transform: scale(0.85);
 }
 
 /* === Zoom controls — Griffin pill === */
