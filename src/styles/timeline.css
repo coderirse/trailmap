@@ -5,7 +5,8 @@
 #timeline {
   position: absolute;
   bottom: var(--space-40);
-  left: var(--space-48);
+  /* Starts right of the bottom-left tool column (zoom + presets, 48+36px) */
+  left: calc(var(--space-48) + 52px);
   right: var(--space-48);
   z-index: var(--z-map-overlay);
   display: flex;
