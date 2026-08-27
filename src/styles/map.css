@@ -95,6 +95,13 @@
 }
 
 /* === Zoom controls — Griffin pill === */
+/* Nudge Leaflet's bottom-left corner so the zoom pill lines up with the tool
+   column at left: var(--space-48) / bottom: var(--space-40) — Leaflet adds its
+   own 10px control margin on top of these corner offsets. */
+.leaflet-bottom.leaflet-left {
+  left: 38px;
+  bottom: 30px;
+}
 .leaflet-control-zoom {
   border: var(--border-subtle) !important;
   border-radius: var(--radius-pill) !important;

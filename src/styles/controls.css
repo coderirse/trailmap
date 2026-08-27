@@ -24,8 +24,8 @@
 .tag-chip {
   font-family: var(--font-sans);
   font-size: var(--text-11);
-  color: var(--color-text-muted);
-  background: transparent;
+  color: var(--color-text-body);
+  background: var(--color-surface);
   border: var(--border-visible);
   padding: 6px 16px;
   border-radius: var(--radius-pill);
@@ -37,6 +37,7 @@
 }
 .tag-chip:hover {
   color: var(--color-text);
+  background: var(--color-elevated);
   border-color: var(--border-hover-color);
 }
 .tag-chip.active {
@@ -88,10 +89,13 @@
 }
 
 /* === Style switcher — bottom-left, Griffin minimal === */
+/* Bottom offsets stack on the zoom control (see .leaflet-bottom.leaflet-left
+   in map.css): zoom pill occupies bottom 40–101px, this column starts 11px
+   above it. 3 buttons × 36px + 2 × 4px gaps = 116px tall. */
 #style-switcher {
   position: absolute;
   left: var(--space-48);
-  bottom: var(--space-40);
+  bottom: calc(var(--space-40) + 72px);
   z-index: var(--z-map-overlay);
   display: flex;
   flex-direction: column;
@@ -137,10 +141,11 @@
 }
 
 /* === Globe toggle — Griffin pill === */
+/* Sits 8px above the style-switcher column (bottom offset 72px + 116px + 8px). */
 #globe-toggle {
   position: absolute;
   left: var(--space-48);
-  bottom: calc(var(--space-40) + 170px);
+  bottom: calc(var(--space-40) + 196px);
   z-index: var(--z-map-overlay);
   width: 36px;
   height: 36px;
@@ -208,7 +213,8 @@
     display: none;
   }
 
-  /* Map tools cluster: style switcher + globe toggle above the timeline */
+  /* Map tools cluster: globe toggle right after the horizontal style row
+     (3 buttons × 36px + 2 × 6px gaps = 120px, + 12px gap) */
   #style-switcher {
     left: var(--space-16);
     bottom: 76px;
@@ -216,7 +222,7 @@
     gap: var(--space-6);
   }
   #globe-toggle {
-    left: calc(var(--space-16) + 170px);
+    left: calc(var(--space-16) + 132px);
     bottom: 76px;
   }
 
