@@ -70,11 +70,6 @@
 
 .stat-item {
   text-align: left;
-  /* Solid chip so the numbers survive busy imagery (satellite / OSM) */
-  background: var(--color-surface);
-  border: var(--border-subtle);
-  border-radius: var(--radius-sm);
-  padding: 10px 16px;
 }
 .stat-value {
   font-family: var(--font-sans);
@@ -83,6 +78,11 @@
   color: var(--color-text);
   line-height: 1;
   letter-spacing: -0.03em;
+  /* bg-colored halo — invisible on the theme's own presets, keeps the big
+     numbers legible over satellite/OSM imagery */
+  text-shadow:
+    0 0 3px var(--text-halo),
+    0 0 7px var(--text-halo);
 }
 .stat-label {
   margin-top: var(--space-6);
@@ -91,6 +91,9 @@
   color: var(--color-text-muted);
   text-transform: uppercase;
   letter-spacing: 0.12em;
+  text-shadow:
+    0 0 3px var(--text-halo),
+    0 0 5px var(--text-halo);
 }
 
 /* === Style switcher — bottom-left, Griffin minimal === */
