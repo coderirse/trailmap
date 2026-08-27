@@ -86,7 +86,7 @@ src/
 - 双主题：默认暗黑，`data-theme="light"` 切换为暖纸色白昼风格，选择保存在 localStorage
 - 标题用 Noto Serif SC，正文用系统无衬线，数字用 JetBrains Mono
 - 无毛玻璃、无重阴影，边框统一 1px 发丝线，圆角最大 4px（胶囊除外）
-- 背景点阵纹理；默认底图为 CARTO Voyager 浅色图反色成深色
+- 背景点阵纹理；默认底图为 Esri 浅灰画布反色成深色（CARTO 免费瓦片已强制 API key 并加水印，故弃用）
 - 完整设计 token 见 `src/styles/variables.css`
 
 ## 🚢 部署

@@ -21,14 +21,16 @@
   outline: none;
 }
 
-/* === Dark-theme tile filter — Griffin near-monochrome === */
-.tile-style-voyager {
+/* === Dark-theme tile filter — Griffin near-monochrome ===
+   Applied ONLY to the inverted "探索" preset (Esri Light Gray).
+   Other presets (dark / osm / satellite) must stay unfiltered. */
+.tile-style-inverted {
   filter: invert(1) hue-rotate(180deg) brightness(0.9) contrast(1.05) saturate(0.12);
   -webkit-filter: invert(1) hue-rotate(180deg) brightness(0.9) contrast(1.05) saturate(0.12);
 }
 
-/* Light theme: voyager tiles render in their natural light colors */
-:root[data-theme='light'] .tile-style-voyager {
+/* Light theme: base tiles render in their natural light colors */
+:root[data-theme='light'] .tile-style-inverted {
   filter: none;
   -webkit-filter: none;
 }

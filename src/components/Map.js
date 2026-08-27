@@ -39,7 +39,7 @@ class MapComponent extends BasePlugin {
    * Initialize the Leaflet map instance.
    */
   _initMap() {
-    const { center, zoom, minZoom, maxZoom, tileUrl, attribution } = config.map;
+    const { center, zoom, minZoom, maxZoom, tileUrl, tileMaxNativeZoom, attribution } = config.map;
 
     this._map = L.map(this.containerId, {
       center: [center.lat, center.lng],
@@ -55,7 +55,8 @@ class MapComponent extends BasePlugin {
     L.tileLayer(tileUrl, {
       attribution,
       maxZoom,
-      className: 'tile-style-voyager',
+      maxNativeZoom: tileMaxNativeZoom,
+      className: 'tile-style-inverted',
     }).addTo(this._map);
 
     // Invalidate size on window resize

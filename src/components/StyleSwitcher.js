@@ -7,20 +7,22 @@ import { createElement } from '../utils/helpers.js';
 
 const TILES = [
   {
-    key: 'voyager',
+    key: 'grayscale',
     icon: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8 2 5 5 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-4-3-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>',
     title: '探索',
-    url: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
-    className: 'tile-style-voyager',
+    url: 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}',
+    attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community',
+    className: 'tile-style-inverted',
+    maxNativeZoom: 16,
   },
   {
     key: 'dark',
     icon: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 18a8 8 0 110-16 8 8 0 010 16z"/></svg>',
     title: '暗色',
-    url: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
-    attribution: '&copy; <a href="https://carto.com/">CARTO</a>',
+    url: 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}',
+    attribution: 'Tiles &copy; Esri &mdash; Esri, HERE, Garmin, FAO, NOAA, USGS, and the GIS User Community',
     className: 'tile-style-dark',
+    maxNativeZoom: 16,
   },
   {
     key: 'osm',
@@ -50,7 +52,7 @@ class StyleSwitcher extends BasePlugin {
     /** @type {L.TileLayer|null} */
     this._activeLayer = null;
     /** @type {string} key of the style applied on init */
-    this._default = 'voyager';
+    this._default = 'grayscale';
     /** @type {string|null} currently active style (null until first switch) */
     this._current = null;
   }
@@ -120,6 +122,7 @@ class StyleSwitcher extends BasePlugin {
     this._activeLayer = L.tileLayer(tile.url, {
       attribution: tile.attribution,
       maxZoom: 18,
+      maxNativeZoom: tile.maxNativeZoom,
       className: tile.className,
     }).addTo(this._map);
 

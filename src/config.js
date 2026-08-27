@@ -12,10 +12,12 @@ const config = {
     /** Zoom constraints */
     minZoom: 3,
     maxZoom: 18,
-    /** Tile — CARTO Voyager (light); dark-themed via invert filter in map.css */
-    tileUrl: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
-    /** Attribution — CARTO Voyager requires OSM + CARTO credits */
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
+    /** Tile — Esri World Light Gray (keyless); dark-themed via invert filter in map.css */
+    tileUrl: 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}',
+    /** Service tops out at z16 — upscale tiles beyond that */
+    tileMaxNativeZoom: 16,
+    /** Attribution — required credits for Esri canvas basemaps */
+    attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community',
   },
 
   /** UI settings */

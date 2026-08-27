@@ -55,8 +55,8 @@ Reference: griffin.com visual language. **All visual changes must respect these 
 - **No blue or purple** accents — warm palette only (`#E6E1D9`, `#D4A853`, `#C2856A`, `#E39E7C`)
 - **Max border-radius: 4px** — except `--radius-pill: 9999px` for filter chips and playback buttons
 - **Borders only as `1px solid rgba(249,245,239,0.06)`**
-- **Dual theme** — `:root` is the dark theme; `:root[data-theme='light']` overrides the tokens with a warm paper palette (see `variables.css`). The toggle lives in `.nav-header` (`ThemeSwitcher.js`) and persists via localStorage key `trailmap-theme`. In light theme the voyager filter MUST be disabled (`filter: none`).
-- **Default map tiles must stay dark & desaturated** — CARTO Voyager (light) is dark-themed via the CSS filter on the `.tile-style-voyager` layer class ONLY (`invert(1) hue-rotate(180deg) brightness(0.9) contrast(1.05) saturate(0.12)`). Other presets (dark / osm / satellite) must remain UNFILTERED or their colors become inverted and unreadable. Do not widen the filter back to `.leaflet-tile-pane`.
+- **Dual theme** — `:root` is the dark theme; `:root[data-theme='light']` overrides the tokens with a warm paper palette (see `variables.css`). The toggle lives in `.nav-header` (`ThemeSwitcher.js`) and persists via localStorage key `trailmap-theme`. In light theme the invert filter on the inverted preset MUST be disabled (`filter: none`).
+- **Default map tiles must stay dark & desaturated** — Esri World Light Gray (keyless) is dark-themed via the CSS filter on the `.tile-style-inverted` layer class ONLY (`invert(1) hue-rotate(180deg) brightness(0.9) contrast(1.05) saturate(0.12)`). Other presets (dark / osm / satellite) must remain UNFILTERED or their colors become inverted and unreadable. Do not widen the filter back to `.leaflet-tile-pane`. Do NOT switch basemaps back to CARTO (`basemaps.cartocdn.com`) — CARTO now serves keyless requests tiles watermarked "API KEY REQUIRED".
 - **Dot grid texture** — `body::before` with `radial-gradient` at 20px spacing, opacity 0.04
 
 ---
@@ -98,7 +98,7 @@ main.js
  ├── RouteLines          → Animated dashed lines between locations
  ├── TagFilter           → Pill filter chips (top-center of map)
  ├── StatsPanel          → Floating stats overlay (top-right of map)
- ├── StyleSwitcher       → 4 tile layer presets (voyager/dark/osm/satellite)
+ ├── StyleSwitcher       → 4 tile layer presets (grayscale/dark/osm/satellite)
  ├── ThemeSwitcher       → Dark/light theme toggle (nav header, persisted)
  └── GlobeView           → 3D globe toggle (Globe.GL, bottom-left of map)
 ```
@@ -173,12 +173,12 @@ src/
 │   ├── TagFilter.js           # Pill filter chips, emits filtered location list
 │   ├── GlobeView.js           # Globe.GL 3D earth toggle (CDN lazy-loaded)
 │   ├── StatsPanel.js          # Floating summary (city count / distance / tags)
-│   ├── StyleSwitcher.js       # 4 tile layer presets (voyager, dark, osm, satellite)
+│   ├── StyleSwitcher.js       # 4 tile layer presets (grayscale, dark, osm, satellite)
 │   └── ThemeSwitcher.js       # Dark/light theme toggle (nav header, persisted)
 ├── styles/
 │   ├── variables.css          # ⭐ Design tokens — colors, fonts, spacing, radii, shadows
 │   ├── base.css               # Reset, dot grid texture (body::before), scrollbar, .mono utility
-│   ├── map.css                # Map container, voyager tile filter, markers + pulse, zoom controls
+│   ├── map.css                # Map container, inverted tile filter, markers + pulse, zoom controls
 │   ├── sidebar.css            # Left nav (300px), nav items with stagger animation, detail panel, mobile drawer
 │   ├── lightbox.css           # Minimal overlay, hairline controls, info bar
 │   ├── timeline.css           # Play button, scrubber rail with dots, thumb, date label
@@ -210,7 +210,7 @@ public/
 6. **Add a route line** → edit `config.js` `routes[]` array with `{ id, name, locations: [...], color }`
 7. **Routing** → URL hash `/#/<id>` reads on load, updates on select, supports browser back/forward
 8. **Map overlay z-index** → `#map-container` is its own stacking context (`z-index: 0`), so Leaflet's internal panes (z 200–700) are contained. Any overlay placed inside `#map-container` (tag filter, stats, timeline, style switcher, globe toggle) MUST use `z-index: var(--z-map-overlay)` (1100) — anything lower renders *under* the tile pane and is invisible. Overlays outside the map (nav, detail panel, lightbox) use the normal `--z-*` scale and always paint above the whole map container.
-9. **Tile layer class names** → each StyleSwitcher preset carries its own `className` (`tile-style-voyager`, `tile-style-dark`, ...). The dark filter lives on `.tile-style-voyager` only; never put it back on `.leaflet-tile-pane`.
+9. **Tile layer class names** → each StyleSwitcher preset carries its own `className` (`tile-style-inverted`, `tile-style-dark`, ...). The dark filter lives on `.tile-style-inverted` only; never put it back on `.leaflet-tile-pane`.
 10. **Event safety** → `sidebar:close` is a request event emitted by Map; `Sidebar.close()` emits `sidebar:closed`. Do not reintroduce the old self-subscribe loop.
 11. **Dual theme tokens** → all theme colors live in `variables.css` (`:root` dark + `:root[data-theme='light']`). Component CSS must only use `var(--*)`; never hardcode colors. Add new theme-aware tokens to both blocks.
 
@@ -228,7 +228,7 @@ public/
 - Dot grid texture on body background
 - Noto Serif SC + JetBrains Mono loaded from Google Fonts CDN
 - All panels: hairline borders only, no glassmorphism, no heavy shadows
-- Map tiles: CARTO Voyager (light) + invert/hue-rotate CSS filter → dark near-monochrome (voyager preset only; light theme disables the filter for natural colors)
+- Map tiles: Esri World Light Gray (keyless) + invert/hue-rotate CSS filter → dark near-monochrome (grayscale preset only; light theme disables the filter for natural colors). CARTO basemaps dropped — keyless tiles are watermarked "API KEY REQUIRED"
 - Markers: 12px warm white `#E6E1D9` circles with 3s pulse animation; active turns terracotta `#C2856A`
 
 ### Features
@@ -240,7 +240,7 @@ public/
 - Tag filter: pill chips at top-center of map (filtering the active marker closes the detail panel)
 - 3D globe: Globe.GL toggle (lazy-loads from CDN on first click)
 - Stats overlay: floating number cards at top-right of map
-- Map style switcher: 4 tile presets (voyager/dark/osm/satellite), each rendered without the voyager filter
+- Map style switcher: 4 tile presets (grayscale/dark/osm/satellite), each rendered without the invert filter
 - Theme toggle: dark/light switch (sun/moon icon in nav header), persisted via localStorage
 - URL hash routing: shareable links, back/forward support, duplicate-hash guard
 - Mobile responsive: nav becomes bottom drawer, detail panel overlays full width
