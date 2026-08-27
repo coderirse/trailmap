@@ -6,6 +6,17 @@ import BasePlugin from '../plugins/BasePlugin.js';
 import store from '../utils/DataStore.js';
 import { createElement } from '../utils/helpers.js';
 
+// Vendored locally (public/vendor/) so the globe works offline and behind
+// slow networks; falls back to the pinned version on unpkg if missing.
+const GLOBE_SCRIPT_SOURCES = [
+  './vendor/globe.gl.min.js',
+  'https://unpkg.com/globe.gl@2.32.3/dist/globe.gl.min.js',
+];
+const EARTH_TEXTURE_URL = './vendor/earth-dark.jpg';
+const SKY_TEXTURE_URL = './vendor/night-sky.png';
+
+const GLOBE_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>';
+
 class GlobeView extends BasePlugin {
   constructor(options = {}) {
     super(options);
@@ -35,7 +46,7 @@ class GlobeView extends BasePlugin {
       title: '3D 地球',
       onClick: () => this._toggle(),
     });
-    this._toggleBtn.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>';
+    this._toggleBtn.innerHTML = GLOBE_ICON;
 
     this._globeEl = createElement('div', { id: 'globe-container' });
     document.getElementById('map-container').appendChild(this._toggleBtn);
@@ -51,10 +62,10 @@ class GlobeView extends BasePlugin {
   }
 
   async _showGlobe() {
-    // Load Globe.GL if not already available
+    // Load Globe.GL if not already available (local vendor file first, CDN fallback)
     if (typeof Globe === 'undefined') {
       try {
-        await this._loadScript('https://unpkg.com/globe.gl@2.32.3/dist/globe.gl.min.js');
+        await this._loadScriptFromSources(GLOBE_SCRIPT_SOURCES);
         this._globeReady = true;
       } catch (e) {
         console.warn('[GlobeView] Failed to load Globe.GL:', e);
@@ -64,7 +75,7 @@ class GlobeView extends BasePlugin {
 
     this._globeActive = true;
     this._toggleBtn.classList.add('active');
-    this._toggleBtn.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>';
+    this._toggleBtn.innerHTML = GLOBE_ICON;
     this._toggleBtn.title = '切换地图';
     // Hide only the Leaflet container — NOT #map-container, which also
     // hosts the globe canvas and the pill/stat overlays.
@@ -82,6 +93,7 @@ class GlobeView extends BasePlugin {
     const locations = store.getAll();
     const markerColor = '#D4A853';
     const points = locations.map(loc => ({
+      id: loc.id,
       lat: loc.lat,
       lng: loc.lng,
       name: loc.name,
@@ -91,8 +103,8 @@ class GlobeView extends BasePlugin {
 
     try {
       this._globe = Globe()(this._globeEl)
-        .globeImageUrl('https://unpkg.com/three-globe/example/img/earth-dark.jpg')
-        .backgroundImageUrl('https://unpkg.com/three-globe/example/img/night-sky.png')
+        .globeImageUrl(EARTH_TEXTURE_URL)
+        .backgroundImageUrl(SKY_TEXTURE_URL)
         .pointsData(points)
         .pointColor('color')
         .pointAltitude('size')
@@ -100,9 +112,10 @@ class GlobeView extends BasePlugin {
         .pointLabel(d => d.name)
         .pointResolution(12)
         .onPointClick(d => {
-          const loc = locations.find(l => l.name === d.name || l.lat === d.lat);
+          // Exact match via the id carried on the point datum
+          const loc = store.getById(d.id);
           if (loc) {
-            this.notify('globe:markerClick', { id: loc.id, location: loc });
+            this.notify('globe:markerClick', { id: d.id, location: loc });
           }
         });
 
@@ -118,7 +131,7 @@ class GlobeView extends BasePlugin {
   _showMap() {
     this._globeActive = false;
     this._toggleBtn.classList.remove('active');
-    this._toggleBtn.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>';
+    this._toggleBtn.innerHTML = GLOBE_ICON;
     this._toggleBtn.title = '3D 地球';
     const mapEl = this._map ? this._map.getContainer() : null;
     if (mapEl) mapEl.style.visibility = '';
@@ -135,6 +148,11 @@ class GlobeView extends BasePlugin {
     if (this._map) {
       setTimeout(() => this._map.invalidateSize(), 100);
     }
+  }
+
+  _loadScriptFromSources(sources) {
+    return sources.reduce((chain, src) => chain.catch(() => this._loadScript(src)),
+      Promise.reject(new Error('no sources')));
   }
 
   _loadScript(src) {
