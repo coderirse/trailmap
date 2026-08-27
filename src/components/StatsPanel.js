@@ -4,7 +4,7 @@
 
 import BasePlugin from '../plugins/BasePlugin.js';
 import store from '../utils/DataStore.js';
-import { haversineDistance } from '../utils/geo.js';
+import { computeStats } from '../utils/stats.js';
 import { createElement } from '../utils/helpers.js';
 
 class StatsPanel extends BasePlugin {
@@ -17,35 +17,9 @@ class StatsPanel extends BasePlugin {
     const locations = store.getAll();
     if (locations.length === 0) return this;
 
-    const stats = this._compute(locations);
-    this._buildUI(stats);
+    this._buildUI(computeStats(locations));
     this._el.classList.add('visible');
     return this;
-  }
-
-  _compute(locations) {
-    // Total locations
-    const cityCount = locations.length;
-
-    // Total distance (sum of consecutive pairs sorted by date)
-    const sorted = [...locations].sort((a, b) => a.date.localeCompare(b.date));
-    let totalDist = 0;
-    for (let i = 1; i < sorted.length; i++) {
-      totalDist += haversineDistance(
-        sorted[i - 1].lat, sorted[i - 1].lng,
-        sorted[i].lat, sorted[i].lng
-      );
-    }
-
-    // Unique tags
-    const tags = new Set();
-    locations.forEach(l => l.tags && l.tags.forEach(t => tags.add(t)));
-
-    return {
-      cityCount,
-      totalDist: Math.round(totalDist),
-      tagCount: tags.size,
-    };
   }
 
   _buildUI(stats) {

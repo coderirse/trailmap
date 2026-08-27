@@ -5,8 +5,8 @@
 import BasePlugin from '../plugins/BasePlugin.js';
 import PhotoGallery from './PhotoGallery.js';
 import store from '../utils/DataStore.js';
+import { computeStats } from '../utils/stats.js';
 import { createElement, escapeHtml, setHashRoute } from '../utils/helpers.js';
-import { haversineDistance } from '../utils/geo.js';
 
 class Sidebar extends BasePlugin {
   /**
@@ -106,35 +106,19 @@ class Sidebar extends BasePlugin {
   _buildStats() {
     if (!this.navStats) return;
 
-    const locations = store.getAll();
-    const count = locations.length;
-
-    // Total distance
-    const sorted = [...locations].sort((a, b) => a.date.localeCompare(b.date));
-    let dist = 0;
-    for (let i = 1; i < sorted.length; i++) {
-      dist += haversineDistance(
-        sorted[i - 1].lat, sorted[i - 1].lng,
-        sorted[i].lat, sorted[i].lng
-      );
-    }
-    const totalKm = Math.round(dist);
-
-    // Tag count
-    const tags = new Set();
-    locations.forEach(l => l.tags && l.tags.forEach(t => tags.add(t)));
+    const { cityCount, totalDist, tagCount } = computeStats(store.getAll());
 
     this.navStats.innerHTML = `
       <div>
-        <div class="nav-stat-value">${String(count).padStart(2, '0')}</div>
+        <div class="nav-stat-value">${String(cityCount).padStart(2, '0')}</div>
         <div class="nav-stat-label">城市</div>
       </div>
       <div>
-        <div class="nav-stat-value">${totalKm.toLocaleString()}</div>
+        <div class="nav-stat-value">${totalDist.toLocaleString()}</div>
         <div class="nav-stat-label">KM 总里程</div>
       </div>
       <div>
-        <div class="nav-stat-value">${String(tags.size).padStart(2, '0')}</div>
+        <div class="nav-stat-value">${String(tagCount).padStart(2, '0')}</div>
         <div class="nav-stat-label">标签</div>
       </div>
     `;
