@@ -56,7 +56,7 @@ Reference: griffin.com visual language. **All visual changes must respect these 
 - **Max border-radius: 4px** — except `--radius-pill: 9999px` for filter chips and playback buttons
 - **Borders only as `1px solid rgba(249,245,239,0.06)`**
 - **Dual theme** — `:root` is the dark theme; `:root[data-theme='light']` overrides the tokens with a warm paper palette (see `variables.css`). The toggle lives in `.nav-header` (`ThemeSwitcher.js`) and persists via localStorage key `trailmap-theme`. In light theme the invert filter on the inverted preset MUST be disabled (`filter: none`).
-- **Default map tiles must stay dark & desaturated** — Esri World Light Gray (keyless) is dark-themed via the CSS filter on the `.tile-style-inverted` layer class ONLY (`invert(1) hue-rotate(180deg) brightness(0.9) contrast(1.05) saturate(0.12)`). Other presets (dark / osm / satellite) must remain UNFILTERED or their colors become inverted and unreadable. Do not widen the filter back to `.leaflet-tile-pane`. Do NOT switch basemaps back to CARTO (`basemaps.cartocdn.com`) — CARTO now serves keyless requests tiles watermarked "API KEY REQUIRED".
+- **Default map tiles must stay dark & desaturated** — Esri World Light Gray (keyless) is dark-themed via the CSS filter on the `.tile-style-inverted` layer class ONLY (`invert(1) hue-rotate(180deg) brightness(0.9) contrast(1.05) saturate(0.12)`). Other presets (osm / satellite) must remain UNFILTERED or their colors become inverted and unreadable. Do not widen the filter back to `.leaflet-tile-pane`. Do NOT switch basemaps back to CARTO (`basemaps.cartocdn.com`) — CARTO now serves keyless requests tiles watermarked "API KEY REQUIRED".
 - **Dot grid texture** — `body::before` with `radial-gradient` at 20px spacing, opacity 0.04
 
 ---
@@ -98,7 +98,7 @@ main.js
  ├── RouteLines          → Animated dashed lines between locations
  ├── TagFilter           → Pill filter chips (top-center of map)
  ├── StatsPanel          → Floating stats overlay (top-right of map)
- ├── StyleSwitcher       → 4 tile layer presets (grayscale/dark/osm/satellite)
+ ├── StyleSwitcher       → 3 tile layer presets (grayscale/osm/satellite)
  ├── ThemeSwitcher       → Dark/light theme toggle (nav header, persisted)
  └── GlobeView           → 3D globe toggle (Globe.GL, bottom-left of map)
 ```
@@ -173,7 +173,7 @@ src/
 │   ├── TagFilter.js           # Pill filter chips, emits filtered location list
 │   ├── GlobeView.js           # Globe.GL 3D earth toggle (CDN lazy-loaded)
 │   ├── StatsPanel.js          # Floating summary (city count / distance / tags)
-│   ├── StyleSwitcher.js       # 4 tile layer presets (grayscale, dark, osm, satellite)
+│   ├── StyleSwitcher.js       # 3 tile layer presets (grayscale, osm, satellite)
 │   └── ThemeSwitcher.js       # Dark/light theme toggle (nav header, persisted)
 ├── styles/
 │   ├── variables.css          # ⭐ Design tokens — colors, fonts, spacing, radii, shadows
@@ -240,7 +240,7 @@ public/
 - Tag filter: pill chips at top-center of map (filtering the active marker closes the detail panel)
 - 3D globe: Globe.GL toggle (lazy-loads from CDN on first click)
 - Stats overlay: floating number cards at top-right of map
-- Map style switcher: 4 tile presets (grayscale/dark/osm/satellite), each rendered without the invert filter
+- Map style switcher: 3 tile presets (grayscale/osm/satellite), each rendered without the invert filter
 - Theme toggle: dark/light switch (sun/moon icon in nav header), persisted via localStorage
 - URL hash routing: shareable links, back/forward support, duplicate-hash guard
 - Mobile responsive: nav becomes bottom drawer, detail panel overlays full width
