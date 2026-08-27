@@ -29,6 +29,7 @@
   --marker-glow:              rgba(230, 225, 217, 0.20);
   --marker-glow-strong:       rgba(230, 225, 217, 0.30);
   --marker-glow-soft:         rgba(230, 225, 217, 0.10);
+  --marker-hug:               rgba(12, 12, 11, 0.80);
   --marker-ring:              rgba(212, 168, 83, 0.55);
   --marker-active-glow:       rgba(194, 133, 106, 0.30);
   --marker-active-glow-strong:rgba(194, 133, 106, 0.22);
@@ -146,6 +147,7 @@
   --marker-glow:              rgba(42, 40, 35, 0.18);
   --marker-glow-strong:       rgba(42, 40, 35, 0.30);
   --marker-glow-soft:         rgba(42, 40, 35, 0.10);
+  --marker-hug:               rgba(245, 242, 236, 0.95);
   --marker-ring:              rgba(168, 126, 47, 0.50);
   --marker-active-glow:       rgba(180, 105, 63, 0.35);
   --marker-active-glow-strong:rgba(180, 105, 63, 0.25);

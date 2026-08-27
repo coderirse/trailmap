@@ -36,8 +36,9 @@
 }
 
 /* === Markers — Griffin warm nodes ===
-   Original 12px editorial dot; a detached 1px gold ring 2px outside the core
-   keeps it findable on busy imagery (satellite / OSM) without adding weight. */
+   Original 12px editorial dot. Contrast hug ring (paper/ink, per theme)
+   separates the core from busy imagery; the detached 1px gold ring adds a
+   quiet warm orbit outside it. */
 .custom-marker {
   position: relative;
   width: 12px;
@@ -46,8 +47,8 @@
   background: var(--color-accent);
   border: none;
   box-shadow:
-    0 0 0 2px var(--marker-glow),
-    0 0 6px var(--marker-glow-soft);
+    0 0 0 2px var(--marker-hug),
+    0 0 8px var(--marker-glow-soft);
   transition: transform 0.35s var(--ease-out), box-shadow 0.35s var(--ease-out), background 0.35s var(--ease-out);
   cursor: pointer;
 }
@@ -56,17 +57,17 @@
 .custom-marker::before {
   content: '';
   position: absolute;
-  inset: -3px;
+  inset: -4px;
   border-radius: var(--radius-pill);
   border: 1px solid var(--marker-ring);
   pointer-events: none;
 }
 
-/* Pulse ring — warm */
+/* Pulse ring — warm, outside the gold orbit */
 .custom-marker::after {
   content: '';
   position: absolute;
-  inset: -4px;
+  inset: -6px;
   border-radius: var(--radius-pill);
   border: 1.5px solid var(--marker-glow);
   opacity: 0;
@@ -83,6 +84,7 @@
 .custom-marker:hover {
   transform: scale(1.30);
   box-shadow:
+    0 0 0 2px var(--marker-hug),
     0 0 0 3px var(--marker-glow-strong),
     0 0 12px var(--marker-glow);
 }
@@ -92,7 +94,8 @@
   background: var(--color-accent-amber);
   transform: scale(1.40);
   box-shadow:
-    0 0 0 3px var(--marker-active-glow),
+    0 0 0 2px var(--marker-hug),
+    0 0 0 4px var(--marker-active-glow),
     0 0 14px var(--marker-active-glow-strong);
 }
 .custom-marker.active::after {
