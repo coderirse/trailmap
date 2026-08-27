@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" font-family="'Noto Serif SC', Georgia, 'SimSun', serif">
+  <rect width="400" height="300" fill="#16140F"/>
+  <!-- pagoda -->
+  <g fill="#D4A853">
+    <polygon points="200,42 206,58 194,58" opacity="0.95"/>
+    <rect x="196" y="58" width="8" height="14" opacity="0.7"/>
+    <!-- eaves, widening downward -->
+    <polygon points="172,72 228,72 240,80 160,80" opacity="0.85"/>
+    <rect x="184" y="80" width="32" height="12" opacity="0.55"/>
+    <polygon points="164,92 236,92 250,100 150,100" opacity="0.8"/>
+    <rect x="176" y="100" width="48" height="12" opacity="0.55"/>
+    <polygon points="154,112 246,112 262,121 138,121" opacity="0.75"/>
+    <rect x="168" y="121" width="64" height="12" opacity="0.5"/>
+    <polygon points="144,133 256,133 274,143 126,143" opacity="0.7"/>
+    <rect x="160" y="143" width="80" height="13" opacity="0.45"/>
+    <polygon points="134,156 266,156 286,166 114,166" opacity="0.65"/>
+    <rect x="152" y="166" width="96" height="14" opacity="0.4"/>
+  </g>
+  <!-- base platform -->
+  <rect x="104" y="204" width="192" height="10" fill="#D4A853" opacity="0.3"/>
+  <!-- pines -->
+  <g stroke="#C2856A" stroke-width="2" fill="none" opacity="0.5">
+    <path d="M70,214 v66"/><path d="M70,232 l-16,-10 M70,232 l16,-10 M70,252 l-20,-12 M70,252 l20,-12"/>
+    <path d="M330,222 v58"/><path d="M330,240 l-15,-9 M330,240 l15,-9 M330,258 l-18,-11 M330,258 l18,-11"/>
+  </g>
+  <!-- mountain backdrop -->
+  <path d="M0,190 Q100,150 200,186 T400,180" fill="none" stroke="#959089" stroke-width="1" opacity="0.35"/>
+  <text x="200" y="258" text-anchor="middle" fill="#959089" font-size="11" letter-spacing="6">LINGYIN TEMPLE</text>
+  <text x="200" y="280" text-anchor="middle" fill="#6B6760" font-size="12" letter-spacing="4">灵隐晨钟 · 杭州</text>
+</svg>

@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" font-family="'Noto Serif SC', Georgia, 'SimSun', serif">
+  <rect width="400" height="300" fill="#F5F2EC"/>
+  <!-- sun -->
+  <circle cx="312" cy="76" r="30" fill="#D4A853" opacity="0.9"/>
+  <!-- far hills -->
+  <path d="M0,150 Q90,108 180,148 T400,140 V300 H0 Z" fill="#DDD8CE"/>
+  <path d="M0,178 Q110,142 220,176 T400,168 V300 H0 Z" fill="#CFC9BC"/>
+  <!-- lake -->
+  <rect y="216" width="400" height="84" fill="#E8E4DA"/>
+  <g stroke="#A87E2F" stroke-width="1.5" opacity="0.5">
+    <line x1="60" y1="236" x2="150" y2="236"/><line x1="230" y1="252" x2="330" y2="252"/>
+    <line x1="120" y1="268" x2="210" y2="268"/>
+  </g>
+  <!-- arched bridge (su-di style) -->
+  <path d="M46,216 Q120,160 194,216" fill="none" stroke="#B4693F" stroke-width="3"/>
+  <line x1="58" y1="212" x2="70" y2="200" stroke="#B4693F" stroke-width="1.5" opacity="0.7"/>
+  <line x1="86" y1="196" x2="94" y2="182" stroke="#B4693F" stroke-width="1.5" opacity="0.7"/>
+  <line x1="118" y1="188" x2="122" y2="174" stroke="#B4693F" stroke-width="1.5" opacity="0.7"/>
+  <line x1="150" y1="192" x2="156" y2="178" stroke="#B4693F" stroke-width="1.5" opacity="0.7"/>
+  <line x1="178" y1="206" x2="186" y2="194" stroke="#B4693F" stroke-width="1.5" opacity="0.7"/>
+  <!-- willow -->
+  <g stroke="#57534C" stroke-width="2" fill="none" opacity="0.65">
+    <path d="M364,116 V216"/>
+    <path d="M364,124 q-18,10 -22,40"/><path d="M364,132 q16,12 20,44"/>
+    <path d="M364,140 q-24,14 -28,52"/><path d="M364,148 q22,16 26,54"/>
+  </g>
+  <text x="200" y="278" text-anchor="middle" fill="#57534C" font-size="13" letter-spacing="4">西湖春色 · 杭州</text>
+</svg>

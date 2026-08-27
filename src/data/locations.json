@@ -21,8 +21,8 @@
       "tags": ["旅行", "城市", "现代都市"],
       "description": "上海是一座让人着迷的城市。外滩的万国建筑群在夜晚灯光下格外迷人，对岸的陆家嘴摩天大楼群又展示着未来的模样。\n\n在南京路走一走，在豫园喝一杯茶，新天地的下午也很惬意。这座城市的魅力在于它的包容——古老与现代、东方与西方在这里完美融合。",
       "photos": [
-        { "src": "https://picsum.photos/seed/shanghai1/400/300", "caption": "外滩夜景" },
-        { "src": "https://picsum.photos/seed/shanghai2/400/300", "caption": "豫园一角" }
+        { "src": "./photos/shanghai/01.svg", "caption": "外滩夜景" },
+        { "src": "./photos/shanghai/02.svg", "caption": "豫园一角" }
       ]
     },
     {
@@ -34,8 +34,8 @@
       "tags": ["旅行", "自然", "山水"],
       "description": "三月的杭州，西湖边柳树发芽，桃花盛开，正是最美的季节。\n\n沿着苏堤走一圈，看着远处的雷峰塔，湖面上的游船来来往往。春天的风很温柔，吹在脸上暖暖的。\n\n灵隐寺的钟声让人心静，龙井村的一杯新茶更是让人忘记烦恼。杭州是一座适合慢生活的城市。",
       "photos": [
-        { "src": "https://picsum.photos/seed/hangzhou1/400/300", "caption": "西湖春色" },
-        { "src": "https://picsum.photos/seed/hangzhou2/400/300", "caption": "灵隐寺" }
+        { "src": "./photos/hangzhou/01.svg", "caption": "西湖春色" },
+        { "src": "./photos/hangzhou/02.svg", "caption": "灵隐寺" }
       ]
     }
   ]
