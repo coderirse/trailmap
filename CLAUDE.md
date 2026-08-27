@@ -216,7 +216,7 @@ public/
 
 ---
 
-## Current State (as of 2026-08-02)
+## Current State (as of 2026-08-27)
 
 ### Data
 - 3 locations: 北京 (real photo), 上海, 杭州 (picsum.photos placeholders)
@@ -229,7 +229,8 @@ public/
 - Noto Serif SC + JetBrains Mono loaded from Google Fonts CDN
 - All panels: hairline borders only, no glassmorphism, no heavy shadows
 - Map tiles: Esri World Light Gray (keyless) + invert/hue-rotate CSS filter → dark near-monochrome (grayscale preset only; light theme disables the filter for natural colors). CARTO basemaps dropped — keyless tiles are watermarked "API KEY REQUIRED"
-- Markers: 12px warm white `#E6E1D9` circles with 3s pulse animation; active turns terracotta `#C2856A`
+- Markers: 12px warm-white (dark) / ink (light) cores wrapped in a 2px contrast hug ring (`--marker-hug`) plus a detached 1px gold ring (`--marker-ring`) — the hug ring keeps them legible on busy basemaps (satellite / OSM); 3s pulse animation; active turns terracotta `#C2856A`
+- Map overlay text (stats panel, timeline date label) carries a bg-colored text halo (`--text-halo`) instead of boxes/panels — readability on busy imagery must NOT come from boxes or oversized markers
 
 ### Features
 - Left nav: numbered location list with stagger animation, stats footer (city count / KM / tags)
